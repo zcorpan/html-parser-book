@@ -12,11 +12,9 @@ Network ⇒ Byte Stream Decoder ⇒ Input Stream Preprocessor ⇒ Tokenizer ⇒ 
 
 For example, consider the following document:
 
-{line-numbers=off}
 ~~~~~~~~
 <!doctype html><p>Hello world.
 ~~~~~~~~
-
 
 Bytes go over the network and a decoder will produce a stream of code points (the details of how that works is a topic of another book). The tokenizer walks through the stream of code points, character by character, and emits tokens; in this case: a doctype token, a start tag token (p), and a series of character tokens (one token per character, although implementations can optimize by combining character tokens, if the end result is equivalent). The tree builder takes those tokens and builds the following DOM:
 
@@ -52,25 +50,19 @@ The document can also start with a byte order mark (BOM), for UTF-8 and UTF-16 e
 
 Otherwise, a `meta` element can be used. It comes in two forms.
 
-{line-numbers=off}
 ~~~~~~~~
 <meta charset="utf-8">
 ~~~~~~~~
 
-
-{line-numbers=off}
 ~~~~~~~~
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 ~~~~~~~~
 
-
 In earlier versions of HTML, only the second variant was specified, but browsers already supported the first variant as well. The reason for this is that there were documents on the web that incorrectly omitted quote marks even though the value contains a space.
 
-{line-numbers=off}
 ~~~~~~~~
 <meta http-equiv=Content-Type content=text/html; charset=utf-8>
 ~~~~~~~~
-
 
 Note that "charset=utf-8" appears as its own attribute.
 
@@ -106,18 +98,15 @@ Note that scripts can insert text into the input stream using the `document.writ
 
 For implementations that support `document.write()`, it is important that this is implemented as specified, in particular how to handle CRLF. Consider the following document.
 
-{line-numbers=off}
 ~~~~~~~~
 <!DOCTYPE html><pre>x<script>document.write('\r');</script>
 y
 ~~~~~~~~
 
-
 Without running script, the input stream just has one line feed. Loading the document with scripting enabled, there will be a CRLF pair; the script writes a CR character, which appears in the input stream after the script end tag, and then the source markup has a LF as the next character.
 
 However, the newline needs to be present in the DOM while the script runs, because the script is able to observe what the DOM tree looks like, or it might do another document.write(). So it can’t wait for the following LF before inserting the LF in the DOM.
 
-{line-numbers=off}
 ~~~~~~~~
 <!DOCTYPE html>
 <pre id=pre>x<script>
@@ -126,7 +115,6 @@ alert(pre.innerText.length);
 </script>
 y
 ~~~~~~~~
-
 
 This will alert "2" (the "x" and the carriage return converted to line feed). The line feed after the `</script>` tag, which appears in the input stream after the script has run, is then ignored.
 
@@ -148,11 +136,9 @@ The possible tokens are: doctype, start tag, end tag, comment, character, and en
 
 Let’s walk through a simple example to see how the tokenizer works: how it switches states and what tokens are produced.
 
-{line-numbers=off}
 ~~~~~~~~
 <p>Hello</p>
 ~~~~~~~~
-
 
 The tokenizer always starts in the *data state*, which is defined as follows:
 
@@ -277,7 +263,6 @@ This book contains a number of quizzes, which you should be able to answer with 
 
 \#HTMLQuiz (don't cheat!): What kind of node will be inserted into the body for such contents?
 
-{line-numbers=off}
 ~~~~~~~~
 <body></хелоу></body>
 ~~~~~~~~
@@ -314,11 +299,9 @@ Note that the *start tag open* state handles non-ASCII alpha differently; it wil
 
 Given the following markup:
 
-{line-numbers=off}
 ~~~~~~~~
 <p id="x">
 ~~~~~~~~
-
 
 The tokenizer goes through these states:
 
@@ -360,7 +343,6 @@ The correct answer to the quiz is thus "a". Here’s another quiz about attribut
 
 Let's try another one. What attributes will `<img>` contain in the following case? \#HTMLQuiz
 
-{line-numbers=off}
 ~~~~~~~~
 <img src=1.png /re/>
 ~~~~~~~~
@@ -375,11 +357,9 @@ Let's try another one. What attributes will `<img>` contain in the following cas
 
 Let’s check. The first part, before the slash, is straightforward.
 
-{line-numbers=off}
 ~~~~~~~~
 <img src=1.png
 ~~~~~~~~
-
 
 The tokenizer will be in the *before attribute name state* when it consumes the "/", which says:
 
@@ -445,7 +425,6 @@ On a historical aside, Internet Explorer 6 (and maybe some other versions) had a
 
 Another interesting aspect of Internet Explorer 6 was that it treated \` as a quote character around attribute values. Other browsers did not do this. This could easily result in differences in the resulting DOM. If you were using a conforming HTML parser to sanitize user input, but also have the serializer leave attribute values unquoted when they could be, it would open up a security hole to let the attacker insert script and have it run for visitors using IE. For example, maybe you would roundtrip entered values in a form:
 
-{line-numbers=off}
 ~~~~~~~~
 <input name=first-name value=Sam>
 <input name=last-name value=Sneddon>
@@ -453,7 +432,6 @@ Another interesting aspect of Internet Explorer 6 was that it treated \` as a qu
 
 Now consider if Sam enters "\`" as the first name and "\` autofocus onfocus=alert(document.cookie)" as the last name:
 
-{line-numbers=off}
 ~~~~~~~~
 <input name=first-name value=`>
 <input name=last-name value="` autofocus onfocus=alert(document.cookie) ">
@@ -541,14 +519,12 @@ So now these map to the correct mathematical angle brackets that didn’t exist 
 
 An interesting aspect is parsing of named character references that lack the trailing semicolon. The parser will expand them to the corresponding character even when the next character is an alphanumeric.
 
-{line-numbers=off}
 ~~~~~~~~
 Arts&ampcrafts
 ~~~~~~~~
 
 Is equivalent to:
 
-{line-numbers=off}
 ~~~~~~~~
 Arts&amp;crafts
 ~~~~~~~~
@@ -567,7 +543,6 @@ If the character reference was consumed as part of an attribute, and the last ch
 
 So the following would not expand the named character reference, even though it does outside attribute values:
 
-{line-numbers=off}
 ~~~~~~~~
 <input value="Arts&ampcrafts">
 ~~~~~~~~
@@ -614,7 +589,6 @@ treatment rather than the entity treatment.
 
 Typically, pages would have unescaped ampersands in URLs, like this:
 
-{line-numbers=off}
 ~~~~~~~~
 <script src="_fuse/1/elements.asp?RD=2&GT=627&Regen=78"></script>
 ~~~~~~~~
@@ -623,7 +597,6 @@ Note that &GT is a named character reference.
 
 Apart from named character references, there are also numeric character references.
 
-{line-numbers=off}
 ~~~~~~~~
 &#65;
 &#x41;
@@ -718,7 +691,6 @@ I'd like to apologise to everyone whose time I've wasted by insisting on followi
 
 The SGML comment syntax might make more sense if you consider that it works the same in markup declarations in the DTD. For example, the following is the definition of the `param` element in the HTML 4.01 DTD:
 
-{line-numbers=off}
 ~~~~~~~~
 <!ELEMENT PARAM - O EMPTY              -- named property value --
 <!ATTLIST PARAM
@@ -735,7 +707,6 @@ OK, so we don’t need to worry about the SGML comment syntax anymore.
 
 What were browsers doing, then? They generally tried to keep it simple, with comments ending with "-->", but with a twist. If the browser reached the end of the input stream inside a comment, *it would rewind the input stream* and reparse the comment in a different tokenizer state that ends a comment at the first ">".
 
-{line-numbers=off}
 ~~~~~~~~
 <!-- This > is a comment -->
 <!-- Where > does this end?
@@ -759,7 +730,6 @@ The difference is that a sanitiser script would notice a `<script>` element, but
 
 The comment could be, e.g.:
 
-{line-numbers=off}
 ~~~~~~~~
    <!--
 
@@ -777,7 +747,7 @@ Browsers also did reparsing in some other situations, such as an unclosed `title
 
 We were fixing our bugs regarding reparsing, but were a bit scared to fix reparsing of comments and escaped text spans, so I asked in #whatwg if someone could be kind enough to provide some data on the matter...
 
-Philip\` found 128 pages with open `<!--` out of ~130K pages, listed in http://philip.html5.org/data/pages-with-unclosed-comments.txt . I looked through the first 82 pages. 40 of those would work better if we reparse, 1 would work slightly worse, and the rest would be unaffected. This means that about 0.05% of pages would break if we didn't reparse.
+Philip\` found 128 pages with open `<!--` out of 130K pages, listed in http://philip.html5.org/data/pages-with-unclosed-comments.txt . I looked through the first 82 pages. 40 of those would work better if we reparse, 1 would work slightly worse, and the rest would be unaffected. This means that about 0.05% of pages would break if we didn't reparse.
 
 Opera currently doesn't reparse comments in limited/no quirks mode, but a few pages below break in Opera because of that. (We still reparse open escaped text spans even in no quirks mode.)
 
@@ -795,7 +765,6 @@ An IEism that was adopted in the standard was that `<!-->` and `<!--->` represen
 
 Have you ever seen an HTML page with an XML declaration at the top?
 
-{line-numbers=off}
 ~~~~~~~~
 <?xml version="1.0"?>
 <!DOCTYPE html>
@@ -803,7 +772,6 @@ Have you ever seen an HTML page with an XML declaration at the top?
 
 If so, then you have stumbled across a "bogus comment". In HTML, some things cause the tokenizer to switch to the *bogus comment state*, which looks for the first ">" to end the comment (rather than "-->" or "--!>"). The following is thus equivalent:
 
-{line-numbers=off}
 ~~~~~~~~
 <!--?xml version="1.0"?-->
 <!DOCTYPE html>
@@ -849,12 +817,10 @@ There are 16 tokenizer states dedicated to doctypes, not including the *tag open
 
 The reason is that the doctype used to have more stuff in it than just `<!doctype html>`. This is the doctype for HTML 4.01:
 
-{line-numbers=off}
 ~~~~~~~~
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
 "http://www.w3.org/TR/html4/strict.dtd">
 ~~~~~~~~
-
 
 There’s the doctype name (`HTML`), the keyword `PUBLIC` (which could also be `SYSTEM`), the public identifier (`-//W3C//DTD HTML 4.01//EN`), and the system identifier (`http://www.w3.org/TR/html4/strict.dtd`). (In SGML, the public and system identifiers both identify a DTD. The public identifier would be used by an SGML parser to look up a local DTD in a catalog.)
 
@@ -922,7 +888,6 @@ Effectively, the rest of the document is unconditionally treated as plain text.
 
 Another \#HTMLQuiz (don't cheat :) ). What will be alerted here?
 
-{line-numbers=off}
 ~~~~~~~~
 <script>alert('<!--<script>x</script>-->')</script>
 ~~~~~~~~
@@ -1058,7 +1023,6 @@ The common pattern is:
 
 A.
 
-{line-numbers=off}
 ~~~~~~~~
 <script><!--
 
@@ -1073,7 +1037,6 @@ specced:
 
 B.
 
-{line-numbers=off}
 ~~~~~~~~
 <script><!--
 
@@ -1084,7 +1047,6 @@ B.
 
 C.
 
-{line-numbers=off}
 ~~~~~~~~
 <script><!--
 
@@ -1097,7 +1059,6 @@ C.
 
 D.
 
-{line-numbers=off}
 ~~~~~~~~
 <script><!--
 
@@ -1108,7 +1069,6 @@ D.
 
 E.
 
-{line-numbers=off}
 ~~~~~~~~
 <script><!--
 
@@ -1119,7 +1079,6 @@ E.
 
 F.
 
-{line-numbers=off}
 ~~~~~~~~
 <script><!--
 
@@ -1130,7 +1089,6 @@ F.
 
 G.
 
-{line-numbers=off}
 ~~~~~~~~
 <script><!--
 
@@ -1213,7 +1171,6 @@ Going back to the quiz, the correct answer is that `<!--<script>x</script>-->` w
 
 OK. What about a more "problematic" case?
 
-{line-numbers=off}
 ~~~~~~~~
 Before
 <script><!--
@@ -1282,12 +1239,10 @@ Since there is no actual script end tag, the script will not be executed. Execut
 
 Let’s try a simple example and see what happens in the tree construction stage.
 
-{line-numbers=off}
 ~~~~~~~~
 <!doctype html>
 <div>Divitis is a serious condition.</div>
 ~~~~~~~~
-
 
 The tokenizer will produce these tokens:
 
@@ -1521,7 +1476,6 @@ Note: This element will be an ordinary element.
 
 That is, it is inserted in the DOM and the contents are parsed as normal. For example:
 
-{line-numbers=off}
 ~~~~~~~~
 <!doctype html>
 <body><noscript><p>This page requires JavaScript.</p></noscript></body>
@@ -1545,7 +1499,6 @@ Resulting DOM:
 
 When `noscript` is found in `head`, the tree builder switches to the "in head noscript" insertion mode. Walking through the example from the quiz:
 
-{line-numbers=off}
 ~~~~~~~~
 <head><noscript><basefont><noscript><base>
 ~~~~~~~~
@@ -1594,7 +1547,6 @@ Frameset is a feature that was introduced in HTML4 and immediately deprecated (a
 
 A frameset page might look like this:
 
-{line-numbers=off}
 ~~~~~~~~
 <!doctype html>
 <html lang="en">
@@ -1613,7 +1565,6 @@ A frameset page might look like this:
 
 If the tree builder finds a `frameset` start tag token in the "after head" insertion mode, then it creates a "frameset" page. But it’s also possible for the parser to have inserted a `body` element, and later swapping it for a `frameset` element.
 
-{line-numbers=off}
 ~~~~~~~~
 <!doctype html>
 <p><frameset>Who am I?
@@ -1649,7 +1600,6 @@ Forms have some unusual behaviors.
 
 Form controls, such as the `input` element, are associated with a `form` element. This association is used in form submission. There is also an API to access all elements that are associated with a form (`form.elements`).
 
-{line-numbers=off}
 ~~~~~~~~
 <!doctype html>
 <form><input></form>
@@ -1663,7 +1613,6 @@ That’s cool, but what does it have to do with parsing? Can’t the relationshi
 
 It turns out that it can’t. The association needs to happen even if the form element is not an ancestor of the form control when the form control is parsed. So long as the form end tag hasn’t been seen, form controls will be associated with an "open" form, even if it is no longer on the stack of open elements.
 
-{line-numbers=off}
 ~~~~~~~~
 <!doctype html>
 <div><form></div>
@@ -1692,7 +1641,6 @@ The parser has a *form element pointer*, which is set to the `form` element when
 
 The parser ignores a `form` start tag token if the *form element pointer* is not null. That is, nesting forms doesn’t work.
 
-{line-numbers=off}
 ~~~~~~~~
 <form>
  A
@@ -1727,7 +1675,6 @@ There’s only one form element in the DOM, but otherwise the DOM is as we’d e
 
 Let’s back up a bit. Up to and including the "B", parsing is straightforward.
 
-{line-numbers=off}
 ~~~~~~~~
 <form>
  A
@@ -1775,7 +1722,6 @@ In step 6 we remove the `form`, so that the stack of open elements is:
 
 Huh, it didn’t remove the div! Usually, when the parser closes an element, it pops elements off the stack until the relevant element has been popped. But here, only the `form` is removed, leaving the rest of the stack intact. So the current node is still the `div`. When we get to the "C", we thus insert that to the `div`.
 
-{line-numbers=off}
 ~~~~~~~~
 <form>
  A
@@ -1811,7 +1757,6 @@ This special handling is, as you might suspect, necessary for web compatibility.
 
 Did you notice that the handling of the `form` end tag had a check for a template element? What happens inside templates?
 
-{line-numbers=off}
 ~~~~~~~~
 <template>
  <form>
@@ -1866,7 +1811,6 @@ In templates, forms are parsed more like divs, and aren’t using the form eleme
 
 \#HTMLQuiz In which order will the numbers appear for such bad HTML?
 
-{line-numbers=off}
 ~~~~~~~~
 <table><tr><td>1</td></tr>2<br/><tr>3</tr>
 ~~~~~~~~
@@ -1883,11 +1827,9 @@ Unexpected text or tags in tables (outside table cells) are, for historical reas
 
 A simple example:
 
-{line-numbers=off}
 ~~~~~~~~
 <table>1
 ~~~~~~~~
-
 
 * `html`
 
@@ -1957,14 +1899,12 @@ This is the part that says to insert the node before the table.
 
 The example in the quiz is thus equivalent to:
 
-{line-numbers=off}
 ~~~~~~~~
 2<br>3<table><tbody><tr><td>1</td></tr><tr></tr></tbody></table>
 ~~~~~~~~
 
 Notice that the `tbody` tags were not in the quiz, yet the above is equivalent. This is because, similarly to the `body` element, `tbody` has optional start and end tags. It will be inferred when handling a `tr` start tag token.
 
-{line-numbers=off}
 ~~~~~~~~
 <table><tr><td>
 ~~~~~~~~
@@ -1985,7 +1925,6 @@ Notice that the `tbody` tags were not in the quiz, yet the above is equivalent. 
 
 Although the `tr` element’s start tag is *not* optional, the parser will still infer it if it is missing; the following markup produces the same DOM as the above.
 
-{line-numbers=off}
 ~~~~~~~~
 <table><td>
 ~~~~~~~~
@@ -1996,7 +1935,6 @@ All table-related elements except for the `table` element itself have optional e
 
 Table-related tags (except for `table` itself) are ignored outside tables (except in templates).
 
-{line-numbers=off}
 ~~~~~~~~
 <body><caption>Tableless <tr>web <td>design
 ~~~~~~~~
@@ -2149,7 +2087,6 @@ The template element ([added to HTML in June 2013](https://www.w3.org/Bugs/Publi
 
 For example, consider the following document:
 
-{line-numbers=off}
 ~~~~~~~~
 <!doctype html>
 <html lang="en">
@@ -2175,7 +2112,6 @@ The content of the template do not end up as children of the template element. I
 
 Apart from HTML parser-level syntax requirements, the *template contents* has no conformance requirements. An attribute that is normally required is optional in the *template contents*. Microsyntax requirements for attribute values do not apply in the *template contents*. Content model restrictions (how elements are allowed to be nested) can be violated. And so on. The reason for this is that templates usually need to have placeholders that are replaced with other content upon processing the template. For example:
 
-{line-numbers=off}
 ~~~~~~~~
 <template>
  <article>
@@ -2189,7 +2125,6 @@ Apart from HTML parser-level syntax requirements, the *template contents* has no
 
 Template elements are allowed essentially anywhere, and allow essentially any contents. For example, a template element is not foster parented:
 
-{line-numbers=off}
 ~~~~~~~~
 <table><template>
 ~~~~~~~~
@@ -2206,7 +2141,6 @@ Template elements are allowed essentially anywhere, and allow essentially any co
 
 Generally, table markup outside a `table` is ignored:
 
-{line-numbers=off}
 ~~~~~~~~
 <div><tr><td>X
 ~~~~~~~~
@@ -2223,7 +2157,6 @@ Generally, table markup outside a `table` is ignored:
 
 However, in templates, it just works:
 
-{line-numbers=off}
 ~~~~~~~~
 <template><tr><td>X
 ~~~~~~~~
@@ -2247,7 +2180,6 @@ And the `template` element’s *template contents*:
 
 If you have unexpected content between the table row and the table cell, it would normally be foster-parented (end up before the table), but here there is no `table` element. Instead it ends up at the end of the `template` element:
 
-{line-numbers=off}
 ~~~~~~~~
 <template><tr>foo<td>X
 ~~~~~~~~
@@ -2284,14 +2216,12 @@ Autonomous custom elements have a custom element name, with these requirements:
 
 These elements parse just like unknown elements, or like some inline elements like abbr, or dfn. Which is to say, they don’t implicitly close other elements, or have other special parsing behavior.
 
-{line-numbers=off}
 ~~~~~~~~
 <flag-icon country="nl"></flag-icon>
 ~~~~~~~~
 
 Customized built-in elements are normal HTML elements, with a special `is` attribute. These are parsed just like they usually are, but the parser pays attention to the `is` attribute when [creating the element](https://dom.spec.whatwg.org/#concept-create-element).
 
-{line-numbers=off}
 ~~~~~~~~
 <button is="plastic-button">Click Me!</button>
 ~~~~~~~~
@@ -2304,7 +2234,6 @@ Some JavaScript is needed to create a definition of custom elements, so that the
 
 \#HTMLQuiz how many select elements in the DOM?
 
-{line-numbers=off}
 ~~~~~~~~
 <select><select><select><select>
 ~~~~~~~~
@@ -2317,7 +2246,6 @@ Some JavaScript is needed to create a definition of custom elements, so that the
 
 Select is a bit special. It generally ignores unexpected tags.
 
-{line-numbers=off}
 ~~~~~~~~
 <select><div><b><iframe><style><plaintext></select>X
 ~~~~~~~~
@@ -2336,7 +2264,6 @@ The elements that can be nested in select are: `option`, `optgroup`, `script`, `
 
 There are 3 tags that implicitly close a `select` and then be reprocessed: `input`, `keygen`, and `textarea`.
 
-{line-numbers=off}
 ~~~~~~~~
 <select><input>
 ~~~~~~~~
@@ -2365,7 +2292,6 @@ The `select` start tag is treated just like the `select` end tag. Therefore, the
 
 Select inside tables are parsed in a separate insertion mode, "in select in table". This is handled the same as "in select", except that table markup closes the `select` element and is then reprocessed.
 
-{line-numbers=off}
 ~~~~~~~~
 <table><tr><td><select><td>X
 ~~~~~~~~
@@ -2396,7 +2322,6 @@ Select inside tables are parsed in a separate insertion mode, "in select in tabl
 
 \#HTMLQuiz (don't cheat :)) Which elements will be children of body for this?
 
-{line-numbers=off}
 ~~~~~~~~
 <!doctype html></p><br></br></p>
 ~~~~~~~~
@@ -2413,7 +2338,6 @@ Tags can in various situations be implied by other tags, or by text content. In 
 
 The `br` end tag is treated as a `br` start tag. This is handled from the "before html" insertion mode through to "in body".
 
-{line-numbers=off}
 ~~~~~~~~
 </br>
 ~~~~~~~~
@@ -2436,7 +2360,6 @@ When the steps below require the UA to generate implied end tags, then, while th
 
 For example, one can omit tags in a `ruby` element (this is the Japanese text 漢字, annotated with its reading in hiragana, with parentheses in `rp` elements for browsers that do not support ruby):
 
-{line-numbers=off}
 ~~~~~~~~
 ...<ruby>漢<rp>（<rt>かん<rp>）</rp>字<rp>（<rt>じ<rp>）</ruby>...
 ~~~~~~~~
@@ -2487,7 +2410,6 @@ This would render as follows:
 
 If you have something between the head end tag and the body start tag (where only whitespace is allowed), some tags cause an element to be inserted into the `head` (`base`, `basefont`, `bgsound`, `link`, `meta`, `noframes`, `script`, `style`, `template`, `title`), while other tags or non-whitespace text implicitly opens the `body` element.
 
-{line-numbers=off}
 ~~~~~~~~
 <!doctype html>
 <head>
@@ -2514,7 +2436,6 @@ If you have something between the head end tag and the body start tag (where onl
 
 When seeing an `a` start tag if there’s an `a` element in the *list of active formatting elements* (see the *Active formatting elements & Noah’s Ark* section), then it implies an `a` end tag before it, but this is a parse error; the `a` end tag is *not* optional. The following example has two a start tags (end tag is mistyped as a start tag):
 
-{line-numbers=off}
 ~~~~~~~~
 <p><a href="1108470371">Anchor Bar reportedly opening Las Vegas location<a>.
 ~~~~~~~~
@@ -2538,7 +2459,6 @@ When seeing an `a` start tag if there’s an `a` element in the *list of active 
 
 Similarly, a `table` start tag in a `table` (not in a table cell) implies a `table` end tag before it (and this is also a parse error). This also happens for `h1`-`h6` elements; any `h1`-`h6` start tag token implicitly closes an open `h1`-`h6` element, even if the tag names don’t match.
 
-{line-numbers=off}
 ~~~~~~~~
 <h1>What is an Open Title?
 <h2>Intentionally Left Blank</h2>
@@ -2566,7 +2486,6 @@ When in foreign content (SVG or MathML), certain start tags imply closure of ope
 
 \#HTMLQuiz HTML allows you to nest `p` in `a`. It also generally allows you to omit `</p>`. Can you do both?
 
-{line-numbers=off}
 ~~~~~~~~
 <a><p></a>
 ~~~~~~~~
@@ -2579,7 +2498,6 @@ What happens if you close elements in the wrong order? It depends on what the ma
 
 Some cases are easy, for example, the `h1`-`h6` elements can be closed by any other `h1`-`h6` end tag.
 
-{line-numbers=off}
 ~~~~~~~~
 <h1>Syntax for Headlines</h2>
 <h2>WikiMatrix - Compare them all</h1>
@@ -2601,7 +2519,6 @@ Some cases are easy, for example, the `h1`-`h6` elements can be closed by any ot
 
 The "default" handling of misnested markup, which is used for unknown elements, autonomous custom elements, and some inline elements such as `span`, `dfn`, `kbd`, is to close all open elements until the one given in the end tag has been closed.
 
-{line-numbers=off}
 ~~~~~~~~
 <span>20 ways to <dfn>commute</span> to</dfn> work.
 ~~~~~~~~
@@ -2647,7 +2564,6 @@ Note that not all elements with a "formatting" default *style* is included in th
 
 A formatting element gets reopened across other elements until it is explicitly closed, like this:
 
-{line-numbers=off}
 ~~~~~~~~
 <p><i>He's got the whole world
 <p>in his hands
@@ -2675,7 +2591,6 @@ Notice that the second paragraph also has an `i` element.
 
 OK, but what is Noah doing in an HTML parser? Well, in case of a flood, he saves not two but three elements per family.
 
-{line-numbers=off}
 ~~~~~~~~
 <p><i>He's got the whole world
 <p><i>in his hands
@@ -2742,7 +2657,6 @@ In the third and fourth paragraphs, three `i` elements are reopened, and they op
 
 The Noah’s Ark clause also checks the attributes, not just the tag name.
 
-{line-numbers=off}
 ~~~~~~~~
 <p><i><i><i><i>
 <p><i class><i class><i class><i class>
@@ -2771,7 +2685,6 @@ The DOM for the final paragraph will be:
 
 Do you recall the misnested blocks in inlines case in the *History of HTML parsers* section?
 
-{line-numbers=off}
 ~~~~~~~~
 <!DOCTYPE html><em><p>X</em>Y</p>
 ~~~~~~~~
@@ -2815,7 +2728,6 @@ When seeing the `em` end tag, the AAA kicks in. It will insert the `p` to the `b
 
 So what happens with the markup in the quiz?
 
-{line-numbers=off}
 ~~~~~~~~
 <a><p></a>
 ~~~~~~~~
@@ -2832,7 +2744,6 @@ TODO loop limits, marker.
 
 \#HTMLQuiz (don't cheat! :) ). What attributes will `document.body` have?
 
-{line-numbers=off}
 ~~~~~~~~
 <body a="1" b="2">Hello!<body b="3" c="4">
 ~~~~~~~~
@@ -2857,7 +2768,6 @@ Using `html` or `body` tags where they are not expected is, of course, a parse e
 
 \#HTMLQuiz how many children will the `<svg>` element have in the DOM?
 
-{line-numbers=off}
 ~~~~~~~~
 <!doctype html><svg><font/><font face/></svg>
 ~~~~~~~~

@@ -8,7 +8,6 @@ Parsing HTML means to turn a string of characters (the markup) into a DOM tree.
 
 For example, the following document:
 
-{line-numbers=off}
 ~~~~~~~~
 <!DOCTYPE HTML>
 <html lang="en">
@@ -65,7 +64,6 @@ To parse a document, SGML required a Document Type Definition (DTD), which was s
 
 SGML has some convenience markup features that browsers did not implement for HTML. For example, a feature called SHORTTAG allowed syntax like this:
 
-{line-numbers=off}
 ~~~~~~~~
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
 <html>
@@ -76,7 +74,6 @@ SGML has some convenience markup features that browsers did not implement for HT
 
 ...which is, per SGML rules, equivalent to:
 
-{line-numbers=off}
 ~~~~~~~~
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
 <html>
@@ -99,44 +96,38 @@ But browsers parse it as a `title` start tag with a bunch of attributes, until t
 
 You may have come in contact with an SGML parser when validating your markup, for example at validator.w3.org. Up to and including HTML4, it used a DTD-based validator for HTML, which used an SGML parser. The example above would thus validate but not work in browsers. More recently, validator.w3.org started to emit warnings whenever the SHORTTAG feature was used.
 
-As an interesting aside, when using the XML "/>" syntax in HTML, according to SGML rules it would trigger the SHORTTAG feature. When used on a void element, the slash just marks the end of the start tag, and the “>” is text content. Therefore, the following are equivalent:
+As an interesting aside, when using the XML "/>" syntax in HTML, according to SGML rules it would trigger the SHORTTAG feature. When used on a void element, the slash just marks the end of the start tag, and the ">" is text content. Therefore, the following are equivalent:
 
-{line-numbers=off}
 ~~~~~~~~
 <link rel="stylesheet" href="style.css" />
 ~~~~~~~~
 
-{line-numbers=off}
 ~~~~~~~~
 <link rel="stylesheet" href="style.css">>
 ~~~~~~~~
 
-Note the extra ">" at the end. This is equivalent to having the “>” escaped as a character reference:
+Note the extra ">" at the end. This is equivalent to having the ">" escaped as a character reference:
 
-{line-numbers=off}
 ~~~~~~~~
 <link rel="stylesheet" href="style.css">&gt;
 ~~~~~~~~
 
-Since the ">" (or &gt;) is text, and text is not allowed in `head`, this implicitly opens the `body` element (the start and end tags of `head` and `body` are optional). However, note that web browsers never supported the SHORTTAG feature, and would instead basically ignore the slash, so it has not been any problem in practice to use “/>” on void elements (such as `link`) in HTML.
+Since the ">" (or &gt;) is text, and text is not allowed in `head`, this implicitly opens the `body` element (the start and end tags of `head` and `body` are optional). However, note that web browsers never supported the SHORTTAG feature, and would instead basically ignore the slash, so it has not been any problem in practice to use "/>" on void elements (such as `link`) in HTML.
 
 SGML is incompatible with HTML in other ways as well. For example, enumerated attributes can be shortened to only the *value* per SGML, but HTML user agents parse it as an *attribute name*.
 
-{line-numbers=off}
 ~~~~~~~~
 <input checkbox>
 ~~~~~~~~
 
 ...is per SGML rules equivalent to:
 
-{line-numbers=off}
 ~~~~~~~~
 <input type="checkbox">
 ~~~~~~~~
 
 ...but HTML parsers treat it as:
 
-{line-numbers=off}
 ~~~~~~~~
 <input checkbox="">
 ~~~~~~~~
@@ -171,7 +162,6 @@ In early 2006, Firefox was at version 1.5. Its HTML parser had its own interesti
 
 Imagine the **following (invalid) markup**:
 
-{line-numbers=off}
 ~~~~~~~~
 <!DOCTYPE html><em><p>XY</p></em>
 ~~~~~~~~
@@ -198,7 +188,6 @@ No problem so far.
 
 Now consider **this markup**:
 
-{line-numbers=off}
 ~~~~~~~~
 <!DOCTYPE html><em><p>X</em>Y</p>
 ~~~~~~~~
@@ -249,14 +238,13 @@ This leaves the Mozilla/Safari method.
 
 It's weird, though. If you look at the two examples above, you'll notice that their respective markups start the same — both of them start with this markup:
 
-{line-numbers=off}
 ~~~~~~~~
 <!DOCTYPE html><em><p>X
 ~~~~~~~~
 
 Yet the end result is quite different, with one of the elements (the p) having different parents in the two cases. So when do the browsers decide what to do? They can't be buffering content up and deciding what to do later, since that would break incremental rendering. So what exactly is going on?
 
-Well, let's check. What do Mozilla and Safari do for **that truncated piece of markup?
+Well, let's check. What do Mozilla and Safari do for that truncated piece of markup?
 
 Mozilla
 
@@ -292,7 +280,6 @@ Hrm. They disagree. Mozilla is using the "malformed" version, and Safari is usin
 
 Let's look at Safari first, by running a script while the parser is running. First, the **simple case**:
 
-{line-numbers=off}
 ~~~~~~~~
 <!DOCTYPE html>
 <em>
@@ -332,7 +319,6 @@ Exactly as we'd expect. The parentNode of the p element as shown in the DOM tree
 
 Now let's try **the bad markup case**:
 
-{line-numbers=off}
 ~~~~~~~~
 <!DOCTYPE html>
 <em>
@@ -375,9 +361,8 @@ Wait, what?
 
 When the embedded script ran, the parent of the p was the em, but when the parser had finished, the DOM had changed, and the parent was no longer the em node!
 
-If we look **a little closer**:
+If we look a little closer:
 
-{line-numbers=off}
 ~~~~~~~~
 <!DOCTYPE html>
 <em>
@@ -428,9 +413,9 @@ If we look **a little closer**:
 
 ...which is to say, the parent changes half way through! (Compare the a and b attributes.)
 
-What actually happens is that Safari notices that something bad has happened, and moves the element around in the DOM. After the fact. (If you remove the p element from the DOM in that first script block, then **[Safari crashe*s](http://bugs.webkit.org/show_bug.cgi?id=6778)*.)
+What actually happens is that Safari notices that something bad has happened, and moves the element around in the DOM. After the fact. (If you remove the p element from the DOM in that first script block, then [Safari crashes](http://bugs.webkit.org/show_bug.cgi?id=6778).)
 
-How about Mozilla? Let's try the **same trick**. The result:
+How about Mozilla? Let's try the same trick. The result:
 
  * DOCTYPE: `html`
 
@@ -472,15 +457,15 @@ It turns out that Mozilla does a pre-parse of the source, and if a part of it is
 
 Who would have thought that you would find Heisenberg-like quantum effects in an HTML parser. I mean, I knew they were obscure, but this is just taking the biscuit.
 
-The problem is I now have to determine which of these four options to make the other three browsers implement (that is, which do I put in the spec). What do you think is the most likely to be accepted by the others? **As a reminder, the options are incestual elements that can be their own uncles, elements who have secret lives in the rendering engine, elements that change their mind about who their parents are half-way through their childhood, and quantum elements whose parents change depending on whether you observe their birth or not.
+The problem is I now have to determine which of these four options to make the other three browsers implement (that is, which do I put in the spec). What do you think is the most likely to be accepted by the others? As a reminder, the options are incestual elements that can be their own uncles, elements who have secret lives in the rendering engine, elements that change their mind about who their parents are half-way through their childhood, and quantum elements whose parents change depending on whether you observe their birth or not.
 
 The key requirements are probably:
 
- *Coherence: scripts that rely on DOM invariants (like the fact that the DOM is a tree) shouldn't go off into infinite loops.
+ * Coherence: scripts that rely on DOM invariants (like the fact that the DOM is a tree) shouldn't go off into infinite loops.
 
- *Transparency: we shouldn't have to describe a whole extra section that explains how the CSS rendering engine applies to HTML DOMs; CSS should just work on the real DOM as you would see it from script.
+ * Transparency: we shouldn't have to describe a whole extra section that explains how the CSS rendering engine applies to HTML DOMs; CSS should just work on the real DOM as you would see it from script.
 
- *Predictability: it shouldn't depend on, e.g., the protocol or network conditions — every browser should get the same DOM for the same original markup in all situations.
+ * Predictability: it shouldn't depend on, e.g., the protocol or network conditions — every browser should get the same DOM for the same original markup in all situations.
 
 The least worse [sic] option is probably the Safari-style on-the-fly reparenting, I think, but I'm not sure. It's the only one that fits those requirements. Is there a fifth option I'm missing?
 
@@ -496,41 +481,41 @@ So…
 
 The first draft of the HTML5 Parsing spec is ready.
 
-*I plan to start implementing it at some point in the next few months, to
-see how well it fares.*
+I plan to start implementing it at some point in the next few months, to
+see how well it fares.
 
-*It is, in theory, more compatible with IE than Safari, Mozilla, and Opera, but there are places where it makes intentional deviations (e.g. the comment parsing, and it doesn't allow `<object>` in the `<head>` -- browsers are inconsistent about this at the moment, and we're dropping declare="" in HTML5 anyway so it isn't needed anymore; I plan to look for data on how common this is in the Web at some point in the future to see if it's ok
-for us to do this).*
+It is, in theory, more compatible with IE than Safari, Mozilla, and Opera, but there are places where it makes intentional deviations (e.g. the comment parsing, and it doesn't allow `<object>` in the `<head>` -- browsers are inconsistent about this at the moment, and we're dropping declare="" in HTML5 anyway so it isn't needed anymore; I plan to look for data on how common this is in the Web at some point in the future to see if it's ok
+for us to do this).
 
 It's not 100% complete. Some of the things that need work are:
 
- *Interaction with document.open/write/close is undefined
+ * Interaction with document.open/write/close is undefined
 
- *How to determine the character encoding
+ * How to determine the character encoding
 
- *Integration with quirks mode problems
+ * Integration with quirks mode problems
 
- *`<style>` parsing needs tweaking if we want to exactly match IE
+ * `<style>` parsing needs tweaking if we want to exactly match IE
 
- *`<base>` parsing needs tweaking to handle multiple `<base>`s
+ * `<base>` parsing needs tweaking to handle multiple `<base>`s
 
- *`<isindex>` needs some prose in the form submission section
+ * `<isindex>` needs some prose in the form submission section
 
- *No-frames and no-script modes aren't yet defined
+ * No-frames and no-script modes aren't yet defined
 
- *Execution of `<script>` is not yet defined
+ * Execution of `<script>` is not yet defined
 
- *New HTML5 elements aren't yet defined
+ * New HTML5 elements aren't yet defined
 
- *There are various cases (marked) where EOF handling is undefined
+ * There are various cases (marked) where EOF handling is undefined
 
- *Interaction with the "load" event is undefined
+ * Interaction with the "load" event is undefined
 
 However, none of the above are particularly critical to the parsing.
 
 If you have any comments, please send them. This part of the spec should be relatively stable now, so now is a good time to review it if you want to. And if anyone wants to implement it to test it against the real live Web content out there, that's encouraged too. :-)
 
-The more evidence we have that this parsing model is solid and works with the real Web, the more likely we are to be able to convince Apple/Safari/Mozilla to implement it. And if all the browsers implement the same parsing model, then HTML interoperability on the Web will take a huge leap forward.** T'would be save** [sic] everyone a lot of time.
+The more evidence we have that this parsing model is solid and works with the real Web, the more likely we are to be able to convince Apple/Safari/Mozilla to implement it. And if all the browsers implement the same parsing model, then HTML interoperability on the Web will take a huge leap forward. T'would be save [sic] everyone a lot of time.
 
 Wouldn’t it, indeed.
 
@@ -561,14 +546,12 @@ The doctype is required because without a doctype, browsers use quirks mode for 
 
 The doctype can be either:
 
-{line-numbers=off}
 ~~~~~~~~
 <!doctype html>
 ~~~~~~~~
 
 …case-insensitive, or:
 
-{line-numbers=off}
 ~~~~~~~~
 <!doctype html system "about:legacy-compat">
 ~~~~~~~~
@@ -579,7 +562,6 @@ The purpose of the longer doctype is for compatibility with markup generators th
 
 Prior versions of HTML had other doctypes that are now defined to trigger one of the different rendering modes. For example, this HTML 4.01 doctype trigger no-quirks mode:
 
-{line-numbers=off}
 ~~~~~~~~
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
 "http://www.w3.org/TR/html4/strict.dtd">
@@ -607,21 +589,18 @@ All kinds of elements can have a start tag, although for some elements the start
 
 Void elements consist of just a start tag.
 
-{line-numbers=off}
 ~~~~~~~~
 <br>
 ~~~~~~~~
 
 The `template` element is special because its contents are parsed into a separate `DocumentFragment` instead of being children of the element itself. This is discussed in more detail in the *Templates* section of *Tree construction*.
 
-{line-numbers=off}
 ~~~~~~~~
 <template><img src="{{ src }}" alt="{{ alt }}"></template>
 ~~~~~~~~
 
 Raw text elements, escapable raw text elements and normal elements have a start tag, some contents, and an end tag (but some elements have optional end tags, or start and end tags). Raw text means that the contents are treated as text instead of as markup, except for the end tag, and except that script has pretty special parsing rules (see *Script states* of the *Tokenizer*). Escapable raw text is like raw text, except that character references work.
 
-{line-numbers=off}
 ~~~~~~~~
 <title>SpiderMonkey &amp; the GC Jitters</title>
 ~~~~~~~~
@@ -630,7 +609,6 @@ Normal elements can have text (except `<` and ambiguous ampersand), character re
 
 The `pre` and `textarea` elements have a special rule: they may begin with a newline that will be ignored by the HTML parser. To have content that actually starts with a newline, two newlines thus have to be used. (A newline in HTML is a line feed, a carriage return, or a CRLF pair.) For example, the following is equivalent to `<pre>Use the force</pre>` (without a newline):
 
-{line-numbers=off}
 ~~~~~~~~
 <pre>
 Use the force</pre>
@@ -638,7 +616,6 @@ Use the force</pre>
 
 Foreign elements are slightly closer to XML in their syntax: "/>" works (self-closing start tag), CDATA sections work (`<![CDATA[ … ]]>`, the contents are like raw text). But note that other aspects still work like HTML; element names and attribute names are case-insensitive, and XML namespaces don’t work (only some namespaced attributes work with a predefined prefix).
 
-{line-numbers=off}
 ~~~~~~~~
 <p>Circling the drain.
  <svg viewBox="-1 -1 2 2" width=16><circle r=1 /></svg>
@@ -649,7 +626,6 @@ Foreign elements are slightly closer to XML in their syntax: "/>" works (self-cl
 
 An HTML document consists of a doctype followed by an `html` element, and there may be whitespace and comments before, between, and after. The following example is a complete and conforming HTML document:
 
-{line-numbers=off}
 ~~~~~~~~
 <!-- a comment -->
 <!doctype html>
@@ -667,23 +643,20 @@ An HTML document consists of a doctype followed by an `html` element, and there 
 
 A start tag has this format:
 
-`<`, the tag name (case-insensitive), whitespace (if there are attributes), any number of attributes separated by whitespace, optionally some whitespace, “>”. (In the HTML syntax, whitespace means [ASCII whitespace](https://infra.spec.whatwg.org/#ascii-whitespace), i.e., tab, line feed, form feed, carriage return, or space.)
+`<`, the tag name (case-insensitive), whitespace (if there are attributes), any number of attributes separated by whitespace, optionally some whitespace, ">". (In the HTML syntax, whitespace means [ASCII whitespace](https://infra.spec.whatwg.org/#ascii-whitespace), i.e., tab, line feed, form feed, carriage return, or space.)
 
-{line-numbers=off}
 ~~~~~~~~
 <p class="foo">
 ~~~~~~~~
 
 For void elements, the tag may end with either `>` or `/>`, although the slash makes no difference.
 
-{line-numbers=off}
 ~~~~~~~~
 <hr/>
 ~~~~~~~~
 
 Foreign elements (SVG and MathML) support self-closing start tags, which end with "/>" and means there are no contents and no end tag. The element name for foreign elements is case-insensitive in the HTML syntax.
 
-{line-numbers=off}
 ~~~~~~~~
 <CIRCLE r="1"/>
 ~~~~~~~~
@@ -694,7 +667,6 @@ An end tag has this format:
 
 `</`, the tag name (case-insensitive), optionally whitespace, `>`.
 
-{line-numbers=off}
 ~~~~~~~~
 </p>
 ~~~~~~~~
@@ -707,28 +679,24 @@ Attributes come in a few different formats.
 
 * **Empty attribute syntax.** This is just the attribute name. The value in the DOM will be the empty string. This syntax is allowed for any attribute (provided that the empty string is an allowed value). For example:
 
-  {line-numbers=off}
   ~~~~~~~~
   <input value>
   ~~~~~~~~
 
-* **Unquoted attribute value syntax.** The attribute name, optionally whitespace, `=`, optionally whitespace, then the value, which can’t be the empty string and is not allowed to contain whitespace or these characters: `" ' = < > \`` (TODO check markdown). If this is the last attribute and the start tag ends with `/>` (which is allowed on void elements and foreign elements), there has to be whitespace before the slash (otherwise the slash becomes part of the value). For example:
+* **Unquoted attribute value syntax.** The attribute name, optionally whitespace, `=`, optionally whitespace, then the value, which can’t be the empty string and is not allowed to contain whitespace or these characters: " ' = < > \`. If this is the last attribute and the start tag ends with `/>` (which is allowed on void elements and foreign elements), there has to be whitespace before the slash (otherwise the slash becomes part of the value). For example:
 
-  {line-numbers=off}
   ~~~~~~~~
   <input value=foo />
   ~~~~~~~~
 
 * **Single-quoted attribute value syntax.** The attribute name, optionally whitespace, `=`, optionally whitespace, `'`, the value not containing `'`, then `'`. For example:
 
-  {line-numbers=off}
   ~~~~~~~~
   <input value='foo'>
   ~~~~~~~~
 
 * **Double-quoted attribute value syntax.** The attribute name, optionally whitespace, `=`, optionally whitespace, `"`, the value not containing `"`, then `"`. For example:
 
-  {line-numbers=off}
   ~~~~~~~~
   <input value="foo">
   ~~~~~~~~
@@ -737,42 +705,36 @@ All attribute names are case-insensitive, including attributes on SVG and MathML
 
 All attribute values support character references. This can be particularly relevant for URLs in attributes, which sometimes contain `&` that should be escaped as `&amp;`, lest it be interpreted as a character reference.
 
-{line-numbers=off}
 ~~~~~~~~
 <a href="?title=Lone+Surrogates&amp;reg">
 ~~~~~~~~
 
 If the ampersand was unescaped in this example, like this:
 
-{line-numbers=off}
 ~~~~~~~~
 <a href="?title=Lone+Surrogates&reg">
 ~~~~~~~~
 
-...then `&reg` would be interpreted as a named character reference, which expands to “®”, i.e., it’s equivalent to:
+...then `&reg` would be interpreted as a named character reference, which expands to "®", i.e., it’s equivalent to:
 
-{line-numbers=off}
 ~~~~~~~~
 <a href="?title=Lone+Surrogates®">
 ~~~~~~~~
 
 Duplicate attributes, i.e., two attributes with the same name, are not allowed.
 
-{line-numbers=off}
 ~~~~~~~~
 <p class="cool" class="uncool">
 ~~~~~~~~
 
 Foreign elements support the following namespaced attributes (with fixed prefixes): xlink:actuate, xlink:arcrole, xlink:href, xlink:role, xlink:show, xlink:title, xlink:type, xml:lang, xml:space, xmlns (without prefix but is a namespaced attribute), xmlns:xlink.
 
-{line-numbers=off}
 ~~~~~~~~
 <svg xmlns="http://www.w3.org/2000/svg">
 ~~~~~~~~
 
 Note that in the HTML syntax, it’s optional to declare the namespace.
 
-{line-numbers=off}
 ~~~~~~~~
 <svg>
 ~~~~~~~~
@@ -783,15 +745,13 @@ Certain tags can be omitted if the resulting DOM doesn’t change if they are so
 
 For example, consider this snippet:
 
-{line-numbers=off}
 ~~~~~~~~
 <p>foo</p>
 <p>bar</p>
 ~~~~~~~~
 
-Because there is a line feed between the paragraphs, there will be a Text node for it in the DOM. Omitting the end tags will cause the line feed to be part of the first paragraph instead:
+Because there is a line feed between the paragraphs, there will be a `Text` node for it in the DOM. Omitting the end tags will cause the line feed to be part of the first paragraph instead:
 
-{line-numbers=off}
 ~~~~~~~~
 <p>foo
 <p>bar
@@ -831,35 +791,30 @@ There are three kinds of character references:
 
 * **Named character reference.** `&`, the name, `;`. There are over two thousand names to choose from. These are case-sensitive, although a few characters have character reference names in both all-lowercase and all-uppercase (e.g., `&lt;` and `&LT;`).
 
-{line-numbers=off}
 ~~~~~~~~
 &nbsp;
 ~~~~~~~~
 
 * **Decimal numeric character reference.** `&#`, a decimal number of a code point, `;`.
 
-{line-numbers=off}
 ~~~~~~~~
 &#160;
 ~~~~~~~~
 
 * **Hexadecimal numeric character reference.** `&#x` or `&#X`, a hexadecimal number of a code point, `;`. The hexadecimal number is case-insensitive.
 
-{line-numbers=off}
 ~~~~~~~~
 &#xA0;
 ~~~~~~~~
 
 HTML has a concept of an ambiguous ampersand, which is `&`, alphanumerics (a-zA-Z0-9), `;`, when this is not a known named character reference. Ambiguous ampersands are not allowed. The following is an example of an ambiguous ampersand:
 
-{line-numbers=off}
 ~~~~~~~~
 This &foobar; is an error.
 ~~~~~~~~
 
 However, other unescaped ampersands are technically allowed:
 
-{line-numbers=off}
 ~~~~~~~~
 This & is OK.
 ~~~~~~~~
@@ -870,7 +825,6 @@ CDATA sections can only be used in foreign content, and have this format:
 
 `<![CDATA[` (case-sensitive), text not containing `]]>`, then `]]>`.
 
-{line-numbers=off}
 ~~~~~~~~
 <svg><title><![CDATA[ <foo> & <bar> ]]></title> ... </svg>
 ~~~~~~~~
@@ -881,7 +835,6 @@ Comments have this format:
 
 `<!--` followed by any text (with some restrictions, detailed below), then `-->`.
 
-{line-numbers=off}
 ~~~~~~~~
 <!-- Hello -->
 ~~~~~~~~
@@ -890,14 +843,12 @@ The text is not allowed to contain `-->` since that would end the comment.
 
 A somewhat recent change to comment syntax is that `--` is now allowed in the text. This is not allowed in XML.
 
-{line-numbers=off}
 ~~~~~~~~
 <!-- Hello -- there -->
 ~~~~~~~~
 
 The text is not allowed to contain `<!--` since that is an indicator of a nested comment, and nested comments don’t work.
 
-{line-numbers=off}
 ~~~~~~~~
 <!-- <!-- this is an error --> -->
 ~~~~~~~~

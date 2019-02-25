@@ -5,15 +5,15 @@ Microsyntaxes in HTML are technically not part of the HTML parser. Instead they 
 These are thus valid:
 
 ~~~~~~~~
-<input disabled="”>
-<input disabled="disabled”>
-<input disabled="DISABLED”>
+<input disabled="">
+<input disabled="disabled">
+<input disabled="DISABLED">
 ~~~~~~~~
 
 This is invalid, but is treated the same as the above (the input is disabled):
 
 ~~~~~~~~
-<input disabled="false”>
+<input disabled="false">
 ~~~~~~~~
 
 Some of the more interesting microsyntaxes are explained in this chapter.
@@ -82,7 +82,7 @@ The processing of non-zero dimensions is the same as that of dimensions, except 
 
 ### Floating-point numbers
 
-HTML, JavaScript and CSS all have their own definitions of floating-point numbers. HTML differs from the other two in the format in that a leading "+" sign is not allowed, and if the number is a fraction of one, the leading “0” cannot be omitted. HTML and CSS further cannot represent the Infinity or NaN values.
+HTML, JavaScript and CSS all have their own definitions of floating-point numbers. HTML differs from the other two in the format in that a leading "+" sign is not allowed, and if the number is a fraction of one, the leading "0" cannot be omitted. HTML and CSS further cannot represent the Infinity or NaN values.
 
 The following are examples of HTML floating-point numbers.
 
@@ -96,7 +96,7 @@ The following are examples of HTML floating-point numbers.
 
 1.9e-3
 
-The numbers with an "e" are using so-called scientific notation, and means the number before the “e” times 10 to the power of the number after the “e”. 1.9e3 thus means 1900.
+The numbers with an "e" are using so-called scientific notation, and means the number before the "e" times 10 to the power of the number after the "e". 1.9e3 thus means 1900.
 
 The processing is as follows:
 
@@ -106,7 +106,7 @@ The processing is as follows:
 
 * A "-" sign before the number makes the number negative.
 
-* The following ASCII digits, the fraction (if any), the "e" or “E” and the exponent (if any), are collected.
+* The following ASCII digits, the fraction (if any), the "e" or "E" and the exponent (if any), are collected.
 
 * Trailing garbage is ignored.
 
@@ -117,10 +117,10 @@ The processing is as follows:
 The `area` element represents an area of an image that is a hyperlink. The coordinates of this area is described using the `coords` attributes, which is a list of floating-point numbers, each separated by a "," character (and no other characters, e.g, no whitespace).
 
 ~~~~~~~~
-<img src="cats.jpg” alt=”The cats Hedral and Pillar” usemap=”#cats”>
-<map name="cats”>
- <area href="hedral.html” shape=”rect” coords=”50,50,150,200” alt=”Hedral”>
- <area href="pillar.html” shape=”circle” coords=”300,150,100” alt=”Pillar”>
+<img src="cats.jpg" alt="The cats Hedral and Pillar" usemap="#cats">
+<map name="cats">
+ <area href="hedral.html" shape="rect" coords="50,50,150,200" alt="Hedral">
+ <area href="pillar.html" shape="circle" coords="300,150,100" alt="Pillar">
 </map>
 ~~~~~~~~
 
@@ -130,7 +130,7 @@ The processing is as follows:
 
 * For each value in the list:
 
-    * Leading garbage (anything but whitespace, comma, semicolon, ASCII digits, "." or “-”) is ignored.
+    * Leading garbage (anything but whitespace, comma, semicolon, ASCII digits, "." or "-") is ignored.
 
     * The number is parsed as a floating-point number. If that returns an error, zero is used instead.
 
