@@ -8,7 +8,7 @@ Parsing HTML means to turn a string of characters (the markup) into a DOM tree.
 
 For example, the following document:
 
-~~~~~~~~
+```html
 <!DOCTYPE HTML>
 <html lang="en">
  <head>
@@ -18,7 +18,7 @@ For example, the following document:
   <p>Test.</p>
  </body>
 </html>
-~~~~~~~~
+```
 
 ...is parsed into the following DOM tree:
 
@@ -64,23 +64,23 @@ To parse a document, SGML required a Document Type Definition (DTD), which was s
 
 SGML has some convenience markup features that browsers did not implement for HTML. For example, a feature called SHORTTAG allowed syntax like this:
 
-~~~~~~~~
+```html
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
 <html>
 <title/Misinterpreted/
 <p/Little-known SGML markup features/
 </html>
-~~~~~~~~
+```
 
 ...which is, per SGML rules, equivalent to:
 
-~~~~~~~~
+```html
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
 <html>
 <title>Misinterpreted</title>
 <p>Little-known SGML markup features</p>
 </html>
-~~~~~~~~
+```
 
 But browsers parse it as a `title` start tag with a bunch of attributes, until they find a `>`:
 
@@ -98,39 +98,39 @@ You may have come in contact with an SGML parser when validating your markup, fo
 
 As an interesting aside, when using the XML "/>" syntax in HTML, according to SGML rules it would trigger the SHORTTAG feature. When used on a void element, the slash just marks the end of the start tag, and the ">" is text content. Therefore, the following are equivalent:
 
-~~~~~~~~
+```html
 <link rel="stylesheet" href="style.css" />
-~~~~~~~~
+```
 
-~~~~~~~~
+```html
 <link rel="stylesheet" href="style.css">>
-~~~~~~~~
+```
 
 Note the extra ">" at the end. This is equivalent to having the ">" escaped as a character reference:
 
-~~~~~~~~
+```html
 <link rel="stylesheet" href="style.css">&gt;
-~~~~~~~~
+```
 
 Since the ">" (or &gt;) is text, and text is not allowed in `head`, this implicitly opens the `body` element (the start and end tags of `head` and `body` are optional). However, note that web browsers never supported the SHORTTAG feature, and would instead basically ignore the slash, so it has not been any problem in practice to use "/>" on void elements (such as `link`) in HTML.
 
 SGML is incompatible with HTML in other ways as well. For example, enumerated attributes can be shortened to only the *value* per SGML, but HTML user agents parse it as an *attribute name*.
 
-~~~~~~~~
+```html
 <input checkbox>
-~~~~~~~~
+```
 
 ...is per SGML rules equivalent to:
 
-~~~~~~~~
+```html
 <input type="checkbox">
-~~~~~~~~
+```
 
 ...but HTML parsers treat it as:
 
-~~~~~~~~
+```html
 <input checkbox="">
-~~~~~~~~
+```
 
 SGML also did not specify any error handling behavior. Meanwhile, web content was overwhelmingly erroneous and relied on error handling that browsers employed.
 
@@ -162,9 +162,9 @@ In early 2006, Firefox was at version 1.5. Its HTML parser had its own interesti
 
 Imagine the **following (invalid) markup**:
 
-~~~~~~~~
+```html
 <!DOCTYPE html><em><p>XY</p></em>
-~~~~~~~~
+```
 
 What should the DOM look like? The general consensus is that the DOM should look like this:
 
@@ -188,9 +188,9 @@ No problem so far.
 
 Now consider **this markup**:
 
-~~~~~~~~
+```html
 <!DOCTYPE html><em><p>X</em>Y</p>
-~~~~~~~~
+```
 
 What should the DOM look like?
 
@@ -238,9 +238,9 @@ This leaves the Mozilla/Safari method.
 
 It's weird, though. If you look at the two examples above, you'll notice that their respective markups start the same — both of them start with this markup:
 
-~~~~~~~~
+```html
 <!DOCTYPE html><em><p>X
-~~~~~~~~
+```
 
 Yet the end result is quite different, with one of the elements (the p) having different parents in the two cases. So when do the browsers decide what to do? They can't be buffering content up and deciding what to do later, since that would break incremental rendering. So what exactly is going on?
 
@@ -280,7 +280,7 @@ Hrm. They disagree. Mozilla is using the "malformed" version, and Safari is usin
 
 Let's look at Safari first, by running a script while the parser is running. First, the **simple case**:
 
-~~~~~~~~
+```html
 <!DOCTYPE html>
 <em>
  <p>
@@ -291,7 +291,7 @@ Let's look at Safari first, by running a script while the parser is running. Fir
   </script>
  </p>
 </em>
-~~~~~~~~
+```
 
 Result:
 
@@ -319,7 +319,7 @@ Exactly as we'd expect. The parentNode of the p element as shown in the DOM tree
 
 Now let's try **the bad markup case**:
 
-~~~~~~~~
+```html
 <!DOCTYPE html>
 <em>
  <p>
@@ -331,7 +331,7 @@ Now let's try **the bad markup case**:
  </em>
  Y
 </p>
-~~~~~~~~
+```
 
 Result:
 
@@ -363,7 +363,7 @@ When the embedded script ran, the parent of the p was the em, but when the parse
 
 If we look a little closer:
 
-~~~~~~~~
+```html
 <!DOCTYPE html>
 <em>
  <p>
@@ -379,7 +379,7 @@ If we look a little closer:
   p.setAttribute('b', p.parentNode.tagName);
  </script>
 </p>
-~~~~~~~~
+```
 
 ...we find:
 
@@ -546,15 +546,15 @@ The doctype is required because without a doctype, browsers use quirks mode for 
 
 The doctype can be either:
 
-~~~~~~~~
+```html
 <!doctype html>
-~~~~~~~~
+```
 
 …case-insensitive, or:
 
-~~~~~~~~
+```html
 <!doctype html system "about:legacy-compat">
-~~~~~~~~
+```
 
 Also case-insensitive, except for the "about:legacy-compat" part.
 
@@ -562,10 +562,10 @@ The purpose of the longer doctype is for compatibility with markup generators th
 
 Prior versions of HTML had other doctypes that are now defined to trigger one of the different rendering modes. For example, this HTML 4.01 doctype trigger no-quirks mode:
 
-~~~~~~~~
+```html
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
 "http://www.w3.org/TR/html4/strict.dtd">
-~~~~~~~~
+```
 
 One of my first [contributions](https://lists.w3.org/Archives/Public/public-whatwg-archive/2005Jun/0109.html) to the WHATWG, in June 2005, was to propose to change the doctype to `<!doctype html>`. Finally a doctype that can be remembered! (Though, for some reason, I still remember how to type `<!doctype html public "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">`. Sigh.)
 
@@ -589,44 +589,44 @@ All kinds of elements can have a start tag, although for some elements the start
 
 Void elements consist of just a start tag.
 
-~~~~~~~~
+```html
 <br>
-~~~~~~~~
+```
 
 The `template` element is special because its contents are parsed into a separate `DocumentFragment` instead of being children of the element itself. This is discussed in more detail in the *Templates* section of *Tree construction*.
 
-~~~~~~~~
+```html
 <template><img src="{{ src }}" alt="{{ alt }}"></template>
-~~~~~~~~
+```
 
 Raw text elements, escapable raw text elements and normal elements have a start tag, some contents, and an end tag (but some elements have optional end tags, or start and end tags). Raw text means that the contents are treated as text instead of as markup, except for the end tag, and except that script has pretty special parsing rules (see *Script states* of the *Tokenizer*). Escapable raw text is like raw text, except that character references work.
 
-~~~~~~~~
+```html
 <title>SpiderMonkey &amp; the GC Jitters</title>
-~~~~~~~~
+```
 
 Normal elements can have text (except `<` and ambiguous ampersand), character references, other elements, and comments.
 
 The `pre` and `textarea` elements have a special rule: they may begin with a newline that will be ignored by the HTML parser. To have content that actually starts with a newline, two newlines thus have to be used. (A newline in HTML is a line feed, a carriage return, or a CRLF pair.) For example, the following is equivalent to `<pre>Use the force</pre>` (without a newline):
 
-~~~~~~~~
+```html
 <pre>
 Use the force</pre>
-~~~~~~~~
+```
 
 Foreign elements are slightly closer to XML in their syntax: "/>" works (self-closing start tag), CDATA sections work (`<![CDATA[ … ]]>`, the contents are like raw text). But note that other aspects still work like HTML; element names and attribute names are case-insensitive, and XML namespaces don’t work (only some namespaced attributes work with a predefined prefix).
 
-~~~~~~~~
+```html
 <p>Circling the drain.
  <svg viewBox="-1 -1 2 2" width=16><circle r=1 /></svg>
 </p>
-~~~~~~~~
+```
 
 ### Documents
 
 An HTML document consists of a doctype followed by an `html` element, and there may be whitespace and comments before, between, and after. The following example is a complete and conforming HTML document:
 
-~~~~~~~~
+```html
 <!-- a comment -->
 <!doctype html>
 <html lang=en>
@@ -637,7 +637,7 @@ An HTML document consists of a doctype followed by an `html` element, and there 
   <p>Such like these, unless combined, are inane.</p>
  </body>
 </html>
-~~~~~~~~
+```
 
 ### Start tags
 
@@ -645,21 +645,21 @@ A start tag has this format:
 
 `<`, the tag name (case-insensitive), whitespace (if there are attributes), any number of attributes separated by whitespace, optionally some whitespace, ">". (In the HTML syntax, whitespace means [ASCII whitespace](https://infra.spec.whatwg.org/#ascii-whitespace), i.e., tab, line feed, form feed, carriage return, or space.)
 
-~~~~~~~~
+```html
 <p class="foo">
-~~~~~~~~
+```
 
 For void elements, the tag may end with either `>` or `/>`, although the slash makes no difference.
 
-~~~~~~~~
+```html
 <hr/>
-~~~~~~~~
+```
 
 Foreign elements (SVG and MathML) support self-closing start tags, which end with "/>" and means there are no contents and no end tag. The element name for foreign elements is case-insensitive in the HTML syntax.
 
-~~~~~~~~
+```html
 <CIRCLE r="1"/>
-~~~~~~~~
+```
 
 ### End tags
 
@@ -667,9 +667,9 @@ An end tag has this format:
 
 `</`, the tag name (case-insensitive), optionally whitespace, `>`.
 
-~~~~~~~~
+```html
 </p>
-~~~~~~~~
+```
 
 Attributes are not allowed on end tags.
 
@@ -679,65 +679,65 @@ Attributes come in a few different formats.
 
 * **Empty attribute syntax.** This is just the attribute name. The value in the DOM will be the empty string. This syntax is allowed for any attribute (provided that the empty string is an allowed value). For example:
 
-  ~~~~~~~~
+  ```
   <input value>
-  ~~~~~~~~
+  ```
 
 * **Unquoted attribute value syntax.** The attribute name, optionally whitespace, `=`, optionally whitespace, then the value, which can’t be the empty string and is not allowed to contain whitespace or these characters: " ' = < > \`. If this is the last attribute and the start tag ends with `/>` (which is allowed on void elements and foreign elements), there has to be whitespace before the slash (otherwise the slash becomes part of the value). For example:
 
-  ~~~~~~~~
+  ```
   <input value=foo />
-  ~~~~~~~~
+  ```
 
 * **Single-quoted attribute value syntax.** The attribute name, optionally whitespace, `=`, optionally whitespace, `'`, the value not containing `'`, then `'`. For example:
 
-  ~~~~~~~~
+  ```
   <input value='foo'>
-  ~~~~~~~~
+  ```
 
 * **Double-quoted attribute value syntax.** The attribute name, optionally whitespace, `=`, optionally whitespace, `"`, the value not containing `"`, then `"`. For example:
 
-  ~~~~~~~~
+  ```
   <input value="foo">
-  ~~~~~~~~
+  ```
 
 All attribute names are case-insensitive, including attributes on SVG and MathML elements.
 
 All attribute values support character references. This can be particularly relevant for URLs in attributes, which sometimes contain `&` that should be escaped as `&amp;`, lest it be interpreted as a character reference.
 
-~~~~~~~~
+```html
 <a href="?title=Lone+Surrogates&amp;reg">
-~~~~~~~~
+```
 
 If the ampersand was unescaped in this example, like this:
 
-~~~~~~~~
+```html
 <a href="?title=Lone+Surrogates&reg">
-~~~~~~~~
+```
 
 ...then `&reg` would be interpreted as a named character reference, which expands to "®", i.e., it’s equivalent to:
 
-~~~~~~~~
+```html
 <a href="?title=Lone+Surrogates®">
-~~~~~~~~
+```
 
 Duplicate attributes, i.e., two attributes with the same name, are not allowed.
 
-~~~~~~~~
+```html
 <p class="cool" class="uncool">
-~~~~~~~~
+```
 
 Foreign elements support the following namespaced attributes (with fixed prefixes): xlink:actuate, xlink:arcrole, xlink:href, xlink:role, xlink:show, xlink:title, xlink:type, xml:lang, xml:space, xmlns (without prefix but is a namespaced attribute), xmlns:xlink.
 
-~~~~~~~~
+```html
 <svg xmlns="http://www.w3.org/2000/svg">
-~~~~~~~~
+```
 
 Note that in the HTML syntax, it’s optional to declare the namespace.
 
-~~~~~~~~
+```html
 <svg>
-~~~~~~~~
+```
 
 ### Optional tags
 
@@ -745,17 +745,17 @@ Certain tags can be omitted if the resulting DOM doesn’t change if they are so
 
 For example, consider this snippet:
 
-~~~~~~~~
+```html
 <p>foo</p>
 <p>bar</p>
-~~~~~~~~
+```
 
 Because there is a line feed between the paragraphs, there will be a `Text` node for it in the DOM. Omitting the end tags will cause the line feed to be part of the first paragraph instead:
 
-~~~~~~~~
+```html
 <p>foo
 <p>bar
-~~~~~~~~
+```
 
 However, in most cases this makes no difference at all. (It can make a difference if you style the paragraphs as `display: inline-block`, for example.)
 
@@ -791,33 +791,33 @@ There are three kinds of character references:
 
 * **Named character reference.** `&`, the name, `;`. There are over two thousand names to choose from. These are case-sensitive, although a few characters have character reference names in both all-lowercase and all-uppercase (e.g., `&lt;` and `&LT;`).
 
-~~~~~~~~
+```html
 &nbsp;
-~~~~~~~~
+```
 
 * **Decimal numeric character reference.** `&#`, a decimal number of a code point, `;`.
 
-~~~~~~~~
+```html
 &#160;
-~~~~~~~~
+```
 
 * **Hexadecimal numeric character reference.** `&#x` or `&#X`, a hexadecimal number of a code point, `;`. The hexadecimal number is case-insensitive.
 
-~~~~~~~~
+```html
 &#xA0;
-~~~~~~~~
+```
 
 HTML has a concept of an ambiguous ampersand, which is `&`, alphanumerics (a-zA-Z0-9), `;`, when this is not a known named character reference. Ambiguous ampersands are not allowed. The following is an example of an ambiguous ampersand:
 
-~~~~~~~~
+```html
 This &foobar; is an error.
-~~~~~~~~
+```
 
 However, other unescaped ampersands are technically allowed:
 
-~~~~~~~~
+```html
 This & is OK.
-~~~~~~~~
+```
 
 ### CDATA sections
 
@@ -825,9 +825,9 @@ CDATA sections can only be used in foreign content, and have this format:
 
 `<![CDATA[` (case-sensitive), text not containing `]]>`, then `]]>`.
 
-~~~~~~~~
+```html
 <svg><title><![CDATA[ <foo> & <bar> ]]></title> ... </svg>
-~~~~~~~~
+```
 
 ### Comments
 
@@ -835,22 +835,22 @@ Comments have this format:
 
 `<!--` followed by any text (with some restrictions, detailed below), then `-->`.
 
-~~~~~~~~
+```html
 <!-- Hello -->
-~~~~~~~~
+```
 
 The text is not allowed to contain `-->` since that would end the comment.
 
 A somewhat recent change to comment syntax is that `--` is now allowed in the text. This is not allowed in XML.
 
-~~~~~~~~
+```html
 <!-- Hello -- there -->
-~~~~~~~~
+```
 
 The text is not allowed to contain `<!--` since that is an indicator of a nested comment, and nested comments don’t work.
 
-~~~~~~~~
+```html
 <!-- <!-- this is an error --> -->
-~~~~~~~~
+```
 
 The text is not allowed to start with `>` or `->` or contain `--!>` because the HTML parser will end the comment at that point.

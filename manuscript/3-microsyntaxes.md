@@ -4,17 +4,17 @@ Microsyntaxes in HTML are technically not part of the HTML parser. Instead they 
 
 These are thus valid:
 
-~~~~~~~~
+```html
 <input disabled="">
 <input disabled="disabled">
 <input disabled="DISABLED">
-~~~~~~~~
+```
 
 This is invalid, but is treated the same as the above (the input is disabled):
 
-~~~~~~~~
+```html
 <input disabled="false">
-~~~~~~~~
+```
 
 Some of the more interesting microsyntaxes are explained in this chapter.
 
@@ -116,13 +116,13 @@ The processing is as follows:
 
 The `area` element represents an area of an image that is a hyperlink. The coordinates of this area is described using the `coords` attributes, which is a list of floating-point numbers, each separated by a "," character (and no other characters, e.g, no whitespace).
 
-~~~~~~~~
+```html
 <img src="cats.jpg" alt="The cats Hedral and Pillar" usemap="#cats">
 <map name="cats">
  <area href="hedral.html" shape="rect" coords="50,50,150,200" alt="Hedral">
  <area href="pillar.html" shape="circle" coords="300,150,100" alt="Pillar">
 </map>
-~~~~~~~~
+```
 
 The processing is as follows:
 
