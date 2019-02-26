@@ -7,7 +7,7 @@ setup_git() {
 
 commit_files() {
   git checkout -b leanpub
-  git add manifest/*.md
+  git add manuscript/*.md
   git commit --message "Travis build: $TRAVIS_BUILD_NUMBER"
 }
 
@@ -16,6 +16,6 @@ upload_files() {
   git push --quiet --set-upstream zcorpan leanpub
 }
 
-setup_git
-commit_files
-upload_files
+setup_git || exit 1
+commit_files || exit 1
+upload_files || exit 1
