@@ -13,8 +13,7 @@ commit_files() {
 
 upload_files() {
   git remote add zcorpan https://${GH_TOKEN}@github.com/zcorpan/html-parser-book.git > /dev/null 2>&1 || exit 1
-  git rebase zcorpan leanpub || exit 1
-  git push --quiet --set-upstream zcorpan leanpub || exit 1
+  git push -f zcorpan leanpub || exit 1
 }
 
 setup_git
