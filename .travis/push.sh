@@ -7,7 +7,7 @@ setup_git() {
 
 commit_files() {
   git checkout -b leanpub || exit 1
-  git add manuscript/*.md || exit 1
+  git add manuscript/* || exit 1
   git commit --message "Travis build: $TRAVIS_BUILD_NUMBER" || exit 1
 }
 
