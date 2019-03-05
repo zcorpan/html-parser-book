@@ -7,8 +7,8 @@ env:
 install:
   - npm install showdown -g
 script:
-  - ./build-leanpub.py
   - ./build-web.sh
+  - ./build-leanpub.py
 after_success:
   - .travis/push.sh
 branches:
