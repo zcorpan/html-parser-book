@@ -34,7 +34,7 @@ I asked Mike Smith, who contributes to the Validator.nu code base and maintains 
 | 0.93%   | Stray doctype. | `<div><!doctype html></div>` | `<div></div>`
 | 0.92%   | Saw "`<!--`" within a comment. Probable cause: Nested comment (not allowed). | `<!-- <!-- --> -->` | The comment is closed on first `-->`
 | 0.71%   | "X" element between "head" and "body". | `<head></head><link>` | `<head><link></head>`
-| 0.71%   | End tag "X" implied, but there were open elements. | `<ul><li><span><li></ul>` | `<ul><li><span></span><li></ul>
+| 0.71%   | End tag "X" implied, but there were open elements. | `<ul><li><span><li></ul>` | `<ul><li><span></span><li></ul>`
 | 0.70%   | Non-space character inside "noscript" inside "head". | `<head><noscript>X` | `<head><noscript></noscript></head><body>X`
 | 0.62%   | Start tag "X" seen in "table". | `<table><div>` | `<div></div><table>`
 | 0.56%   | Saw "X" when expecting an attribute name. Probable cause: Missing "`=`" immediately before. | `<div class="" ">` | `<div class="" "="">`
