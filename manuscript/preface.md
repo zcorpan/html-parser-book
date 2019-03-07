@@ -8,11 +8,11 @@ This is not an HTML beginner’s book. The intended audience is web developers w
 
 Dictionary.com offers the following [definition](https://www.dictionary.com/browse/parse) of *parse* in the context of computers:
 
-*to analyze (a string of characters) in order to associate groups of characters with the syntactic units of the underlying grammar.*
+> to analyze (a string of characters) in order to associate groups of characters with the syntactic units of the underlying grammar.
 
 The Wikipedia page for [Parsing](https://en.wikipedia.org/wiki/Parsing) offers the following:
 
-**_Parsing_***, ***_syntax analysis_*** or ***_syntactic analysis_*** is the process of analysing a string of symbols, either in natural language, computer languages or data structures, conforming to the rules of a formal grammar. The term parsing comes from Latin pars (orationis), meaning part (of speech).*
+> Parsing, syntax analysis or syntactic analysis is the process of analysing a string of symbols, either in natural language, computer languages or data structures, conforming to the rules of a formal grammar. The term parsing comes from Latin pars (orationis), meaning part (of speech).
 
 In the context of HTML, the *HTML parser* is responsible for the process of converting a stream of characters (the HTML markup) to an tree representation known as the Document Object Model (the DOM).
 
