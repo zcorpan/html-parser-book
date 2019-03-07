@@ -146,9 +146,9 @@ Authors interested in using SGML tools in their authoring pipeline are encourage
 
 XML is, like SGML, a syntax framework for defining markup languages, and is a simplification of SGML. Unlike SGML, XML defined error handling – a syntax error must halt normal processing. It omitted many features of SGML, such as SHORTTAG and optional tags. This allowed for parsing documents without reading the DTD. DTDs were retained in XML to allow for validation, although better schema languages were developed later. In hindsight it would have been a good opportunity to drop DTD support from XML, as it complicates the parser quite a bit.
 
-XHTML 1.0 is a reformulation of HTML 4.01 in XML. It has all the same features as HTML 4.01. Although it was technically XML, most XHTML web content was using the HTML MIME type `text/html`, which meant that browsers would use the HTML parser. The XHTML 1.0 specification had an appendix that specifies guidelines in how to write XHTML 1.0 documents while being compatible with HTML user agents. For example, section C.2. says
+XHTML 1.0 is a reformulation of HTML 4.01 in XML. It has all the same features as HTML 4.01. Although it was technically XML, most XHTML web content was using the HTML MIME type `text/html`, which meant that browsers would use the HTML parser. The XHTML 1.0 specification had an appendix that specifies guidelines in how to write XHTML 1.0 documents while being compatible with HTML user agents. For example, section C.2. says:
 
-Include a space before the trailing **/** and **>** of empty elements, e.g. `<br />`, `<hr />` and `<img src="karen.jpg" alt="Karen" />`. Also, use the minimized tag syntax for empty elements, e.g. `<br />`, as the alternative syntax `<br></br>` allowed by XML gives uncertain results in many existing user agents.
+> Include a space before the trailing `/` and `>` of empty elements, e.g. `<br />`, `<hr />` and `<img src="karen.jpg" alt="Karen" />`. Also, use the minimized tag syntax for empty elements, e.g. `<br />`, as the alternative syntax `<br></br>` allowed by XML gives uncertain results in many existing user agents.
 
 Indeed, the HTML standard now specifies that `</br>` is to be parsed as `<br>`. The space before the slash was for compatibility with Netscape 4, which would parse `<br/>` as an element `br/` which is not a known HTML element.
 
@@ -159,6 +159,8 @@ When the HTML parser was first specified [in 2006](http://ln.hixie.ch/?start=113
 IE6 had an interesting HTML parser. It did not necessarily produce a tree; rather it would produce a graph, to more faithfully preserve author intent. Ill-formed markup, e.g., `<em><p></em></p>`, would result in an ill-formed DOM. This could cause scripts to go into infinite loops by just trying to iterate over the DOM.
 
 In early 2006, Firefox was at version 1.5. Its HTML parser had its own interesting effects, but unlike IE it would always produce a strict DOM tree. Safari was similar to Mozilla, but had a different approach to handling misnested blocks in inlines. Opera again had its own approach, which involved styling nodes in ways that could not be explained by looking at the DOM tree alone. To understand what was going on, let’s go back and read what Ian Hickson, then the editor of the HTML standard, [found when he was specifying the HTML parser](http://ln.hixie.ch/?start=1138169545&count=1).
+
+<blockquote>
 
 Imagine the **following (invalid) markup**:
 
@@ -194,7 +196,7 @@ Now consider **this markup**:
 
 What should the DOM look like?
 
-This is where things start getting hairy. I've covered **[a similar cas*e](http://ln.hixie.ch/?start=1037910467&count=1)* before, so I'll just summarise the results:
+This is where things start getting hairy. I've covered [a similar case](http://ln.hixie.ch/?start=1037910467&count=1) before, so I'll just summarise the results:
 
 Windows Internet Explorer
 
@@ -469,6 +471,8 @@ The key requirements are probably:
 
 The least worse [sic] option is probably the Safari-style on-the-fly reparenting, I think, but I'm not sure. It's the only one that fits those requirements. Is there a fifth option I'm missing?
 
+</blockquote>
+
 Well, it appeared that there wasn’t a fifth option, as the Safari approach was what was adopted. This is called the Adoption Agency Algorithm in the HTML standard.
 
 ## The HTML parser is specified
@@ -477,15 +481,15 @@ In June 2004, the W3C decided to discontinue work on HTML at a workshop on [Web 
 
 In February 2006, Ian Hickson [announces on the WHATWG mailing list](https://lists.w3.org/Archives/Public/public-whatwg-archive/2006Feb/0111.html) that "the first draft of the HTML5 Parsing spec is ready". He had done what had never been attempted before; define how to parse HTML.
 
+<blockquote>
+
 So…
 
 The first draft of the HTML5 Parsing spec is ready.
 
-I plan to start implementing it at some point in the next few months, to
-see how well it fares.
+I plan to start implementing it at some point in the next few months, to see how well it fares.
 
-It is, in theory, more compatible with IE than Safari, Mozilla, and Opera, but there are places where it makes intentional deviations (e.g. the comment parsing, and it doesn't allow `<object>` in the `<head>` -- browsers are inconsistent about this at the moment, and we're dropping declare="" in HTML5 anyway so it isn't needed anymore; I plan to look for data on how common this is in the Web at some point in the future to see if it's ok
-for us to do this).
+It is, in theory, more compatible with IE than Safari, Mozilla, and Opera, but there are places where it makes intentional deviations (e.g. the comment parsing, and it doesn't allow `<object>` in the `<head>` -- browsers are inconsistent about this at the moment, and we're dropping declare="" in HTML5 anyway so it isn't needed anymore; I plan to look for data on how common this is in the Web at some point in the future to see if it's ok for us to do this).
 
 It's not 100% complete. Some of the things that need work are:
 
@@ -516,6 +520,8 @@ However, none of the above are particularly critical to the parsing.
 If you have any comments, please send them. This part of the spec should be relatively stable now, so now is a good time to review it if you want to. And if anyone wants to implement it to test it against the real live Web content out there, that's encouraged too. :-)
 
 The more evidence we have that this parsing model is solid and works with the real Web, the more likely we are to be able to convince Apple/Safari/Mozilla to implement it. And if all the browsers implement the same parsing model, then HTML interoperability on the Web will take a huge leap forward. T'would be save [sic] everyone a lot of time.
+
+</blockquote>
 
 Wouldn’t it, indeed.
 
