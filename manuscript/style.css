@@ -1,1 +1,14 @@
-html { font-family: sans-serif; }
+html { font-family: sans-serif; margin: 0 5%; }
+body { max-width: 50em; line-height: 1.4; margin: 0 auto; padding: 2em 0; }
+img { max-width: 100%; }
+h2, h3 { margin-top: 3em; }
+
+.book-cover { text-align: center; }
+
+.toc { counter-reset: item; padding: 0; }
+.toc > li { list-style-type: none; display: flex; margin-bottom: 1em; border-bottom: 2px #ccc solid; }
+.toc > li + li { counter-increment: item; }
+.toc > li::after { content: counter(item); flex-grow: 1; text-align: right;  }
+.toc > li[type="A"][value="1"]::after { content: "A"; }
+.toc > li[type="A"][value="2"]::after { content: "B"; }
+.toc > li > a { text-decoration: none; }
