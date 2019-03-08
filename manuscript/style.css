@@ -4,6 +4,7 @@ img { max-width: 100%; }
 h2, h3 { margin-top: 3em; }
 
 .book-cover { text-align: center; min-height: calc(100vh - 4em); display: grid; align-items: center; justify-content: center; }
+.book-cover img { max-height: calc(80vh - 6em); }
 
 .toc { counter-reset: item; padding: 0; }
 .toc > li { list-style-type: none; display: flex; margin-bottom: 1em; border-bottom: 2px #ccc solid; }
