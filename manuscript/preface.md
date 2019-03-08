@@ -52,13 +52,13 @@ Thanks to Mathias Bynens for suggesting the platypus for the front cover (I aske
 
 The [platypus image](https://en.wikipedia.org/wiki/File:Platypus_sketch_by_Hmich176.gif) is from Wikipedia, by Hmich176, with the following licenses:
 
-GNU Free Documentation License
-
-Creative Commons Attribution-ShareAlike 3.0
+> GNU Free Documentation License
+>
+> Creative Commons Attribution-ShareAlike 3.0
 
 This book contains quotes from the [WHATWG HTML Standard](https://html.spec.whatwg.org/multipage/) which has the following copyright and license:
 
-Copyright © 2018 WHATWG (Apple, Google, Mozilla, Microsoft). This work is licensed under a [Creative Commons Attribution 4.0 International License](https://creativecommons.org/licenses/by/4.0/).
+> Copyright © 2018 WHATWG (Apple, Google, Mozilla, Microsoft). This work is licensed under a [Creative Commons Attribution 4.0 International License](https://creativecommons.org/licenses/by/4.0/).
 
 Thanks to Ian Hickson, Henri Sivonen, Tim Berners-Lee, Anne van Kesteren, and Jeff Jaffe for letting me quote their emails, blog posts, etc. in this book. TODO
 
