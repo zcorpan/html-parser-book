@@ -1,7 +1,8 @@
 html { font-family: sans-serif; margin: 0 5%; }
-body { max-width: 50em; line-height: 1.4; margin: 0 auto; padding: 2em 0; }
+body { max-width: 50em; line-height: 1.4; margin: 0 auto; padding: 2em 0 4em; }
 img { max-width: 100%; }
-h2, h3 { margin-top: 3em; }
+h1 { color: darkslategray; }
+h2, h3 { margin-top: 3em; font-family: cursive; }
 
 .book-cover { text-align: center; min-height: calc(100vh - 4em); display: grid; align-items: safe center; justify-content: safe center; }
 .book-cover img { max-height: calc(80vh - 6em); min-height: 287px; min-width: 284px; object-fit: contain; }
@@ -13,3 +14,8 @@ h2, h3 { margin-top: 3em; }
 .toc > li[type="A"][value="1"]::after { content: "A"; }
 .toc > li[type="A"][value="2"]::after { content: "B"; }
 .toc > li > a { text-decoration: none; }
+
+blockquote { border-left: 0.25em solid darkseagreen; padding: 0.25em 1.25em 0.25em 1em; margin-left: 1em; margin-right: 1em; background-color: whitesmoke; }
+:link { color: royalblue; }
+:visited { color: slateblue; }
+:any-link:active { color: darkred; }
