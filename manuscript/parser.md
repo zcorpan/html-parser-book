@@ -1,3 +1,7 @@
+---
+layout: chapter.njk
+title: The HTML parser
+---
 # Chapter 2. The HTML parser
 
 ## Overview of the HTML parser
@@ -142,6 +146,8 @@ Let’s walk through a simple example to see how the tokenizer works: how it swi
 
 The tokenizer always starts in the *data state*, which is defined as follows:
 
+<blockquote>
+
 Consume the next input character:
 
 U+0026 AMPERSAND (&)*
@@ -164,7 +170,11 @@ Anything else
 
 Emit the current input character as a character token.
 
+</blockquote>
+
 The next input character is the "<", which switches the tokenizer to the *tag open state*:
+
+<blockquote>
 
 Consume the next input character:
 
@@ -191,6 +201,8 @@ This is an eof-before-tag-name parse error. Emit a U+003C LESS-THAN SIGN charact
 Anything else
 
 This is an invalid-first-character-of-tag-name parse error. Emit a U+003C LESS-THAN SIGN character token. Reconsume in the data state.
+
+</blockquote>
 
 The input so far is `<p`, and the "p" falls into ASCII alpha clause. At this point a start tag token is created (but not yet emitted), and then the "p" is reconsumed in the *tag name state*:
 

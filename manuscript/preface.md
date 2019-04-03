@@ -1,3 +1,7 @@
+---
+layout: chapter.njk
+title: Preface
+---
 # Preface
 
 ## Intended audience

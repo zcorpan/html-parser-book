@@ -1,3 +1,7 @@
+---
+layout: chapter.njk
+title: Conformance checkers
+---
 # Appendix B. Conformance checkers
 
 ## DTD-based validators

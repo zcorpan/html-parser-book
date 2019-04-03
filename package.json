@@ -1,0 +1,22 @@
+{
+  "name": "html-parser-book",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified (TODO)\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zcorpan/html-parser-book.git"
+  },
+  "author": "Simon Pieters",
+  "license": "CC-BY-4.0",
+  "bugs": {
+    "url": "https://github.com/zcorpan/html-parser-book/issues"
+  },
+  "homepage": "https://htmlparser.info/",
+  "devDependencies": {
+    "@11ty/eleventy": "^0.7.1"
+  }
+}

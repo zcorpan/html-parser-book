@@ -1,3 +1,7 @@
+---
+layout: chapter.njk
+title: Introduction
+---
 # Chapter 1. Introduction
 
 ## The DOM, parsing, and serialization
