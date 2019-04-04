@@ -2,9 +2,6 @@
 import fileinput
 
 conversions = [
-  ['```html', '{line-numbers=off,lang=html}\n~~~~~~~~'],
-  ['```js', '{line-numbers=off,lang=js}\n~~~~~~~~'],
-  ['```', '~~~~~~~~'],
 ]
 
 def replace_inline(filename):
@@ -14,6 +11,7 @@ def replace_inline(filename):
                 line = line.replace(c[0], c[1])
             print(line, end='')
 
-with open('manuscript/Book.txt') as book:
-    for filename in book:
-        replace_inline('manuscript/' + filename.rstrip('\n'))
+if (len(conversions) > 0):
+    with open('manuscript/Book.txt') as book:
+        for filename in book:
+            replace_inline('manuscript/' + filename.rstrip('\n'))

@@ -2418,7 +2418,7 @@ For example, one can omit tags in a `ruby` element (this is the Japanese text æ¼
 
 This would render as follows:
 
-![The two main ideographs, each with its annotation in hiragana rendered in a smaller font above it.](images/sample-ruby-ja.png)
+![The two main ideographs, each with its annotation in hiragana rendered in a smaller font above it.](_assets/img/sample-ruby-ja.png)
 
 If you have something between the head end tag and the body start tag (where only whitespace is allowed), some tags cause an element to be inserted into the `head` (`base`, `basefont`, `bgsound`, `link`, `meta`, `noframes`, `script`, `style`, `template`, `title`), while other tags or non-whitespace text implicitly opens the `body` element.
 
