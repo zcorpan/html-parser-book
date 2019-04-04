@@ -1,0 +1,7 @@
+{
+  "name": "Idiosyncracies of the HTML parser",
+  "description": "A book about the HTML parser.",
+  "short_name": "HTML parser",
+  "start_url": "/",
+  "display": "standalone"
+}
