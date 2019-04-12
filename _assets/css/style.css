@@ -1,8 +1,12 @@
-html { font-family: sans-serif; margin: 0 5%; }
-body { max-width: 50em; line-height: 1.4; margin: 0 auto; padding: 2em 0 4em; }
+html { font-family: system-ui, sans-serif; line-height: 1.5; font-weight: 300; margin: 0 5%; }
+body { max-width: 50em; margin: 0 auto; padding: 2em 0 4em; }
 img { max-width: 100%; }
-h1 { color: darkslategray; }
-h2, h3 { margin-top: 3em; font-family: cursive; }
+h1 { font-size: 3em; line-height: 1.1; color: #333; font-weight: 800; }
+h2, h3 { margin-top: 3em; }
+h2, h3, th, strong { font-weight: 600; color: #222; }
+h2 code, h3 code, th code, strong code { color: black; font-size: inherit; }
+pre, code { font-family: Andale Mono, Monaco, Consolas, Lucida Console, monospace; font-size: 0.875em; }
+pre { margin: 1em; }
 
 .book-cover { text-align: center; min-height: calc(100vh - 4em); display: grid; align-items: safe center; justify-content: safe center; }
 .book-cover img { max-height: calc(80vh - 6em); min-height: 287px; min-width: 284px; object-fit: contain; }
