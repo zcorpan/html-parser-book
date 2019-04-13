@@ -29,7 +29,7 @@ blockquote { border-left: 0.25em solid darkseagreen; padding: 0.25em 1.25em 0.25
   html { background: #333; color: white; }
   h1, h2, h3, th, strong, html code { color: #eee; }
   blockquote { background-color: #444; }
-  .book-cover img { filter: invert(0.799); }
+  .book-cover img { filter: invert(0.865) brightness(1.5); }
   :link { color: gold; }
   :visited { color: goldenrod; }
   :any-link:active { color: pink; }
