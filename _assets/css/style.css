@@ -6,6 +6,7 @@ h2, h3 { margin-top: 3em; }
 h2, h3, th, strong { font-weight: 600; color: #222; }
 h2 code, h3 code, th code, strong code { color: black; font-size: inherit; }
 pre, code { font-family: Andale Mono, Monaco, Consolas, Lucida Console, monospace; font-size: 0.875em; }
+pre code { font-size: inherit; }
 pre { margin: 1em; }
 
 .book-cover { text-align: center; min-height: calc(100vh - 4em); display: grid; align-items: safe center; justify-content: safe center; }
@@ -23,3 +24,13 @@ blockquote { border-left: 0.25em solid darkseagreen; padding: 0.25em 1.25em 0.25
 :link { color: royalblue; }
 :visited { color: slateblue; }
 :any-link:active { color: darkred; }
+
+@media (prefers-color-scheme: dark) {
+  html { background: #333; color: white; }
+  h1, h2, h3, th, strong, html code { color: #eee; }
+  blockquote { background-color: #444; }
+  .book-cover img { filter: invert(0.799); }
+  :link { color: gold; }
+  :visited { color: goldenrod; }
+  :any-link:active { color: pink; }
+}
