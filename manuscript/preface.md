@@ -28,7 +28,7 @@ Parsing of other languages, such as XML, JavaScript, JSX (React's HTML-like synt
 
 ## Practical application
 
-Knowing exactly how the HTML parser works is not necessary to be a successful web developer. However, some things can be good to know, and having a deeper understanding makes it easier to reason about its behavior. It can also be good to know that you should usually  pull in an HTML parser instead of writing a regular expression to "parse" HTML.
+Knowing exactly how the HTML parser works is not necessary to be a successful web developer. However, some things can be good to know, and having a deeper understanding makes it easier to reason about its behavior. It can also be good to know that you should usually pull in an HTML parser instead of writing a [regular expression to "parse" HTML](https://stackoverflow.com/a/1732454).
 
 The following is a non-exhaustive list of things that would be good for most web developers to understand about the HTML parser.
 
