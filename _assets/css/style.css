@@ -9,6 +9,9 @@ pre, code { font-family: Andale Mono, Monaco, Consolas, Lucida Console, monospac
 pre code { font-size: inherit; }
 pre { margin: 1em; }
 
+table { border-collapse: collapse; border: hidden; }
+th, td { border: 1px solid gray; padding: 0 0.5em; vertical-align: baseline; text-align: left; }
+
 .book-cover { text-align: center; min-height: calc(100vh - 4em); display: grid; align-items: safe center; justify-content: safe center; }
 .book-cover img { max-height: calc(80vh - 6em); min-height: 287px; min-width: 284px; object-fit: contain; }
 
@@ -21,6 +24,8 @@ pre { margin: 1em; }
 .toc > li > a { text-decoration: none; }
 
 blockquote { border-left: 0.25em solid darkseagreen; padding: 0.25em 1.25em 0.25em 1em; margin-left: 1em; margin-right: 1em; background-color: whitesmoke; }
+blockquote blockquote { margin-left: 0; margin-right: 0; }
+
 :link { color: royalblue; }
 :visited { color: slateblue; }
 :any-link:active { color: darkred; }

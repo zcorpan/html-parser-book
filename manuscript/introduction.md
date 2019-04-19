@@ -164,318 +164,314 @@ IE6 had an interesting HTML parser. It did not necessarily produce a tree; rathe
 
 In early 2006, Firefox was at version 1.5. Its HTML parser had its own interesting effects, but unlike IE it would always produce a strict DOM tree. Safari was similar to Mozilla, but had a different approach to handling misnested blocks in inlines. Opera again had its own approach, which involved styling nodes in ways that could not be explained by looking at the DOM tree alone. To understand what was going on, let’s go back and read what Ian Hickson, then the editor of the HTML standard, [found when he was specifying the HTML parser](http://ln.hixie.ch/?start=1138169545&count=1).
 
-<blockquote>
-
-Imagine the **following (invalid) markup**:
-
-```html
-<!DOCTYPE html><em><p>XY</p></em>
-```
-
-What should the DOM look like? The general consensus is that the DOM should look like this:
-
- * DOCTYPE: `html`
-
- * `HTML`
-
-    * `HEAD`
-
-    * `BODY`
-
-        * `EM`
-
-            * `P`
-
-                * `#text`: `XY`
-
-That is, the p element should be completely inside (that is, a child of) the em element.
-
-No problem so far.
-
-Now consider **this markup**:
-
-```html
-<!DOCTYPE html><em><p>X</em>Y</p>
-```
-
-What should the DOM look like?
-
-This is where things start getting hairy. I've covered [a similar case](http://ln.hixie.ch/?start=1037910467&count=1) before, so I'll just summarise the results:
-
-Windows Internet Explorer
-
-The DOM is not a tree. The text node for the "Y" is a child of both the p element and the body element. Violates the DOM Core specifications.
-
-Opera
-
-The DOM is a simple tree, the same as for the first case, but the "Y" is not emphasised. Violates the CSS specifications.
-
-Mozilla and Safari
-
-The DOM looks like this:
-
- * DOCTYPE: `html`
-
- * `HTML`
-
-    * `HEAD`
-
-    * `BODY`
-
-        * `EM`
-
-        * `P`
-
-            * `EM`
-
-                * `#text`: `X`
-
-            * `#text`: `Y`
-
-...which basically means that malformed invalid markup gets handled differently than well-formed invalid markup.
-
-In the past, I would have stopped here, made some wry comment about the insanity that is the Web, and called it a day.
-
-But I'm **trying to spec this**. Stopping is not an option.
-
-What IE does is insane. What Opera does is also insane. Neither of those options is something that I can put in a specification with a straight face.
-
-This leaves the Mozilla/Safari method.
-
-It's weird, though. If you look at the two examples above, you'll notice that their respective markups start the same — both of them start with this markup:
-
-```html
-<!DOCTYPE html><em><p>X
-```
-
-Yet the end result is quite different, with one of the elements (the p) having different parents in the two cases. So when do the browsers decide what to do? They can't be buffering content up and deciding what to do later, since that would break incremental rendering. So what exactly is going on?
-
-Well, let's check. What do Mozilla and Safari do for that truncated piece of markup?
-
-Mozilla
-
- * DOCTYPE: `html`
-
- * `HTML`
-
-    * `HEAD`
-
-    * `BODY`
-
-        * `EM`
-
-        * `P`
-
-            * `EM`
-
-                * `#text`: `X`
-
-Safari
-
- * `HTML`
-
-    * `BODY`
-
-        * `EM`
-
-            * `P`
-
-                * `#text`: `X`
-
-Hrm. They disagree. Mozilla is using the "malformed" version, and Safari is using the "well-formed" version. Why? How do they decide?
-
-Let's look at Safari first, by running a script while the parser is running. First, the **simple case**:
-
-```html
-<!DOCTYPE html>
-<em>
- <p>
-  XY
-  <script>
-   var p = document.getElementsByTagName('p')[0];
-   p.title = p.parentNode.tagName;
-  </script>
- </p>
-</em>
-```
-
-Result:
-
- * `HTML`
-
-    * `BODY`
-
-        * `EM`
-
-            * `#text:`
-
-            * `P title="EM"`
-
-                * `#text`: `XY`
-
-                * `SCRIPT`
-
-                    * `#text`: `var p = document.getElementsByTagName('p')[0]; p.title = p.parentNode.tagName;`
-
-                * `#text:`
-
-            * `#text:`
-
-Exactly as we'd expect. The parentNode of the p element as shown in the DOM tree view is the same as shown in the title attribute value, namely, the em element.
-
-Now let's try **the bad markup case**:
-
-```html
-<!DOCTYPE html>
-<em>
- <p>
-  X
-  <script>
-   var p = document.getElementsByTagName('p')[0];
-   p.title = p.parentNode.tagName;
-  </script>
- </em>
- Y
-</p>
-```
-
-Result:
-
- * `HTML`
-
-    * `BODY`
-
-        * `EM`
-
-            * `#text`:
-
-        * `P title="EM"`
-
-            * `EM`
-
-                * `#text`: `X`
-
-                * `SCRIPT`
-
-                    * `#text`: `var p = document.getElementsByTagName('p')[0]; p.title = p.parentNode.tagName;`
-
-                * `#text`:
-
-            * `#text`: `Y`
-
-Wait, what?
-
-When the embedded script ran, the parent of the p was the em, but when the parser had finished, the DOM had changed, and the parent was no longer the em node!
-
-If we look a little closer:
-
-```html
-<!DOCTYPE html>
-<em>
- <p>
-  X
-  <script>
-   var p = document.getElementsByTagName('p')[0];
-   p.setAttribute('a', p.parentNode.tagName);
-  </script>
- </em>
- Y
- <script>
-  var p = document.getElementsByTagName('p')[0];
-  p.setAttribute('b', p.parentNode.tagName);
- </script>
-</p>
-```
-
-...we find:
-
- * `HTML`
-
-    * `BODY`
-
-        * `EM`
-
-            * `#text:`
-
-        * `P a="EM" b="BODY"`
-
-            * `EM`
-
-                * `#text`: `X`
-
-                * `SCRIPT`
-
-                    * `#text`: `var p = document.getElementsByTagName('p')[0]; p.setAttribute('a', p.parentNode.tagName);`
-
-                * `#text`:
-
-            * `#text`: `Y`
-
-            * `SCRIPT`
-
-                * `#text`: `var p = document.getElementsByTagName('p')[0]; p.setAttribute('b', p.parentNode.tagName);`
-
-            * `#text`:
-
-...which is to say, the parent changes half way through! (Compare the a and b attributes.)
-
-What actually happens is that Safari notices that something bad has happened, and moves the element around in the DOM. After the fact. (If you remove the p element from the DOM in that first script block, then [Safari crashes](http://bugs.webkit.org/show_bug.cgi?id=6778).)
-
-How about Mozilla? Let's try the same trick. The result:
-
- * DOCTYPE: `html`
-
- * `HTML`
-
-    * `HEAD`
-
-    * `BODY`
-
-        * `EM`
-
-            * `#text`:
-
-        * `P a="BODY" b="BODY"`
-
-            * `#text`:
-
-            * `EM`
-
-                * `#text`: `X`
-
-                * `SCRIPT`
-
-                    * `#text`: `var p = document.getElementsByTagName('p')[0]; p.setAttribute('a', p.parentNode.tagName);`
-
-                * `#text`:
-
-            * `#text`: `Y`
-
-            * `SCRIPT`
-
-                * `#text`: `var p = document.getElementsByTagName('p')[0]; p.setAttribute('b', p.parentNode.tagName);`
-
-            * `#text`:
-
-It doesn't reparent the node. So what does Mozilla do?
-
-It turns out that Mozilla does a pre-parse of the source, and if a part of it is well-formed, it creates a well-formed tree for it, but if the markup isn't well-formed, or if there are any script blocks, or, for that matter, if the TCP/IP packet boundary happens to fall in the wrong place, or if you write the document out in two document.write()s instead of one, then it'll make the more thorough nesting that handles ill-formed content.
-
-Who would have thought that you would find Heisenberg-like quantum effects in an HTML parser. I mean, I knew they were obscure, but this is just taking the biscuit.
-
-The problem is I now have to determine which of these four options to make the other three browsers implement (that is, which do I put in the spec). What do you think is the most likely to be accepted by the others? As a reminder, the options are incestual elements that can be their own uncles, elements who have secret lives in the rendering engine, elements that change their mind about who their parents are half-way through their childhood, and quantum elements whose parents change depending on whether you observe their birth or not.
-
-The key requirements are probably:
-
- * Coherence: scripts that rely on DOM invariants (like the fact that the DOM is a tree) shouldn't go off into infinite loops.
-
- * Transparency: we shouldn't have to describe a whole extra section that explains how the CSS rendering engine applies to HTML DOMs; CSS should just work on the real DOM as you would see it from script.
-
- * Predictability: it shouldn't depend on, e.g., the protocol or network conditions — every browser should get the same DOM for the same original markup in all situations.
-
-The least worse [sic] option is probably the Safari-style on-the-fly reparenting, I think, but I'm not sure. It's the only one that fits those requirements. Is there a fifth option I'm missing?
-
-</blockquote>
+> Imagine the following (invalid) markup:
+>
+> ```html
+> <!DOCTYPE html><em><p>XY</p></em>
+> ```
+>
+> What should the DOM look like? The general consensus is that the DOM should look like this:
+>
+>  * DOCTYPE: `html`
+>
+>  * `HTML`
+>
+>     * `HEAD`
+>
+>     * `BODY`
+>
+>         * `EM`
+>
+>             * `P`
+>
+>                 * `#text`: `XY`
+>
+> That is, the p element should be completely inside (that is, a child of) the em element.
+>
+> No problem so far.
+>
+> Now consider this markup:
+>
+> ```html
+> <!DOCTYPE html><em><p>X</em>Y</p>
+> ```
+>
+> What should the DOM look like?
+>
+> This is where things start getting hairy. I've covered [a similar case](http://ln.hixie.ch/?start=1037910467&count=1) before, so I'll just summarise the results:
+>
+> Windows Internet Explorer
+>
+> The DOM is not a tree. The text node for the "Y" is a child of both the p element and the body element. Violates the DOM Core specifications.
+>
+> Opera
+>
+> The DOM is a simple tree, the same as for the first case, but the "Y" is not emphasised. Violates the CSS specifications.
+>
+> Mozilla and Safari
+>
+> The DOM looks like this:
+>
+>  * DOCTYPE: `html`
+>
+>  * `HTML`
+>
+>     * `HEAD`
+>
+>     * `BODY`
+>
+>         * `EM`
+>
+>         * `P`
+>
+>             * `EM`
+>
+>                 * `#text`: `X`
+>
+>             * `#text`: `Y`
+>
+> ...which basically means that malformed invalid markup gets handled differently than well-formed invalid markup.
+>
+> In the past, I would have stopped here, made some wry comment about the insanity that is the Web, and called it a day.
+>
+> But I'm **trying to spec this**. Stopping is not an option.
+>
+> What IE does is insane. What Opera does is also insane. Neither of those options is something that I can put in a specification with a straight face.
+>
+> This leaves the Mozilla/Safari method.
+>
+> It's weird, though. If you look at the two examples above, you'll notice that their respective markups start the same — both of them start with this markup:
+>
+> ```html
+> <!DOCTYPE html><em><p>X
+> ```
+>
+> Yet the end result is quite different, with one of the elements (the p) having different parents in the two cases. So when do the browsers decide what to do? They can't be buffering content up and deciding what to do later, since that would break incremental rendering. So what exactly is going on?
+>
+> Well, let's check. What do Mozilla and Safari do for that truncated piece of markup?
+>
+> Mozilla
+>
+>  * DOCTYPE: `html`
+>
+>  * `HTML`
+>
+>     * `HEAD`
+>
+>     * `BODY`
+>
+>         * `EM`
+>
+>         * `P`
+>
+>             * `EM`
+>
+>                 * `#text`: `X`
+>
+> Safari
+>
+>  * `HTML`
+>
+>     * `BODY`
+>
+>         * `EM`
+>
+>             * `P`
+>
+>                 * `#text`: `X`
+>
+> Hrm. They disagree. Mozilla is using the "malformed" version, and Safari is using the "well-formed" version. Why? How do they decide?
+>
+> Let's look at Safari first, by running a script while the parser is running. First, the simple case:
+>
+> ```html
+> <!DOCTYPE html>
+> <em>
+>  <p>
+>   XY
+>   <script>
+>    var p = document.getElementsByTagName('p')[0];
+>    p.title = p.parentNode.tagName;
+>   </script>
+>  </p>
+> </em>
+> ```
+>
+> Result:
+>
+>  * `HTML`
+>
+>     * `BODY`
+>
+>         * `EM`
+>
+>             * `#text:`
+>
+>             * `P title="EM"`
+>
+>                 * `#text`: `XY`
+>
+>                 * `SCRIPT`
+>
+>                     * `#text`: `var p = document.getElementsByTagName('p')[0]; p.title = p.parentNode.tagName;`
+>
+>                 * `#text:`
+>
+>             * `#text:`
+>
+> Exactly as we'd expect. The parentNode of the p element as shown in the DOM tree view is the same as shown in the title attribute value, namely, the em element.
+>
+> Now let's try the bad markup case:
+>
+> ```html
+> <!DOCTYPE html>
+> <em>
+>  <p>
+>   X
+>   <script>
+>    var p = document.getElementsByTagName('p')[0];
+>    p.title = p.parentNode.tagName;
+>   </script>
+>  </em>
+>  Y
+> </p>
+> ```
+>
+> Result:
+>
+>  * `HTML`
+>
+>     * `BODY`
+>
+>         * `EM`
+>
+>             * `#text`:
+>
+>         * `P title="EM"`
+>
+>             * `EM`
+>
+>                 * `#text`: `X`
+>
+>                 * `SCRIPT`
+>
+>                     * `#text`: `var p = document.getElementsByTagName('p')[0]; p.title = p.parentNode.tagName;`
+>
+>                 * `#text`:
+>
+>             * `#text`: `Y`
+>
+> Wait, what?
+>
+> When the embedded script ran, the parent of the p was the em, but when the parser had finished, the DOM had changed, and the parent was no longer the em node!
+>
+> If we look a little closer:
+>
+> ```html
+> <!DOCTYPE html>
+> <em>
+>  <p>
+>   X
+>   <script>
+>    var p = document.getElementsByTagName('p')[0];
+>    p.setAttribute('a', p.parentNode.tagName);
+>   </script>
+>  </em>
+>  Y
+>  <script>
+>   var p = document.getElementsByTagName('p')[0];
+>   p.setAttribute('b', p.parentNode.tagName);
+>  </script>
+> </p>
+> ```
+>
+> ...we find:
+>
+>  * `HTML`
+>
+>     * `BODY`
+>
+>         * `EM`
+>
+>             * `#text:`
+>
+>         * `P a="EM" b="BODY"`
+>
+>             * `EM`
+>
+>                 * `#text`: `X`
+>
+>                 * `SCRIPT`
+>
+>                     * `#text`: `var p = document.getElementsByTagName('p')[0]; p.setAttribute('a', p.parentNode.tagName);`
+>
+>                 * `#text`:
+>
+>             * `#text`: `Y`
+>
+>             * `SCRIPT`
+>
+>                 * `#text`: `var p = document.getElementsByTagName('p')[0]; p.setAttribute('b', p.parentNode.tagName);`
+>
+>             * `#text`:
+>
+> ...which is to say, the parent changes half way through! (Compare the a and b attributes.)
+>
+> What actually happens is that Safari notices that something bad has happened, and moves the element around in the DOM. After the fact. (If you remove the p element from the DOM in that first script block, then [Safari crashes](http://bugs.webkit.org/show_bug.cgi?id=6778).)
+>
+> How about Mozilla? Let's try the same trick. The result:
+>
+>  * DOCTYPE: `html`
+>
+>  * `HTML`
+>
+>     * `HEAD`
+>
+>     * `BODY`
+>
+>         * `EM`
+>
+>             * `#text`:
+>
+>         * `P a="BODY" b="BODY"`
+>
+>             * `#text`:
+>
+>             * `EM`
+>
+>                 * `#text`: `X`
+>
+>                 * `SCRIPT`
+>
+>                     * `#text`: `var p = document.getElementsByTagName('p')[0]; p.setAttribute('a', p.parentNode.tagName);`
+>
+>                 * `#text`:
+>
+>             * `#text`: `Y`
+>
+>             * `SCRIPT`
+>
+>                 * `#text`: `var p = document.getElementsByTagName('p')[0]; p.setAttribute('b', p.parentNode.tagName);`
+>
+>             * `#text`:
+>
+> It doesn't reparent the node. So what does Mozilla do?
+>
+> It turns out that Mozilla does a pre-parse of the source, and if a part of it is well-formed, it creates a well-formed tree for it, but if the markup isn't well-formed, or if there are any script blocks, or, for that matter, if the TCP/IP packet boundary happens to fall in the wrong place, or if you write the document out in two document.write()s instead of one, then it'll make the more thorough nesting that handles ill-formed content.
+>
+> Who would have thought that you would find Heisenberg-like quantum effects in an HTML parser. I mean, I knew they were obscure, but this is just taking the biscuit.
+>
+> The problem is I now have to determine which of these four options to make the other three browsers implement (that is, which do I put in the spec). What do you think is the most likely to be accepted by the others? As a reminder, the options are incestual elements that can be their own uncles, elements who have secret lives in the rendering engine, elements that change their mind about who their parents are half-way through their childhood, and quantum elements whose parents change depending on whether you observe their birth or not.
+>
+> The key requirements are probably:
+>
+>  * Coherence: scripts that rely on DOM invariants (like the fact that the DOM is a tree) shouldn't go off into infinite loops.
+>
+>  * Transparency: we shouldn't have to describe a whole extra section that explains how the CSS rendering engine applies to HTML DOMs; CSS should just work on the real DOM as you would see it from script.
+>
+>  * Predictability: it shouldn't depend on, e.g., the protocol or network conditions — every browser should get the same DOM for the same original markup in all situations.
+>
+> The least worse [sic] option is probably the Safari-style on-the-fly reparenting, I think, but I'm not sure. It's the only one that fits those requirements. Is there a fifth option I'm missing?
 
 Well, it appeared that there wasn’t a fifth option, as the Safari approach was what was adopted. This is called the Adoption Agency Algorithm in the HTML standard.
 
@@ -485,47 +481,43 @@ In June 2004, the W3C decided to discontinue work on HTML at a workshop on [Web 
 
 In February 2006, Ian Hickson [announces on the WHATWG mailing list](https://lists.w3.org/Archives/Public/public-whatwg-archive/2006Feb/0111.html) that "the first draft of the HTML5 Parsing spec is ready". He had done what had never been attempted before; define how to parse HTML.
 
-<blockquote>
-
-So…
-
-The first draft of the HTML5 Parsing spec is ready.
-
-I plan to start implementing it at some point in the next few months, to see how well it fares.
-
-It is, in theory, more compatible with IE than Safari, Mozilla, and Opera, but there are places where it makes intentional deviations (e.g. the comment parsing, and it doesn't allow `<object>` in the `<head>` -- browsers are inconsistent about this at the moment, and we're dropping declare="" in HTML5 anyway so it isn't needed anymore; I plan to look for data on how common this is in the Web at some point in the future to see if it's ok for us to do this).
-
-It's not 100% complete. Some of the things that need work are:
-
- * Interaction with document.open/write/close is undefined
-
- * How to determine the character encoding
-
- * Integration with quirks mode problems
-
- * `<style>` parsing needs tweaking if we want to exactly match IE
-
- * `<base>` parsing needs tweaking to handle multiple `<base>`s
-
- * `<isindex>` needs some prose in the form submission section
-
- * No-frames and no-script modes aren't yet defined
-
- * Execution of `<script>` is not yet defined
-
- * New HTML5 elements aren't yet defined
-
- * There are various cases (marked) where EOF handling is undefined
-
- * Interaction with the "load" event is undefined
-
-However, none of the above are particularly critical to the parsing.
-
-If you have any comments, please send them. This part of the spec should be relatively stable now, so now is a good time to review it if you want to. And if anyone wants to implement it to test it against the real live Web content out there, that's encouraged too. :-)
-
-The more evidence we have that this parsing model is solid and works with the real Web, the more likely we are to be able to convince Apple/Safari/Mozilla to implement it. And if all the browsers implement the same parsing model, then HTML interoperability on the Web will take a huge leap forward. T'would be save [sic] everyone a lot of time.
-
-</blockquote>
+> So…
+>
+> The first draft of the HTML5 Parsing spec is ready.
+>
+> I plan to start implementing it at some point in the next few months, to see how well it fares.
+>
+> It is, in theory, more compatible with IE than Safari, Mozilla, and Opera, but there are places where it makes intentional deviations (e.g. the comment parsing, and it doesn't allow `<object>` in the `<head>` -- browsers are inconsistent about this at the moment, and we're dropping declare="" in HTML5 anyway so it isn't needed anymore; I plan to look for data on how common this is in the Web at some point in the future to see if it's ok for us to do this).
+>
+> It's not 100% complete. Some of the things that need work are:
+>
+>  * Interaction with document.open/write/close is undefined
+>
+>  * How to determine the character encoding
+>
+>  * Integration with quirks mode problems
+>
+>  * `<style>` parsing needs tweaking if we want to exactly match IE
+>
+>  * `<base>` parsing needs tweaking to handle multiple `<base>`s
+>
+>  * `<isindex>` needs some prose in the form submission section
+>
+>  * No-frames and no-script modes aren't yet defined
+>
+>  * Execution of `<script>` is not yet defined
+>
+>  * New HTML5 elements aren't yet defined
+>
+>  * There are various cases (marked) where EOF handling is undefined
+>
+>  * Interaction with the "load" event is undefined
+>
+> However, none of the above are particularly critical to the parsing.
+>
+> If you have any comments, please send them. This part of the spec should be relatively stable now, so now is a good time to review it if you want to. And if anyone wants to implement it to test it against the real live Web content out there, that's encouraged too. :-)
+>
+> The more evidence we have that this parsing model is solid and works with the real Web, the more likely we are to be able to convince Apple/Safari/Mozilla to implement it. And if all the browsers implement the same parsing model, then HTML interoperability on the Web will take a huge leap forward. T'would be save [sic] everyone a lot of time.
 
 Wouldn’t it, indeed.
 
