@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<style>
+#input { width: 100%; height: 20em; }
+</style>
+<textarea id=input></textarea>
+<pre id=output></pre>
+<script>
+// Adapted from https://gist.github.com/greim/976029
+var tree = (function(){
+  function ns(node) {
+    switch (node.namespaceURI) {
+      case 'http://www.w3.org/2000/svg': return '(SVG) ';
+      case 'http://www.w3.org/1998/Math/MathML': return '(MathML) ';
+      case 'http://www.w3.org/1999/xlink': return '(XLink) ';
+      case 'http://www.w3.org/2000/xmlns/': return '(XMLNS) ';
+      case 'http://www.w3.org/XML/1998/namespace': return '(XML) ';
+      // HTML elements or other nodes
+      default: return '';
+    }
+  }
+
+  function ser(e){
+    if(e.nodeType===1){
+      var s = ns(e) + e.localName;
+      for (var attr of e.attributes) {
+        s += ` ${ns(attr)}${attr.localName}="${attr.value}"`;
+      }
+      return s;
+    } else if (e.nodeType===8) {
+      return `#comment: ${e.data}`;
+    } else if (e.nodeType===9) {
+      return `#document`;
+    } else if (e.nodeType===10) {
+      return `DOCTYPE: ${e.name}`;
+    } else if (e.nodeType===11) {
+      return `#document-fragment (template contents)`;
+    } else if (e.nodeType===3) {
+      var data = e.data.replace(/\s+/g, ' ');
+      if (data.length > 80) {
+        data = data.substring(0, 77) + '...';
+      }
+      return `#text: ${data}`;
+    }
+  }
+  function makeTree(elmt, pstack, last){
+    pstack.push({elmt:elmt,last:last});
+    var str = pstack.map(function(o,i){
+      if(i===0){return;}
+      var cur=o.elmt===elmt;
+      return cur
+        ? o.last ? '└── ' : '├── '
+        : o.last ? '    ' : '│   '
+      ;
+    }).join('');
+    str += ser(elmt);
+    str += '\n';
+    var children = [];
+    if (elmt.content) children.push(elmt.content);
+    children.push(...elmt.childNodes);
+    var res = str + children.map(function(child, idx){
+      return makeTree(
+        child,
+        pstack,
+        idx===children.length-1
+      );
+    }).join('');
+    pstack.pop();
+    return res;
+  }
+  return function(elmt){
+    return makeTree(elmt, [], true);
+  };
+})();
+input.oninput = () => output.textContent = "```dom-tree\n" + tree(new DOMParser().parseFromString(input.value, 'text/html')) + "```";
+</script>

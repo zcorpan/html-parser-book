@@ -26,31 +26,22 @@ For example, the following document:
 
 ...is parsed into the following DOM tree:
 
-* DOCTYPE: `html`
-
-* `html lang="en"`
-
-    * `head`
-
-        * `#text`:
-
-        * `title`
-
-            * `#text`: `Hello`
-
-        * `#text`:
-
-    * `#text`:
-
-    * `body`
-
-        * `#text`:
-
-        * `p`
-
-            * `#text`: `Test.`
-
-        * `#text`:
+```dom-tree
+#document
+├── DOCTYPE: html
+└── html lang="en"
+    ├── head
+    │   ├── #text:
+    │   ├── title
+    │   │   └── #text: Hello
+    │   └── #text:
+    ├── #text:
+    └── body
+        ├── #text:
+        ├── p
+        │   └── #text: Test.
+        └── #text:
+```
 
 How this works is what this this book is about.
 
@@ -88,15 +79,14 @@ SGML has some convenience markup features that browsers did not implement for HT
 
 But browsers parse it as a `title` start tag with a bunch of attributes, until they find a `>`:
 
-* DOCTYPE: `html`
-
-* `html`
-
-    * `head`
-
-        * `title misinterpreted="" <p="" little-known="" sgml="" markup="" features="" <="" html=""`
-
-    * `body`
+```dom-tree
+#document
+├── DOCTYPE: html
+└── html
+    ├── head
+    │   └── title misinterpreted="" <p="" little-known="" sgml="" markup="" features="" <="" html=""
+    └── body
+```
 
 You may have come in contact with an SGML parser when validating your markup, for example at validator.w3.org. Up to and including HTML4, it used a DTD-based validator for HTML, which used an SGML parser. The example above would thus validate but not work in browsers. More recently, validator.w3.org started to emit warnings whenever the SHORTTAG feature was used.
 
@@ -172,19 +162,16 @@ In early 2006, Firefox was at version 1.5. Its HTML parser had its own interesti
 >
 > What should the DOM look like? The general consensus is that the DOM should look like this:
 >
->  * DOCTYPE: `html`
->
->  * `HTML`
->
->     * `HEAD`
->
->     * `BODY`
->
->         * `EM`
->
->             * `P`
->
->                 * `#text`: `XY`
+> ```dom-tree
+> #document
+> ├── DOCTYPE: html
+> └── html
+>     ├── head
+>     └── body
+>         └── em
+>             └── p
+>                 └── #text: XY
+> ```
 >
 > That is, the p element should be completely inside (that is, a child of) the em element.
 >
@@ -212,23 +199,18 @@ In early 2006, Firefox was at version 1.5. Its HTML parser had its own interesti
 >
 > The DOM looks like this:
 >
->  * DOCTYPE: `html`
->
->  * `HTML`
->
->     * `HEAD`
->
->     * `BODY`
->
->         * `EM`
->
->         * `P`
->
->             * `EM`
->
->                 * `#text`: `X`
->
->             * `#text`: `Y`
+> ```dom-tree
+> #document
+> ├── DOCTYPE: html
+> └── html
+>     ├── head
+>     └── body
+>         ├── em
+>         └── p
+>             ├── em
+>             │   └── #text: X
+>             └── #text: Y
+> ```
 >
 > ...which basically means that malformed invalid markup gets handled differently than well-formed invalid markup.
 >
@@ -252,33 +234,28 @@ In early 2006, Firefox was at version 1.5. Its HTML parser had its own interesti
 >
 > Mozilla
 >
->  * DOCTYPE: `html`
->
->  * `HTML`
->
->     * `HEAD`
->
->     * `BODY`
->
->         * `EM`
->
->         * `P`
->
->             * `EM`
->
->                 * `#text`: `X`
+> ```dom-tree
+> #document
+> ├── DOCTYPE: html
+> └── html
+>     ├── head
+>     └── body
+>         ├── em
+>         └── p
+>             └── em
+>                 └── #text: X
+> ```
 >
 > Safari
 >
->  * `HTML`
->
->     * `BODY`
->
->         * `EM`
->
->             * `P`
->
->                 * `#text`: `X`
+> ```dom-tree
+> #document
+> └── html
+>     └── body
+>         └── em
+>             └── p
+>                 └── #text: X
+> ```
 >
 > Hrm. They disagree. Mozilla is using the "malformed" version, and Safari is using the "well-formed" version. Why? How do they decide?
 >
@@ -299,27 +276,21 @@ In early 2006, Firefox was at version 1.5. Its HTML parser had its own interesti
 >
 > Result:
 >
->  * `HTML`
+> ```dom-tree
+> #document
+> └── html
+>     └── body
+>         └── em
+>             ├── #text:
+>             ├── p title="EM"
+>             │   ├── #text:  XY
+>             │   ├── script
+>             │   │   └── #text:  var p = document.getElementsByTagName('p')[0]; p.title = p.parentNode.tagName;
+>             │   └── #text:
+>             └── #text:
+> ```
 >
->     * `BODY`
->
->         * `EM`
->
->             * `#text:`
->
->             * `P title="EM"`
->
->                 * `#text`: `XY`
->
->                 * `SCRIPT`
->
->                     * `#text`: `var p = document.getElementsByTagName('p')[0]; p.title = p.parentNode.tagName;`
->
->                 * `#text:`
->
->             * `#text:`
->
-> Exactly as we'd expect. The parentNode of the p element as shown in the DOM tree view is the same as shown in the title attribute value, namely, the em element.
+> Exactly as we'd expect. The parentNode of the p element as shown in the DOM tree view is the same as shown in the title attribute value, namely, the `em` element.
 >
 > Now let's try the bad markup case:
 >
@@ -339,31 +310,24 @@ In early 2006, Firefox was at version 1.5. Its HTML parser had its own interesti
 >
 > Result:
 >
->  * `HTML`
->
->     * `BODY`
->
->         * `EM`
->
->             * `#text`:
->
->         * `P title="EM"`
->
->             * `EM`
->
->                 * `#text`: `X`
->
->                 * `SCRIPT`
->
->                     * `#text`: `var p = document.getElementsByTagName('p')[0]; p.title = p.parentNode.tagName;`
->
->                 * `#text`:
->
->             * `#text`: `Y`
+> ```dom-tree
+> #document
+> └── html
+>     └── body
+>         ├── em
+>         │   └── #text:
+>         └── p title="EM"
+>             ├── em
+>             │   ├── #text:  X
+>             │   ├── script
+>             │   │   └── #text:  var p = document.getElementsByTagName('p')[0]; p.title = p.parentNode.tagName;
+>             │   └── #text:
+>             └── #text:  Y
+> ```
 >
 > Wait, what?
 >
-> When the embedded script ran, the parent of the p was the em, but when the parser had finished, the DOM had changed, and the parent was no longer the em node!
+> When the embedded script ran, the parent of the `p` was the `em`, but when the parser had finished, the DOM had changed, and the parent was no longer the `em` node!
 >
 > If we look a little closer:
 >
@@ -387,33 +351,23 @@ In early 2006, Firefox was at version 1.5. Its HTML parser had its own interesti
 >
 > ...we find:
 >
->  * `HTML`
->
->     * `BODY`
->
->         * `EM`
->
->             * `#text:`
->
->         * `P a="EM" b="BODY"`
->
->             * `EM`
->
->                 * `#text`: `X`
->
->                 * `SCRIPT`
->
->                     * `#text`: `var p = document.getElementsByTagName('p')[0]; p.setAttribute('a', p.parentNode.tagName);`
->
->                 * `#text`:
->
->             * `#text`: `Y`
->
->             * `SCRIPT`
->
->                 * `#text`: `var p = document.getElementsByTagName('p')[0]; p.setAttribute('b', p.parentNode.tagName);`
->
->             * `#text`:
+> ```dom-tree
+> #document
+> └── html
+>     └── body
+>         ├── em
+>         │   └── #text:
+>         └── p a="EM" b="BODY"
+>             ├── em
+>             │   ├── #text:  X
+>             │   ├── script
+>             │   │   └── #text:  var p = document.getElementsByTagName('p')[0]; p.setAttribute('a', p.parentN...
+>             │   └── #text:
+>             ├── #text:  Y
+>             ├── script
+>             │   └── #text:  var p = document.getElementsByTagName('p')[0]; p.setAttribute('b', p.parentN...
+>             └── #text:
+> ```
 >
 > ...which is to say, the parent changes half way through! (Compare the a and b attributes.)
 >
@@ -421,39 +375,23 @@ In early 2006, Firefox was at version 1.5. Its HTML parser had its own interesti
 >
 > How about Mozilla? Let's try the same trick. The result:
 >
->  * DOCTYPE: `html`
->
->  * `HTML`
->
->     * `HEAD`
->
->     * `BODY`
->
->         * `EM`
->
->             * `#text`:
->
->         * `P a="BODY" b="BODY"`
->
->             * `#text`:
->
->             * `EM`
->
->                 * `#text`: `X`
->
->                 * `SCRIPT`
->
->                     * `#text`: `var p = document.getElementsByTagName('p')[0]; p.setAttribute('a', p.parentNode.tagName);`
->
->                 * `#text`:
->
->             * `#text`: `Y`
->
->             * `SCRIPT`
->
->                 * `#text`: `var p = document.getElementsByTagName('p')[0]; p.setAttribute('b', p.parentNode.tagName);`
->
->             * `#text`:
+> ```dom-tree
+> #document
+> └── html
+>     └── body
+>         ├── em
+>         │   └── #text:
+>         └── p a="BODY" b="BODY"
+>             ├── em
+>             │   ├── #text:  X
+>             │   ├── script
+>             │   │   └── #text:  var p = document.getElementsByTagName('p')[0]; p.setAttribute('a', p.parentN...
+>             │   └── #text:
+>             ├── #text:  Y
+>             ├── script
+>             │   └── #text:  var p = document.getElementsByTagName('p')[0]; p.setAttribute('b', p.parentN...
+>             └── #text:
+> ```
 >
 > It doesn't reparent the node. So what does Mozilla do?
 >

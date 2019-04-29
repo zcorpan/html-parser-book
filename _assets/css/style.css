@@ -5,9 +5,11 @@ h1 { font-size: 3em; line-height: 1.1; color: #333; font-weight: 800; }
 h2, h3 { margin-top: 3em; }
 h2, h3, th, strong { font-weight: 600; color: #222; }
 h2 code, h3 code, th code, strong code { color: black; font-size: inherit; }
-pre, code { font-family: Andale Mono, Monaco, Consolas, Lucida Console, monospace; font-size: 0.875em; }
-pre code { font-size: inherit; }
+pre, code { font-family: Andale Mono, Monaco, Consolas, Lucida Console, monospace; font-size: 0.875em; white-space: pre-wrap; }
+pre code { display: block; font-size: inherit; }
 pre { margin: 1em; }
+code.language-dom-tree { line-height: normal; }
+code.language-html { background: #444; color: white; padding: 0.5em 1em; margin-left: -1em; margin-right: -1em; border-radius: 5px; }
 
 table { border-collapse: collapse; border: hidden; }
 th, td { border: 1px solid gray; padding: 0 0.5em; vertical-align: baseline; text-align: left; }
@@ -33,6 +35,7 @@ blockquote blockquote { margin-left: 0; margin-right: 0; }
 @media (prefers-color-scheme: dark) {
   html { background: #333; color: white; }
   h1, h2, h3, th, strong, html code { color: #eee; }
+  code.language-html { background-color: #222; color: #ddd; }
   blockquote { background-color: #444; }
   .book-cover img { filter: invert(0.865) brightness(1.5); }
   :link { color: gold; }

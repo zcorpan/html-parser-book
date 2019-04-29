@@ -22,17 +22,15 @@ For example, consider the following document:
 
 Bytes go over the network and a decoder will produce a stream of code points (the details of how that works is a topic of another book). The tokenizer walks through the stream of code points, character by character, and emits tokens; in this case: a doctype token, a start tag token (p), and a series of character tokens (one token per character, although implementations can optimize by combining character tokens, if the end result is equivalent). The tree builder takes those tokens and builds the following DOM:
 
-* DOCTYPE: `html`
-
-* `html`
-
-    * `head`
-
-    * `body`
-
-        * `p`
-
-            * `#text`: `Hello world.`
+```dom-tree
+#document
+├── DOCTYPE: html
+└── html
+    ├── head
+    └── body
+        └── p
+            └── #text: Hello world.
+```
 
 Note that the tree builder created some elements (html, head, body) that did not have any corresponding tags in the source text. These elements have optional start and end tags, but implied tags can also happen in non-conforming cases, such as when a required end tag is omitted (more on this in the *Implied tags* section).
 
@@ -1123,17 +1121,15 @@ It then stays in the *script data escaped state* until the end-of-file. The toke
 
 The resulting DOM is:
 
-* `html`
-
-    * `head`
-
-    * `body`
-
-        * `#text`: `Before`
-
-        * `script`
-
-            * `#text`: `<!-- document.write('<script></scr'+'ipt>'); </script> After`
+```dom-tree
+#document
+└── html
+    ├── head
+    └── body
+        ├── #text: Before
+        └── script
+            └── #text: <!-- document.write('<script></scr'+'ipt>'); </script> After
+```
 
 Since there is no actual script end tag, the script will not be executed. Executing scripts is, apart from constructing the DOM, part of the tree construction stage.
 
@@ -1194,13 +1190,13 @@ We then switch the insertion mode to "before head" and process the same token ag
 
 At this point the DOM looks like this:
 
-* DOCTYPE: `html`
-
-* `html`
-
-    * `head`
-
-    * `body`
+```dom-tree
+#document
+├── DOCTYPE: html
+└── html
+    ├── head
+    └── body
+```
 
 The "in body" insertion mode is the mode that handles most of the tags in a typical document. Let’s see what it does with the div start tag token:
 
@@ -1214,15 +1210,14 @@ The stack of open elements has just html and body, so there’s no p element to 
 
 "Insert an HTML element" will insert a div element, and push it to the stack of open elements. The stack is now: html, body, div. The DOM is:
 
-* DOCTYPE: `html`
-
-* `html`
-
-    * `head`
-
-    * `body`
-
-        * `div`
+```dom-tree
+#document
+├── DOCTYPE: html
+└── html
+    ├── head
+    └── body
+        └── div
+```
 
 We stay in the "in body" insertion mode. Next, we have a character token (D).
 
@@ -1248,11 +1243,11 @@ Finally, the end tag.
 >
 >     Otherwise, run these steps:
 >
->     1. *Generate implied end tags.*
+>     1. Generate implied end tags.
 >
->     2. *If the current node is not an HTML element with the same tag name as that of the token, then this is a parse error.*
+>     2. If the current node is not an HTML element with the same tag name as that of the token, then this is a parse error.
 >
->     3. *Pop elements from the stack of open elements until an HTML element with the same tag name as the token has been popped from the stack.*
+>     3. Pop elements from the stack of open elements until an HTML element with the same tag name as the token has been popped from the stack.
 
 The stack of open elements is still: html, body, div. So we run the steps above.
 
@@ -1268,9 +1263,9 @@ Are we done? Not quite. There is an end-of-file token, too.
 >
 >     Otherwise, follow these steps:
 >
->     1. *If there is a node in the stack of open elements that is not either a dd element, a dt element, an li element, an optgroup element, an option element, a p element, an rb element, an rp element, an rt element, an rtc element, a tbody element, a td element, a tfoot element, a th element, a thead element, a tr element, the body element, or the html element, then this is a parse error.*
+>     1. If there is a node in the stack of open elements that is not either a dd element, a dt element, an li element, an optgroup element, an option element, a p element, an rb element, an rp element, an rt element, an rtc element, a tbody element, a td element, a tfoot element, a th element, a thead element, a tr element, the body element, or the html element, then this is a parse error.
 >
->     2. *Stop parsing.*
+>     2. Stop parsing.
 
 The template stuff is about handling unclosed template elements.
 
@@ -1279,6 +1274,16 @@ Step 1 says that there is a parse error if there’s still an open element excep
 "Stop parsing" will, among other things, execute deferred scripts, fire the `DOMContentLoaded` event, and wait until there is nothing that *delays the load event* (like images), at which point it will fire the `load` event on the Window.
 
 And now we’re done.
+
+```dom-tree
+#document
+├── DOCTYPE: html
+└── html
+    ├── head
+    └── body
+        └── div
+            └── #text: Divitis is a serious condition.
+```
 
 ### Determining rendering mode
 
@@ -1383,19 +1388,16 @@ That is, it is inserted in the DOM and the contents are parsed as normal. For ex
 
 Resulting DOM:
 
-* DOCTYPE: `html`
-
-* `html`
-
-    * `head`
-
-    * `body`
-
-        * `noscript`
-
-            * `p`
-
-                * `#text`: `This page requires JavaScript.`
+```dom-tree
+#document
+├── DOCTYPE: html
+└── html
+    ├── head
+    └── body
+        └── noscript
+            └── p
+                └── #text: This page requires JavaScript.
+```
 
 When `noscript` is found in `head`, the tree builder switches to the "in head noscript" insertion mode. Walking through the example from the quiz:
 
@@ -1437,6 +1439,16 @@ It’s ignored. The final tag, the `base` start tag, is handled under the anythi
 
 It closes the `noscript` element, and the token is reprocessed. So the correct answer is "`</noscript>` before `<base>`".
 
+```dom-tree
+#document
+└── html
+    ├── head
+    │   ├── noscript
+    │   │   └── basefont
+    │   └── base
+    └── body
+```
+
 The takeaway is that, out of the conforming elements in HTML, you can only use `link`, `meta`, and `style` in `noscript` in `head`. The typical use case is including a different stylesheet when scripting is disabled.
 
 Back in 2007, when `noscript` in head was [specified](https://lists.w3.org/Archives/Public/public-whatwg-archive/2007Jun/0335.html), browsers did different things (of course). In Firefox, `noscript` in `head` would imply a `<body>` start tag before it. In IE, the `noscript` element would be inserted in the `head`, but if it contained something that was not allowed in `head` (like an "`X`" character), then it would create an ill-formed DOM. Opera instead didn’t insert any `noscript` element to the DOM. Safari changed in 2007 to allow `noscript` in `head`, and the specification was updated as a result, although what Safari did was different to what the specification said.
@@ -1470,15 +1482,14 @@ If the tree builder finds a `frameset` start tag token in the "after head" inser
 <p><frameset>Who am I?
 ```
 
-* DOCTYPE: `html`
-
-* `html`
-
-    * `head`
-
-    * `frameset`
-
-        * `#text`:
+```dom-tree
+#document
+├── DOCTYPE: html
+└── html
+    ├── head
+    └── frameset
+        └── #text:
+```
 
 How does the parser decide if the page is a "frameset" page or a "body" page? Glad you asked.
 
@@ -1519,21 +1530,17 @@ It turns out that it can’t. The association needs to happen even if the form e
 <input>
 ```
 
-* DOCTYPE: `html`
-
-* `html`
-
-    * `head`
-
-    * `body`
-
-        * `div`
-
-            * `form`
-
-        * `#text`:
-
-        * `input`
+```dom-tree
+#document
+├── DOCTYPE: html
+└── html
+    ├── head
+    └── body
+        ├── div
+        │   └── form
+        ├── #text:
+        └── input
+```
 
 The `input` is not a descendant of the `form`, but it is still associated with it. How?
 
@@ -1555,21 +1562,17 @@ The parser ignores a `form` start tag token if the *form element pointer* is not
 
 This results in this DOM:
 
-* `html`
-
-    * `head`
-
-    * `body`
-
-        * `form`
-
-            * `#text`: `A`
-
-            * `div`
-
-                * `#text`: `BC`
-
-        * `#text`: `D`
+```dom-tree
+#document
+└── html
+    ├── head
+    └── body
+        ├── form
+        │   ├── #text:  A
+        │   └── div
+        │       └── #text:  B C
+        └── #text:  D
+```
 
 There’s only one form element in the DOM, but otherwise the DOM is as we’d expe—wait, why is the "`D`" text node a child of `body`, and not the `form`? The "`C`" is in the same text node as the "`B`", so the `form` end tag didn’t close the `div` and the `form`. What happened?
 
@@ -1590,17 +1593,17 @@ Let’s see.
 >
 >   * If there is no template element on the stack of open elements, then run these substeps:
 >
->     1. *Let node be the element that the form element pointer is set to, or null if it is not set to an element.*
+>     1. Let node be the element that the form element pointer is set to, or null if it is not set to an element.
 >
->     2. *Set the form element pointer to null.*
+>     2. Set the form element pointer to null.
 >
->     3. *If node is null or if the stack of open elements does not have node in scope, then this is a parse error; return and ignore the token.*
+>     3. If node is null or if the stack of open elements does not have node in scope, then this is a parse error; return and ignore the token.
 >
->     4. *Generate implied end tags.*
+>     4. Generate implied end tags.
 >
->     5. *If the current node is not node, then this is a parse error.*
+>     5. If the current node is not node, then this is a parse error.
 >
->     6. *Remove node from the stack of open elements.*
+>     6. Remove node from the stack of open elements.
 
 We clear the form element pointer, step 3 doesn’t apply (*node* is the form), and we don’t have any implied end tags to generate. Step 5 applies since the current node is a `div`. The stack of open elements is:
 
@@ -1631,19 +1634,16 @@ Huh, it didn’t remove the `div`! Usually, when the parser closes an element, i
   C
 ```
 
-* `html`
-
-    * `head`
-
-    * `body`
-
-        * `form`
-
-            * `#text`: `A`
-
-            * `div`
-
-                * `#text`: `BC`
+```dom-tree
+#document
+└── html
+    ├── head
+    └── body
+        └── form
+            ├── #text:  A
+            └── div
+                └── #text:  B C
+```
 
 Next, we find the `div` end tag. Since the current node is a `div`, this will just pop the `div` off the stack of open elements:
 
@@ -1671,35 +1671,25 @@ Did you notice that the handling of the `form` end tag had a check for a `templa
 </template>
 ```
 
-The document’s DOM is:
+The document’s DOM, and the `template` element’s *template contents* (more on this in the *Templates* section), are as follows:
 
-* `html`
-
-    * `head`
-
-        * `template`
-
-    * `body`
-
-The `template` element’s *template contents* (more on this in the *Templates* section) is:
-
-* `#text`:
-
-* `form`
-
-    * `#text`: `A`
-
-    * `div`
-
-        * `#text`: `B`
-
-        * `form`
-
-        * `#text`: `C`
-
-    * `#text`: `D`
-
-* `#text`:
+```dom-tree
+#document
+└── html
+    ├── head
+    │   └── template
+    │       └── #document-fragment (template contents)
+    │           ├── #text:
+    │           ├── form
+    │           │   ├── #text:  A
+    │           │   ├── div
+    │           │   │   ├── #text:  B
+    │           │   │   ├── form
+    │           │   │   └── #text:  C
+    │           │   └── #text:  D
+    │           └── #text:
+    └── body
+```
 
 There’s a nested `form`! And the "`D`" `Text` node is where we’d expect (child of the outer `form`).
 
@@ -1729,27 +1719,26 @@ A simple example:
 <table>1
 ```
 
-* `html`
-
-    * `head`
-
-    * `body`
-
-        * `#text`: `1`
-
-        * `table`
+```dom-tree
+#document
+└── html
+    ├── head
+    └── body
+        ├── #text: 1
+        └── table
+```
 
 So how does this happen? Let’s step through the spec.
 
 First, we parse the table start tag. We insert it as normal and switch to "in table".
 
-* `html`
-
-    * `head`
-
-    * `body`
-
-        * `table`
+```dom-tree
+#document
+└── html
+    ├── head
+    └── body
+        └── table
+```
 
 Then we get a character token in the "in table" insertion mode.
 
@@ -1807,19 +1796,16 @@ Notice that the `tbody` tags were not in the quiz, yet the above is equivalent. 
 <table><tr><td>
 ```
 
-* `html`
-
-    * `head`
-
-    * `body`
-
-        * `table`
-
-            * `tbody`
-
-                * `tr`
-
-                    * `td`
+```dom-tree
+#document
+└── html
+    ├── head
+    └── body
+        └── table
+            └── tbody
+                └── tr
+                    └── td
+```
 
 Although the `tr` element’s start tag is *not* optional, the parser will still infer it if it is missing; the following markup produces the same DOM as the above.
 
@@ -1837,13 +1823,13 @@ Table-related tags (except for `table` itself) are ignored outside tables (excep
 <body><caption>Tableless <tr>web <td>design
 ```
 
-* `html`
-
-    * `head`
-
-    * `body`
-
-        * `#text`: `Tableless web design`
+```dom-tree
+#document
+└── html
+    ├── head
+    └── body
+        └── #text: Tableless web design
+```
 
 ### The last of the parsing quirks
 
@@ -2025,15 +2011,15 @@ Apart from HTML parser-level syntax requirements, the *template contents* has no
 <table><template>
 ```
 
-* `html`
-
-    * `head`
-
-    * `body`
-
-        * `table`
-
-            * `template`
+```dom-tree
+#document
+└── html
+    ├── head
+    └── body
+        └── table
+            └── template
+                └── #document-fragment (template contents)
+```
 
 Generally, table markup outside a `table` is ignored:
 
@@ -2041,15 +2027,14 @@ Generally, table markup outside a `table` is ignored:
 <div><tr><td>X
 ```
 
-* `html`
-
-    * `head`
-
-    * `body`
-
-        * `div`
-
-            * `#text`: `X`
+```dom-tree
+#document
+└── html
+    ├── head
+    └── body
+        └── div
+            └── #text: X
+```
 
 However, in `template`s, it just works:
 
@@ -2057,22 +2042,17 @@ However, in `template`s, it just works:
 <template><tr><td>X
 ```
 
-
-* `html`
-
-    * `head`
-
-        * `template`
-
-    * `body`
-
-And the `template` element’s *template contents*:
-
-* `tr`
-
-    * `td`
-
-        * `#text`: `X`
+```dom-tree
+#document
+└── html
+    ├── head
+    │   └── template
+    │       └── #document-fragment (template contents)
+    │           └── tr
+    │               └── td
+    │                   └── #text: X
+    └── body
+```
 
 If you have unexpected content between the table row and the table cell, it would normally be foster-parented (end up before the table), but here there is no `table` element. Instead it ends up at the end of the `template` element:
 
@@ -2082,13 +2062,18 @@ If you have unexpected content between the table row and the table cell, it woul
 
 ...results in the following *template contents*:
 
-* `tr`
-
-    * `td`
-
-        * `#text`: `X`
-
-* `#text`: `foo`
+```dom-tree
+#document
+└── html
+    ├── head
+    │   └── template
+    │       └── #document-fragment (template contents)
+    │           ├── tr
+    │           │   └── td
+    │           │       └── #text: X
+    │           └── #text: foo
+    └── body
+```
 
 The tree builder changes where to insert nodes for template elements in the "[appropriate place for inserting a node](https://html.spec.whatwg.org/multipage/parsing.html#appropriate-place-for-inserting-a-node)" algorithm.
 
@@ -2144,15 +2129,14 @@ Some JavaScript is needed to create a definition of custom elements, so that the
 <select><div><b><iframe><style><plaintext></select>X
 ```
 
-* `html`
-
-    * `head`
-
-    * `body`
-
-        * `select`
-
-        * `#text`: `X`
+```dom-tree
+#document
+└── html
+    ├── head
+    └── body
+        ├── select
+        └── #text: X
+```
 
 The elements that can be nested in select are: `option`, `optgroup`, `script`, `template`.
 
@@ -2162,27 +2146,25 @@ There are 3 tags that implicitly close a `select` and then be reprocessed: `inpu
 <select><input>
 ```
 
-* `html`
-
-    * `head`
-
-    * `body`
-
-        * `select`
-
-        * `input`
+```dom-tree
+#document
+└── html
+    ├── head
+    └── body
+        ├── select
+        └── input
+```
 
 The `select` start tag is treated just like the `select` *end* tag. Therefore, the answer to the quiz is "2".
 
-* `html`
-
-    * `head`
-
-    * `body`
-
-        * `select`
-
-        * `select`
+```dom-tree
+#document
+└── html
+    ├── head
+    └── body
+        ├── select
+        └── select
+```
 
 `select` inside `table`s are parsed in a separate insertion mode, "in select in table". This is handled the same as "in select", except that table markup closes the `select` element and is then reprocessed.
 
@@ -2190,25 +2172,19 @@ The `select` start tag is treated just like the `select` *end* tag. Therefore, t
 <table><tr><td><select><td>X
 ```
 
-* `html`
-
-    * `head`
-
-    * `body`
-
-        * `table`
-
-            * `tbody`
-
-                * `tr`
-
-                    * `td`
-
-                        * `select`
-
-                    * `td`
-
-                        * `#text`: `X`
+```dom-tree
+#document
+└── html
+    ├── head
+    └── body
+        └── table
+            └── tbody
+                └── tr
+                    ├── td
+                    │   └── select
+                    └── td
+                        └── #text: X
+```
 
 ### Implied tags
 
@@ -2234,13 +2210,13 @@ The `br` end tag is treated as a `br` start tag. This is handled from the "befor
 </br>
 ```
 
-* `html`
-
-    * `head`
-
-    * `body`
-
-        * `br`
+```dom-tree
+#document
+└── html
+    ├── head
+    └── body
+        └── br
+```
 
 A `p` end tag, when there’s no `p` element "in button scope", it implies a `p` start tag before it, so that it ends up as an empty `p` element. However, this only happens in the "in body" insertion mode.
 
@@ -2256,45 +2232,29 @@ For example, one can omit tags in a `ruby` element (this is the Japanese text �
 ...<ruby>漢<rp>（<rt>かん<rp>）</rp>字<rp>（<rt>じ<rp>）</ruby>...
 ```
 
-* `html`
-
-    * `head`
-
-    * `body`
-
-        * `#text`: `...`
-
-        * `ruby`
-
-            * `#text`: `漢`
-
-            * `rp`
-
-                * `#text`: `（`
-
-            * `rt`
-
-                * `#text`: `かん`
-
-            * `rp`
-
-                * `#text`: `）`
-
-            * `#text`: `字`
-
-            * `rp`
-
-                * `#text`: `（`
-
-            * `rt`
-
-                * `#text`: `じ`
-
-            * `rp`
-
-                * `#text`: `）`
-
-        * `#text`: `...`
+```dom-tree
+#document
+└── html
+    ├── head
+    └── body
+        ├── #text: ...
+        ├── ruby
+        │   ├── #text: 漢
+        │   ├── rp
+        │   │   └── #text: （
+        │   ├── rt
+        │   │   └── #text: かん
+        │   ├── rp
+        │   │   └── #text: ）
+        │   ├── #text: 字
+        │   ├── rp
+        │   │   └── #text: （
+        │   ├── rt
+        │   │   └── #text: じ
+        │   └── rp
+        │       └── #text: ）
+        └── #text: ...
+```
 
 This would render as follows:
 
@@ -2310,21 +2270,17 @@ If you have something between the head end tag and the body start tag (where onl
 <noscript></noscript>
 ```
 
-* DOCTYPE: `html`
-
-* `html`
-
-    * `head`
-
-        * `#text`:
-
-        * `script`
-
-    * `#text`:
-
-    * `body`
-
-        * `noscript`
+```dom-tree
+#document
+├── DOCTYPE: html
+└── html
+    ├── head
+    │   ├── #text:
+    │   └── script
+    ├── #text:
+    └── body
+        └── noscript
+```
 
 When seeing an `a` start tag if there’s an `a` element in the *list of active formatting elements* (see the *Active formatting elements & Noah’s Ark* section), then it implies an `a` end tag before it, but this is a parse error; the `a` end tag is *not* optional. The following example has two a start tags (end tag is mistyped as a start tag):
 
@@ -2332,22 +2288,17 @@ When seeing an `a` start tag if there’s an `a` element in the *list of active 
 <p><a href="1108470371">Anchor Bar reportedly opening Las Vegas location<a>.
 ```
 
-
-* `html`
-
-    * `head`
-
-    * `body`
-
-        * `p`
-
-            * `a href="1108470371"`
-
-                * `#text`: `Anchor Bar reportedly opening Las Vegas location`
-
-            * `a`
-
-                * `#text`: `.`
+```dom-tree
+#document
+└── html
+    ├── head
+    └── body
+        └── p
+            ├── a href="1108470371"
+            │   └── #text: Anchor Bar reportedly opening Las Vegas location
+            └── a
+                └── #text: .
+```
 
 Similarly, a `table` start tag in a `table` (not in a table cell) implies a `table` end tag before it (and this is also a parse error). This also happens for `h1`-`h6` elements; any `h1`-`h6` start tag token implicitly closes an open `h1`-`h6` element, even if the tag names don’t match.
 
@@ -2356,19 +2307,16 @@ Similarly, a `table` start tag in a `table` (not in a table cell) implies a `tab
 <h2>Intentionally Left Blank</h2>
 ```
 
-* `html`
-
-    * `head`
-
-    * `body`
-
-        * `h1`
-
-            * `#text`: `What is an Open Title?`
-
-        * `h2`
-
-            * `#text`: `Intentionally Left Blank`
+```dom-tree
+#document
+└── html
+    ├── head
+    └── body
+        ├── h1
+        │   └── #text: What is an Open Title?
+        └── h2
+            └── #text: Intentionally Left Blank
+```
 
 When in foreign content (SVG or MathML), certain start tags imply closure of open foreign content elements and are then reprocessed. More on this in *The foreign lands: SVG and MathML* section.
 
@@ -2393,19 +2341,17 @@ Some cases are easy, for example, the `h1`-`h6` elements can be closed by any ot
 <h2>WikiMatrix - Compare them all</h1>
 ```
 
-* `html`
-
-    * `head`
-
-    * `body`
-
-        * `h1`
-
-            * `#text`: `Syntax for Headlines`
-
-        * `h2`
-
-            * `#text`: `WikiMatrix - Compare them all`
+```dom-tree
+#document
+└── html
+    ├── head
+    └── body
+        ├── h1
+        │   └── #text: Syntax for Headlines
+        ├── #text:
+        └── h2
+            └── #text: WikiMatrix - Compare them all
+```
 
 The "default" handling of misnested markup, which is used for unknown elements, autonomous custom elements, and some inline elements such as `span`, `dfn`, `kbd`, is to close all open elements until the one given in the end tag has been closed.
 
@@ -2413,21 +2359,17 @@ The "default" handling of misnested markup, which is used for unknown elements, 
 <span>20 ways to <dfn>commute</span> to</dfn> work.
 ```
 
-* `html`
-
-    * `head`
-
-    * `body`
-
-        * `span`
-
-            * `#text`: `20 ways to`
-
-            * `dfn`
-
-                * `#text`: `commute`
-
-        * `#text`: `to work.`
+```dom-tree
+#document
+└── html
+    ├── head
+    └── body
+        ├── span
+        │   ├── #text: 20 ways to
+        │   └── dfn
+        │       └── #text: commute
+        └── #text:  to work.
+```
 
 Other elements are slightly more complicated, such as the `b`, `i`, and `a` elements, which are so-called *formatting elements*.
 
@@ -2459,23 +2401,18 @@ A formatting element gets reopened across other elements until it is explicitly 
 <p>in his hands
 ```
 
-* `html`
-
-    * `head`
-
-    * `body`
-
-        * `p`
-
-            * `i`
-
-                * `#text`: `He’s got the whole world`
-
-        * `p`
-
-            * `i`
-
-                * `#text`: `in his hands`
+```dom-tree
+#document
+└── html
+    ├── head
+    └── body
+        ├── p
+        │   └── i
+        │       └── #text: He's got the whole world
+        └── p
+            └── i
+                └── #text: in his hands
+```
 
 Notice that the second paragraph also has an `i` element.
 
@@ -2489,59 +2426,36 @@ OK, but what is Noah doing in an HTML parser? Well, in case of a flood, he saves
 <p><i>He's got the whole world in his hands.
 ```
 
-* `html`
-
-    * `head`
-
-    * `body`
-
-        * `p`
-
-            * `i`
-
-                * `#text`: `He’s got the whole world`
-
-        * `p`
-
-            * `i`
-
-                * `i`
-
-                    * `#text`: `in his hands`
-
-        * `p`
-
-            * `i`
-
-                * `i`
-
-                    * `i`
-
-                        * `#text`: `He’s got the whole wide world`
-
-        * `p`
-
-            * `i`
-
-                * `i`
-
-                    * `i`
-
-                        * `i`
-
-                            * `#text`: `in his hands`
-
-        * `p`
-
-            * `i`
-
-                * `i`
-
-                    * `i`
-
-                        * `i`
-
-                            * `#text`: `He’s got the whole world in his hands.`
+```dom-tree
+#document
+└── html
+    ├── head
+    └── body
+        ├── p
+        │   └── i
+        │       └── #text: He's got the whole world
+        ├── p
+        │   └── i
+        │       └── i
+        │           └── #text: in his hands
+        ├── p
+        │   └── i
+        │       └── i
+        │           └── i
+        │               └── #text: He's got the whole wide world
+        ├── p
+        │   └── i
+        │       └── i
+        │           └── i
+        │               └── i
+        │                   └── #text: in his hands
+        └── p
+            └── i
+                └── i
+                    └── i
+                        └── i
+                            └── #text: He's got the whole world in his hands.
+```
 
 In the third and fourth paragraphs, three `i` elements are reopened, and they open one more themselves, but the number of reopened `i` elements doesn’t continue to increase beyond three. This is to avoid insanely huge DOMs for this kind of markup.
 
@@ -2553,23 +2467,37 @@ The Noah’s Ark clause also checks the attributes, not just the tag name.
 <p>Who am I?
 ```
 
-The DOM for the final paragraph will be:
+The DOM will be:
 
-* `p`
-
-    * `i`
-
-        * `i`
-
-            * `i`
-
-                * `i class=""`
-
-                    * `i class=""`
-
-                        * `i class=""`
-
-                            * `#text`: `Who am I?`
+```dom-tree
+#document
+└── html
+    ├── head
+    └── body
+        ├── p
+        │   └── i
+        │       └── i
+        │           └── i
+        │               └── i
+        │                   └── #text:
+        ├── p
+        │   └── i
+        │       └── i
+        │           └── i
+        │               └── i class=""
+        │                   └── i class=""
+        │                       └── i class=""
+        │                           └── i class=""
+        │                               └── #text:
+        └── p
+            └── i
+                └── i
+                    └── i
+                        └── i class=""
+                            └── i class=""
+                                └── i class=""
+                                    └── #text: Who am I?
+```
 
 #### Adoption Agency Algorithm
 
@@ -2583,37 +2511,31 @@ The *Adoption Agency Algorithm* (AAA) governs how to deal with this.
 
 Up to and including the "`X`", nothing surprising happens. The `p` element is inserted into the `em` element.
 
-* DOCTYPE: `html`
-
-* `html`
-
-    * `head`
-
-    * `body`
-
-        * `em`
-
-            * `p`
-
-                * `#text`: `X`
+```dom-tree
+#document
+├── DOCTYPE: html
+└── html
+    ├── head
+    └── body
+        └── em
+            └── p
+                └── #text: X
+```
 
 When seeing the `em` end tag, the AAA kicks in. It will insert the `p` to the `body`, and insert the `em` to the `p`, and then close the `em` element. The resulting DOM is thus:
 
-* DOCTYPE: `html`
-
-* `html`
-
-    * `head`
-
-    * `body`
-
-        * `p`
-
-            * `em`
-
-                * `#text`: `X`
-
-            * `#text`: `Y`
+```dom-tree
+#document
+├── DOCTYPE: html
+└── html
+    ├── head
+    └── body
+        ├── em
+        └── p
+            ├── em
+            │   └── #text: X
+            └── #text: Y
+```
 
 So what happens with the markup in the quiz?
 
@@ -2622,6 +2544,16 @@ So what happens with the markup in the quiz?
 ```
 
 It is exactly the same as the `<em><p></em>` case above, that is, it also triggers AAA, and is thus a parse error and is invalid.
+
+```dom-tree
+#document
+└── html
+    ├── head
+    └── body
+        ├── a
+        └── p
+            └── a
+```
 
 In July 2013, there was [a change to the AAA](https://github.com/whatwg/html/commit/22ce3c31d8054c154042fd07150318a99ecc3e1b). Before the change, content could sometimes end up in the "wrong" order (not matching source order). This change has been implemented in Firefox, but, as of October 2018 (TODO), has not been implemented in other browsers. Sad panda.
 
