@@ -536,7 +536,7 @@ Void elements consist of just a start tag.
 The `template` element is special because its contents are parsed into a separate `DocumentFragment` instead of being children of the element itself. This is discussed in more detail in the *Templates* section of *Tree construction*.
 
 ```html
-<template><img src="{{ src }}" alt="{{ alt }}"></template>
+<template><img src="[[ src ]]" alt="[[ alt ]]"></template>
 ```
 
 Raw text elements, escapable raw text elements and normal elements have a start tag, some contents, and an end tag (but some elements have optional end tags, or start and end tags). Raw text means that the contents are treated as text instead of as markup, except for the end tag, and except that script has pretty special parsing rules (see *Script states* of the *Tokenizer*). Escapable raw text is like raw text, except that character references work.

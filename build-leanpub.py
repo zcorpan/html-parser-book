@@ -2,6 +2,7 @@
 import fileinput
 
 conversions = [
+  ['```dom-tree', '```'],
 ]
 
 def replace_inline(filename):
