@@ -461,7 +461,7 @@ Two named character references have changed what they expand to since HTML 4.01:
 
 > On Sun, 1 Jul 2007, Øistein E. Andersen wrote:
 >
-> > HTML5 currently maps &lang; and &rang; to
+> > HTML5 currently maps `&lang;` and `&rang;` to
 > >   U+3008 LEFT ANGLE BRACKET,
 > >   U+3009 RIGHT ANGLE BRACKET,
 > > both belonging to \`CJK angle brackets' in
