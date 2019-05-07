@@ -449,15 +449,15 @@ To avoid this, the HTML standard [made \` in unquoted attribute values a parse e
 >
 > * 1000..10000
 
-XML has [5 predefined named entities](https://www.w3.org/TR/xml/#sec-predefined-ent): &amp; &lt; &gt; &quot; &apos;.
+XML has [5 predefined named entities](https://www.w3.org/TR/xml/#sec-predefined-ent): `&amp;` `&lt;` `&gt;` `&quot;` `&apos;`.
 
-HTML 4.01 had [252 named entities](https://www.w3.org/TR/html4/sgml/entities.html), but &apos; was not one of them.
+HTML 4.01 had [252 named entities](https://www.w3.org/TR/html4/sgml/entities.html), but `&apos;` was not one of them.
 
-HTML5 added &apos;, which already worked in browsers except for IE, plus a few all-uppercase variations, like &LT; and a bunch of non-conforming without the semicolon, like &nbsp.
+HTML5 added `&apos;`, which already worked in browsers except for IE, plus a few all-uppercase variations, like `&LT;` and a bunch of non-conforming without the semicolon, like `&nbsp`.
 
 Then, as part of adding MathML to HTML in 2008, all of the MathML named entities were added to HTML. In total, the number is now 2231.
 
-Two named character references have changed what they expand to since HTML 4.01: &lang; and &rang;. The following [email](https://lists.w3.org/Archives/Public/public-whatwg-archive/2008Mar/0023.html) from Ian Hickson, from 2 March 2008, summarises what happened:
+Two named character references have changed what they expand to since HTML 4.01: `&lang;` and `&rang;`. The following [email](https://lists.w3.org/Archives/Public/public-whatwg-archive/2008Mar/0023.html) from Ian Hickson, from 2 March 2008, summarises what happened:
 
 > On Sun, 1 Jul 2007, Øistein E. Andersen wrote:
 >
