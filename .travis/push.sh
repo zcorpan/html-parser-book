@@ -6,6 +6,7 @@ setup_git() {
 }
 
 commit_files() {
+  git mv -k _assets/img manuscript/_assets/img || exit 1
   git add manuscript/* || exit 1
   git commit --message "Travis build: $TRAVIS_BUILD_NUMBER" || exit 1
 }
