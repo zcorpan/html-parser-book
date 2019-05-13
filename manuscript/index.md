@@ -19,7 +19,11 @@ The HTML parser has many strange behaviors. For more than a decade, the HTML sta
 
 HTML is not only used by basically all of the web, but it is also part of many modern applications. The HTML parser is part of the foundation of the web platform. HTML parsers can be found in web browsers, but are also implemented in various languages and platforms.
 
-You can [buy the eBook](https://leanpub.com/html-parser-book/) on Leanpub.
+You can [buy the eBook](https://leanpub.com/html-parser-book/) on Leanpub. 50% of royalties go to [Amazon Watch](https://amazonwatch.org/).
+
+> A healthy Amazon rainforest is one of the Earth's best defenses against climate change.
+
+— [Climate and the Amazon](https://amazonwatch.org/work/climate-and-the-amazon)
 
 ## Table of Contents
 
