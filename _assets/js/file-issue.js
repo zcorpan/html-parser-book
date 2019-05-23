@@ -34,7 +34,7 @@
 
   function getFilingURL(originalFilingURL, selection) {
     const bugData = getBugData(selection);
-    return originalFilingURL + '&body=' +
+    return originalFilingURL + '?body=' +
            encodeURIComponent(bugData.body);
   }
 
