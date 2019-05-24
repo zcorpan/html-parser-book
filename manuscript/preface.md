@@ -70,4 +70,4 @@ Thanks to Ingvar Stepanyan for letting me use some of his Twitter quizzes in thi
 
 Thanks to Mike Smith for providing a raw log from a validator instance for the *Most common errors* section.
 
-Thanks to Marcos Caceres, Sam Sneddon, Taylor Hunt, Mike Smith, Anne van Kesteren, Marie Staver, Ian Hickson, Mathias Bynens, and Henri Sivonen for reviewing this book.
+Thanks to Marcos Caceres, Sam Sneddon, Taylor Hunt, Mike Smith, Anne van Kesteren, Marie Staver, Ian Hickson, Mathias Bynens, Henri Sivonen, and Philip Jägenstedt for reviewing this book.

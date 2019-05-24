@@ -130,11 +130,13 @@ SGML also did not specify any error handling behavior. Meanwhile, web content wa
 
 The HTML standard has the following note about the relationship to SGML:
 
-While the HTML syntax described in this specification bears a close resemblance to SGML and XML, it is a separate language with its own parsing rules.
+> While the HTML syntax described in this specification bears a close resemblance to SGML and XML, it is a separate language with its own parsing rules.
+>
+> Some earlier versions of HTML (in particular from HTML2 to HTML4) were based on SGML and used SGML parsing rules. However, few (if any) web browsers ever implemented true SGML parsing for HTML documents; the only user agents to strictly handle HTML as an SGML application have historically been validators. The resulting confusion — with validators claiming documents to have one representation while widely deployed Web browsers interoperably implemented a different representation — has wasted decades of productivity. This version of HTML thus returns to a non-SGML basis.
+>
+> Authors interested in using SGML tools in their authoring pipeline are encouraged to use XML tools and the XML serialization of HTML.
 
-Some earlier versions of HTML (in particular from HTML2 to HTML4) were based on SGML and used SGML parsing rules. However, few (if any) web browsers ever implemented true SGML parsing for HTML documents; the only user agents to strictly handle HTML as an SGML application have historically been validators. The resulting confusion — with validators claiming documents to have one representation while widely deployed Web browsers interoperably implemented a different representation — has wasted decades of productivity. This version of HTML thus returns to a non-SGML basis.
-
-Authors interested in using SGML tools in their authoring pipeline are encouraged to use XML tools and the XML serialization of HTML.
+In 2000, before Netscape 6 was released, [Gecko had a parser mode](https://bugzilla.mozilla.org/show_bug.cgi?id=40190) called "Strict DTD" that enforced stricter rules for HTML for documents with certain doctypes. This was quickly found to be incompatible with existing web content, and was [removed](https://bugzilla.mozilla.org/show_bug.cgi?id=50070) only two months after the parser mode was turned on in beta.
 
 ### XML & XHTML
 
