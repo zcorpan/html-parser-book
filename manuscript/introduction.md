@@ -417,9 +417,9 @@ Well, it appeared that there wasn’t a fifth option, as the Safari approach was
 
 ## The HTML parser is specified
 
-In June 2004, the W3C decided to discontinue work on HTML at a workshop on [Web Applications and Compound Documents](https://www.w3.org/2004/04/webapps-cdf-ws/). Opera, Mozilla, and Apple then set up the Web Hypertext Application Technology Working Group (WHATWG), an initiative, open for anyone to contribute, to extend HTML in a backwards-compatible manner (in contrast with the W3C XForms and XHTML 2.0 specifications, which were [by design not backwards compatible](https://wiki.whatwg.org/wiki/W3C#History)). One of the grounding principles of the WHATWG was well-defined error handling, which had not been addressed for HTML previously.
+A couple of years prior to the HTML parser being specified, in June 2004, the W3C decided to discontinue work on HTML at a workshop on [Web Applications and Compound Documents](https://www.w3.org/2004/04/webapps-cdf-ws/). In response, Opera, Mozilla, and Apple set up the Web Hypertext Application Technology Working Group (WHATWG), an initiative, open for anyone to contribute, to extend HTML in a backwards-compatible manner (in contrast with the W3C XForms and XHTML 2.0 specifications, which were [by design not backwards compatible](https://wiki.whatwg.org/wiki/W3C#History)). One of the grounding principles of the WHATWG was well-defined error handling, which had not been addressed for HTML previously.
 
-In February 2006, Ian Hickson [announces on the WHATWG mailing list](https://lists.w3.org/Archives/Public/public-whatwg-archive/2006Feb/0111.html) that "the first draft of the HTML5 Parsing spec is ready". He had done what had never been attempted before; define how to parse HTML.
+In February 2006, Ian Hickson [announced on the WHATWG mailing list](https://lists.w3.org/Archives/Public/public-whatwg-archive/2006Feb/0111.html) that "the first draft of the HTML5 Parsing spec is ready". He had done what had never been attempted before; define how to parse HTML.
 
 > So…
 >
