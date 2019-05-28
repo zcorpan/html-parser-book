@@ -642,7 +642,7 @@ Well, not quite. Both SGML and web browsers had different aspects of complexity 
 The SGML comment syntax might make more sense if you consider that it works the same in markup declarations in the DTD. For example, the following is the definition of the `param` element in the HTML 4.01 DTD:
 
 ```html
-<!ELEMENT PARAM - O EMPTY              -- named property value --
+<!ELEMENT PARAM - O EMPTY              -- named property value -->
 <!ATTLIST PARAM
   id          ID             #IMPLIED  -- document-wide unique id --
   name        CDATA          #REQUIRED -- property name --

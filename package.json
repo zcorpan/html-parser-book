@@ -17,6 +17,9 @@
   },
   "homepage": "https://htmlparser.info/",
   "devDependencies": {
-    "@11ty/eleventy": "^0.7.1"
+    "@11ty/eleventy": "^0.8.3"
+  },
+  "dependencies": {
+    "@11ty/eleventy-plugin-syntaxhighlight": "^2.0.3"
   }
 }
