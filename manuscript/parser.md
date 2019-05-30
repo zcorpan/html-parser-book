@@ -72,7 +72,7 @@ The HTML standard took the opportunity to make the shorter syntax conforming (th
 
 Originally, `<meta http-equiv>` was a feature intended for web servers, not for clients. The idea was that servers could scan for the http-equiv in an HTML file, and set the corresponding HTTP headers when serving it. Servers didn’t do that. Instead, web browsers picked it up.
 
-Also note the absurdity of encoding the character encoding in the character encoding in the document that you’re trying to decode, especially when it’s not the very first thing in the file (like in, e.g., CSS and XML).
+Also note the absurdity of encoding the character encoding in the character encoding of the document that you’re trying to decode, especially when it’s not the very first thing in the file (like in, e.g., CSS and XML).
 
 Before the HTML parser starts, a prescan of the byte stream can take place in an attempt to find a character encoding declaration. This prescan is essentially a simplified HTML parser. The prescan is usually done on the first 1024 bytes, and there is a conformance requirement for documents to include the encoding declaration within the first 1024 bytes.
 
