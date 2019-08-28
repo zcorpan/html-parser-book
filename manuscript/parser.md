@@ -146,88 +146,83 @@ The tokenizer always starts in the *data state*, which is defined as follows:
 
 > Consume the next input character:
 >
-> * U+0026 AMPERSAND (&)
+> U+0026 AMPERSAND (&)
 >
->   * Set the return state to the data state. Switch to the character reference state.
+> : Set the return state to the data state. Switch to the character reference state.
 >
-> * U+003C LESS-THAN SIGN (<)
+> U+003C LESS-THAN SIGN (<)
 >
->   * Switch to the tag open state.
+> : Switch to the tag open state.
 >
-> * U+0000 NULL
+> U+0000 NULL
 >
->   * This is an unexpected-null-character parse error. Emit the current input character as a character token.
+> : This is an unexpected-null-character parse error. Emit the current input character as a character token.
 >
-> * EOF
+> EOF
 >
->   * Emit an end-of-file token.
+> : Emit an end-of-file token.
 >
-> * Anything else
+> Anything else
 >
->   * Emit the current input character as a character token.
+> : Emit the current input character as a character token.
 
 The next input character is the "`<`", which switches the tokenizer to the *tag open state*:
 
 > Consume the next input character:
 >
-> * U+0021 EXCLAMATION MARK (!)
+> U+0021 EXCLAMATION MARK (!)
 >
->   * Switch to the markup declaration open state.
+> : Switch to the markup declaration open state.
 >
-> * U+002F SOLIDUS (/)
+> U+002F SOLIDUS (/)
 >
->   * Switch to the end tag open state.
+> : Switch to the end tag open state.
 >
-> * ASCII alpha
+> ASCII alpha
 >
->   * Create a new start tag token, set its tag name to the empty string. Reconsume in the tag name state.
+> : Create a new start tag token, set its tag name to the empty string. Reconsume in the tag name state.
 >
-> * U+003F QUESTION MARK (?)
+> U+003F QUESTION MARK (?)
 >
->   * This is an unexpected-question-mark-instead-of-tag-name parse error. Create a comment token whose data is the empty string. Reconsume in the bogus comment state.
+> : This is an unexpected-question-mark-instead-of-tag-name parse error. Create a comment token whose data is the empty string. Reconsume in the bogus comment state.
 >
-> * EOF
+> EOF
 >
->   * This is an eof-before-tag-name parse error. Emit a U+003C LESS-THAN SIGN character token and an end-of-file token.
+> : This is an eof-before-tag-name parse error. Emit a U+003C LESS-THAN SIGN character token and an end-of-file token.
 >
-> * Anything else
->
->   * This is an invalid-first-character-of-tag-name parse error. Emit a U+003C LESS-THAN SIGN character token. Reconsume in the data state.
+> Anything else
+> : This is an invalid-first-character-of-tag-name parse error. Emit a U+003C LESS-THAN SIGN character token. Reconsume in the data state.
 
 The input so far is "`<p`", and the "`p`" falls into ASCII alpha clause. At this point a start tag token is created (but not yet emitted), and then the "`p`" is reconsumed in the *tag name state*:
 
 > Consume the next input character:
 >
-> * U+0009 CHARACTER TABULATION (tab)
-> * U+000A LINE FEED (LF)
-> * U+000C FORM FEED (FF)
-> * U+0020 SPACE
+> U+0009 CHARACTER TABULATION (tab); U+000A LINE FEED (LF); U+000C FORM FEED (FF); U+0020 SPACE
+> : Switch to the before attribute name state.
 >
->   * Switch to the before attribute name state.
+> U+002F SOLIDUS (/)
 >
-> * U+002F SOLIDUS (/)
+> : Switch to the self-closing start tag state.
 >
->   * Switch to the self-closing start tag state.
+> U+003E GREATER-THAN SIGN (>)
 >
-> * U+003E GREATER-THAN SIGN (>)
+> : Switch to the data state. Emit the current tag token.
 >
->   * Switch to the data state. Emit the current tag token.
+> ASCII upper alpha
 >
-> * ASCII upper alpha
+> : Append the lowercase version of the current input character (add 0x0020 to the character's code point) to the current tag token's tag name.
 >
->   * Append the lowercase version of the current input character (add 0x0020 to the character's code point) to the current tag token's tag name.
+> U+0000 NULL
 >
-> * U+0000 NULL
+> : This is an unexpected-null-character parse error. Append a U+FFFD REPLACEMENT CHARACTER character to the current tag token's tag name.
 >
->   * This is an unexpected-null-character parse error. Append a U+FFFD REPLACEMENT CHARACTER character to the current tag token's tag name.
+> EOF
 >
-> * EOF
+> : This is an eof-in-tag parse error. Emit an end-of-file token.
 >
->   * This is an eof-in-tag parse error. Emit an end-of-file token.
+> Anything else
 >
-> * Anything else
->
->   * Append the current input character to the current tag token's tag name.
+> : Append the current input character to the current tag token's tag name.
 
 The input is still "`<p`", and the "`p`" falls into the *Anything else* clause. The start tag token’s name is now "`p`". The tokenizer stays in this state for the next character.
 
@@ -239,21 +234,21 @@ The `</p>` goes through similar states as the start tag, but obviously creates a
 
 > Consume the next input character:
 >
-> * ASCII alpha
+> ASCII alpha
 >
->   * Create a new end tag token, set its tag name to the empty string. Reconsume in the tag name state.
+> : Create a new end tag token, set its tag name to the empty string. Reconsume in the tag name state.
 >
-> * U+003E GREATER-THAN SIGN (>)
+> U+003E GREATER-THAN SIGN (>)
 >
->   * This is a missing-end-tag-name parse error. Switch to the data state.
+> : This is a missing-end-tag-name parse error. Switch to the data state.
 >
-> * EOF
+> EOF
 >
->   * This is an eof-before-tag-name parse error. Emit a U+003C LESS-THAN SIGN character token, a U+002F SOLIDUS character token and an end-of-file token.
+> : This is an eof-before-tag-name parse error. Emit a U+003C LESS-THAN SIGN character token, a U+002F SOLIDUS character token and an end-of-file ton.
 >
-> * Anything else
+> Anything else
 >
->   * This is an invalid-first-character-of-tag-name parse error. Create a comment token whose data is the empty string. Reconsume in the bogus comment state.
+> : This is an invalid-first-character-of-tag-name parse error. Create a comment token whose data is the empty string. Reconsume in the bogus comment state.
 
 Finally, the end of the input stream is said to be an "EOF" character, which emits an end-of-file token. The series of tokens produced is thus:
 
@@ -277,9 +272,9 @@ This book contains a number of quizzes, which you should be able to answer with 
 
 Note that that isn’t the ASCII "x" but instead U+0445 CYRILLIC SMALL LETTER HA. If we look at the *end tag open state* above, we find:
 
-> * Anything else
+> Anything else
 >
->   * This is an invalid-first-character-of-tag-name parse error. Create a comment token whose data is the empty string. Reconsume in the bogus comment state.
+> : This is an invalid-first-character-of-tag-name parse error. Create a comment token whose data is the empty string. Reconsume in the bogus comment state.
 
 The correct answer is thus a comment node.
 
@@ -359,59 +354,51 @@ Let’s check. The first part, before the slash, is straightforward.
 
 The tokenizer will be in the *before attribute name state* when it consumes the "`/`", which says:
 
-> * U+002F SOLIDUS (/)
-> * U+003E GREATER-THAN SIGN (>)
-> * EOF
+> U+002F SOLIDUS (/); U+003E GREATER-THAN SIGN (>); EOF
 >
->   * Reconsume in the after attribute name state.
+> : Reconsume in the after attribute name state.
 
 The *after attribute name state* says:
 
-> * U+002F SOLIDUS (/)
+> U+002F SOLIDUS (/)
 >
->   * Switch to the self-closing start tag state.
+> : Switch to the self-closing start tag state.
 
 OK. Now we consume the "`r`":
 
-> * Anything else
+> Anything else
 >
->   * This is an unexpected-solidus-in-tag parse error. Reconsume in the before attribute name state.
+> : This is an unexpected-solidus-in-tag parse error. Reconsume in the before attribute name state.
 
 So it will start a new attribute at this point:
 
-> * Anything else
+> Anything else
 >
->   * Start a new attribute in the current tag token. Set that attribute name and value to the empty string. Reconsume in the attribute name state.
+> : Start a new attribute in the current tag token. Set that attribute name and value to the empty string. Reconsume in the attribute name state.
 
 The *attribute name state*, for both the "`r`" and the "`e`":
 
-> * Anything else
+> Anything else
 >
->   * Append the current input character to the current attribute's name.
+> : Append the current input character to the current attribute's name.
 
 The second "`/`" is then treated as follows:
 
-> * U+0009 CHARACTER TABULATION (tab)
-> * U+000A LINE FEED (LF)
-> * U+000C FORM FEED (FF)
-> * U+0020 SPACE
-> * U+002F SOLIDUS (/)
-> * U+003E GREATER-THAN SIGN (>)
-> * EOF
+> U+0009 CHARACTER TABULATION (tab); U+000A LINE FEED (LF); U+000C FORM FEED (FF); U+0020 SPACE; U+002F SOLIDUS (/); U+003E GREATER-THAN SIGN (>); EOF
 >
->   * Reconsume in the after attribute name state.
+> : Reconsume in the after attribute name state.
 
 *After attribute name state*:
 
-> * 002F SOLIDUS (/)
+> 002F SOLIDUS (/)
 >
->   * Switch to the self-closing start tag state.
+> : Switch to the self-closing start tag state.
 
 *Self-closing start tag state*:
 
-> * U+003E GREATER-THAN SIGN (>)
+> U+003E GREATER-THAN SIGN (>)
 >
->   * Set the self-closing flag of the current tag token. Switch to the data state. Emit the current tag token.
+> : Set the self-closing flag of the current tag token. Switch to the data state. Emit the current tag token.
 
 Ah, this time the tokenizer got what it expected, a `>` after a slash.
 
@@ -778,9 +765,9 @@ CDATA sections are only supported in foreign content, i.e., when the current nod
 
 The *markup declaration open state* says:
 
-> * Case-sensitive match for the string "[CDATA[" (the five uppercase letters "CDATA" with a U+005B LEFT SQUARE BRACKET character before and after)
+> Case-sensitive match for the string "[CDATA[" (the five uppercase letters "CDATA" with a U+005B LEFT SQUARE BRACKET character before and after)
 >
->   * Consume those characters. If there is an adjusted current node and it is not an element in the HTML namespace, then switch to the CDATA section state. Otherwise, this is a cdata-in-html-content parse error. Create a comment token whose data is the "[CDATA[" string. Switch to the bogus comment state.
+> : Consume those characters. If there is an adjusted current node and it is not an element in the HTML namespace, then switch to the CDATA section state. Otherwise, this is a cdata-in-html-content parse error. Create a comment token whose data is the "[CDATA[" string. Switch to the bogus comment state.
 
 So in HTML content, it ends up as a comment instead.
 
@@ -810,17 +797,17 @@ The PLAINTEXT state is similar to RAWTEXT, except that it can never switch to an
 
 > Consume the next input character:
 >
-> * U+0000 NULL
+> U+0000 NULL
 >
->   * This is an unexpected-null-character parse error. Emit a U+FFFD REPLACEMENT CHARACTER character token.
+> : This is an unexpected-null-character parse error. Emit a U+FFFD REPLACEMENT CHARACTER character token.
 >
-> * EOF
+> EOF
 >
->   * Emit an end-of-file token.
+> : Emit an end-of-file token.
 >
-> * Anything else
+> Anything else
 >
->   * Emit the current input character as a character token.
+> : Emit the current input character as a character token.
 
 Effectively, the rest of the document is unconditionally treated as plain text.
 
@@ -1166,21 +1153,21 @@ In this case, a `DocumentType` node is appended to the `Document`, and then the 
 
 In the "before html" insertion mode, we handle the next token, the "`\n`" character token.
 
-> * A character token that is one of U+0009 CHARACTER TABULATION, U+000A LINE FEED (LF), U+000C FORM FEED (FF), U+000D CARRIAGE RETURN (CR), or U+0020 SPACE
+> A character token that is one of U+0009 CHARACTER TABULATION, U+000A LINE FEED (LF), U+000C FORM FEED (FF), U+000D CARRIAGE RETURN (CR), or U+0020 SPACE
 >
->   * Ignore the token.
+> : Ignore the token.
 
 OK, so whitespace after the doctype is ignored. Moving on.
 
 The div start tag token is handled by the "before html" insertion mode as follows:
 
-> * Anything else
+> Anything else
 >
->   * Create an html element whose node document is the Document object. Append it to the Document object. Put this element in the stack of open elements.
+> : Create an html element whose node document is the Document object. Append it to the Document object. Put this element in the stack of open elements.
 >
-> * If the Document is being loaded as part of navigation of a browsing context, then: run the application cache selection algorithm with no manifest, passing it the Document object.
+> If the Document is being loaded as part of navigation of a browsing context, then: run the application cache selection algorithm with no manifest, passing it the Document object.
 >
->   * Switch the insertion mode to "before head", then reprocess the token.
+> : Switch the insertion mode to "before head", then reprocess the token.
 
 Notice the reference to the *stack of open elements*. This stack is used throughout the tree builder, for example when handling an end tag token. When an element is inserted, it is also added to the stack of open elements.
 
@@ -1200,11 +1187,11 @@ At this point the DOM looks like this:
 
 The "in body" insertion mode is the mode that handles most of the tags in a typical document. Let’s see what it does with the div start tag token:
 
-> * A start tag whose tag name is one of: "address", "article", "aside", "blockquote", "center", "details", "dialog", "dir", "div", "dl", "fieldset", "figcaption", "figure", "footer", "header", "hgroup", "main", "menu", "nav", "ol", "p", "section", "summary", "ul"
+> A start tag whose tag name is one of: "address", "article", "aside", "blockquote", "center", "details", "dialog", "dir", "div", "dl", "fieldset", "figcaption", "figure", "footer", "header", "hgroup", "main", "menu", "nav", "ol", "p", "section", "summary", "ul"
 >
->   * If the stack of open elements has a p element in button scope, then close a p element.
+> : If the stack of open elements has a p element in button scope, then close a p element.
 >
->     Insert an HTML element for the token.
+>   Insert an HTML element for the token.
 
 The stack of open elements has just html and body, so there’s no p element to close. (We’ll discuss the details of this in the *Implied tags* section.)
 
@@ -1221,15 +1208,15 @@ The stack of open elements has just html and body, so there’s no p element to 
 
 We stay in the "in body" insertion mode. Next, we have a character token (D).
 
-> * Any other character token
+> Any other character token
 >
->   * Reconstruct the active formatting elements, if any.
+> : Reconstruct the active formatting elements, if any.
 >
->     Insert the token's character.
+>   Insert the token's character.
 >
->     Set the frameset-ok flag to "not ok".
+>   Set the frameset-ok flag to "not ok".
 >
->     Reconstructing active formatting elements is discussed in the *Misnested tags* section.
+>   Reconstructing active formatting elements is discussed in the *Misnested tags* section.
 
 "Insert the token’s character" will check if there is a `Text` node immediately before, and if so, append to it. Otherwise it creates a new `Text` node. In this case, there is no `Text` node yet, but for the subsequent character tokens there is.
 
@@ -1237,17 +1224,17 @@ The frameset-ok flag is discussed in the *Frameset* section.
 
 Finally, the end tag.
 
-> * An end tag whose tag name is one of: "address", "article", "aside", "blockquote", "button", "center", "details", "dialog", "dir", "div", "dl", "fieldset", "figcaption", "figure", "footer", "header", "hgroup", "listing", "main", "menu", "nav", "ol", "pre", "section", "summary", "ul"
+> An end tag whose tag name is one of: "address", "article", "aside", "blockquote", "button", "center", "details", "dialog", "dir", "div", "dl", "fieldset", "figcaption", "figure", "footer", "header", "hgroup", "listing", "main", "menu", "nav", "ol", "pre", "section", "summary", "ul"
 >
->   * If the stack of open elements does not have an element in scope that is an HTML element with the same tag name as that of the token, then this is a parse error; ignore the token.
+> : If the stack of open elements does not have an element in scope that is an HTML element with the same tag name as that of the token, then this is a parse error; ignore the token.
 >
->     Otherwise, run these steps:
+>   Otherwise, run these steps:
 >
->     1. Generate implied end tags.
+>   1. Generate implied end tags.
 >
->     2. If the current node is not an HTML element with the same tag name as that of the token, then this is a parse error.
+>   2. If the current node is not an HTML element with the same tag name as that of the token, then this is a parse error.
 >
->     3. Pop elements from the stack of open elements until an HTML element with the same tag name as the token has been popped from the stack.
+>   3. Pop elements from the stack of open elements until an HTML element with the same tag name as the token has been popped from the stack.
 
 The stack of open elements is still: html, body, div. So we run the steps above.
 
@@ -1257,15 +1244,15 @@ In our case, the most recently added element is indeed a div, so there’s no pa
 
 Are we done? Not quite. There is an end-of-file token, too.
 
-> * An end-of-file token
+> An end-of-file token
 >
->   * If the stack of template insertion modes is not empty, then process the token using the rules for the "in template" insertion mode.
+> : If the stack of template insertion modes is not empty, then process the token using the rules for the "in template" insertion mode.
 >
->     Otherwise, follow these steps:
+>   Otherwise, follow these steps:
 >
->     1. If there is a node in the stack of open elements that is not either a dd element, a dt element, an li element, an optgroup element, an option element, a p element, an rb element, an rp element, an rt element, an rtc element, a tbody element, a td element, a tfoot element, a th element, a thead element, a tr element, the body element, or the html element, then this is a parse error.
+>   1. If there is a node in the stack of open elements that is not either a dd element, a dt element, an li element, an optgroup element, an option element, a p element, an rb element, an rp element, an rt element, an rtc element, a tbody element, a td element, a tfoot element, a th element, a thead element, a tr element, the body element, or the html element, then this is a parse error.
 >
->     2. Stop parsing.
+>   2. Stop parsing.
 
 The template stuff is about handling unclosed template elements.
 
@@ -1371,13 +1358,13 @@ When scripting is enabled, the tree builder, when handling the start tag token, 
 
 When scripting is disabled, how `noscript` is parsed depends on if it is in `head` or in `body`. Let’s do the in `body` case first, since it is simpler. It is parsed the same as "ordinary" elements (which includes unknown elements):
 
-> * Any other start tag
+> Any other start tag
 >
->   * Reconstruct the active formatting elements, if any.
+> : Reconstruct the active formatting elements, if any.
 >
->     Insert an HTML element for the token.
+>   Insert an HTML element for the token.
 >
->     Note: This element will be an ordinary element.
+>   Note: This element will be an ordinary element.
 
 That is, it is inserted in the DOM and the contents are parsed as normal. For example:
 
@@ -1407,35 +1394,29 @@ When `noscript` is found in `head`, the tree builder switches to the "in head no
 
 `basefont` is handled as follows in this insertion mode:
 
-> * A character token that is one of U+0009 CHARACTER TABULATION, U+000A LINE FEED (LF), U+000C FORM FEED (FF), U+000D CARRIAGE RETURN (CR), or U+0020 SPACE
+> A character token that is one of U+0009 CHARACTER TABULATION, U+000A LINE FEED (LF), U+000C FORM FEED (FF), U+000D CARRIAGE RETURN (CR), or U+0020 SPACE; A comment token; A start tag whose tag name is one of: "basefont", "bgsound", "link", "meta", "noframes", "style"
 >
-> * A comment token
->
-> * A start tag whose tag name is one of: "basefont", "bgsound", "link", "meta", "noframes", "style"
->
->   * Process the token using the rules for the "in head" insertion mode.
+> : Process the token using the rules for the "in head" insertion mode.
 
 The result is that a `basefont` element is inserted to the `noscript` element.
 
 What about the second `noscript` start tag?
 
-> * A start tag whose tag name is one of: "head", "noscript"
+> A start tag whose tag name is one of: "head", "noscript"; Any other end tag
 >
-> * Any other end tag
->
->   * Parse error. Ignore the token.
+> : Parse error. Ignore the token.
 
 It’s ignored. The final tag, the `base` start tag, is handled under the anything else clause:
 
-> * Anything else
+> Anything else
 >
->   * Parse error.
+> : Parse error.
 >
->     Pop the current node (which will be a noscript element) from the stack of open elements; the new current node will be a head element.
+>   Pop the current node (which will be a noscript element) from the stack of open elements; the new current node will be a head element.
 >
->     Switch the insertion mode to "in head".
+>   Switch the insertion mode to "in head".
 >
->     Reprocess the token.
+>   Reprocess the token.
 
 It closes the `noscript` element, and the token is reprocessed. So the correct answer is "`</noscript>` before `<base>`".
 
@@ -1589,21 +1570,21 @@ Then we have the `form` start tag. Since the *form element pointer* is not null,
 
 Let’s see.
 
-> * An end tag whose tag name is "form"
+> An end tag whose tag name is "form"
 >
->   * If there is no template element on the stack of open elements, then run these substeps:
+> : If there is no template element on the stack of open elements, then run these substeps:
 >
->     1. Let node be the element that the form element pointer is set to, or null if it is not set to an element.
+>   1. Let node be the element that the form element pointer is set to, or null if it is not set to an element.
 >
->     2. Set the form element pointer to null.
+>   2. Set the form element pointer to null.
 >
->     3. If node is null or if the stack of open elements does not have node in scope, then this is a parse error; return and ignore the token.
+>   3. If node is null or if the stack of open elements does not have node in scope, then this is a parse error; return and ignore the token.
 >
->     4. Generate implied end tags.
+>   4. Generate implied end tags.
 >
->     5. If the current node is not node, then this is a parse error.
+>   5. If the current node is not node, then this is a parse error.
 >
->     6. Remove node from the stack of open elements.
+>   6. Remove node from the stack of open elements.
 
 We clear the form element pointer, step 3 doesn’t apply (*node* is the form), and we don’t have any implied end tags to generate. Step 5 applies since the current node is a `div`. The stack of open elements is:
 
@@ -1742,45 +1723,45 @@ First, we parse the table start tag. We insert it as normal and switch to "in ta
 
 Then we get a character token in the "in table" insertion mode.
 
-> * A character token, if the current node is `table`, `tbody`, `tfoot`, `thead`, or `tr` element
+> A character token, if the current node is `table`, `tbody`, `tfoot`, `thead`, or `tr` element
 >
->   * Let the pending table character tokens be an empty list of tokens.
+> : Let the pending table character tokens be an empty list of tokens.
 >
->     Let the original insertion mode be the current insertion mode.
+>   Let the original insertion mode be the current insertion mode.
 >
->     Switch the insertion mode to "in table text" and reprocess the token.
+>   Switch the insertion mode to "in table text" and reprocess the token.
 >
->     Reprocessing in "in table text":
+>   Reprocessing in "in table text":
 >
-> * Any other character token
+> Any other character token
 >
->    * Append the character token to the pending table character tokens list.
+> : Append the character token to the pending table character tokens list.
 
 So this collects all of the character tokens in a list. The reason for this is that, if the characters are all whitespace, then it shouldn’t be foster-parented, but if there is any non-whitespace, then all those character tokens should be foster-parented together (consider spaces between words).
 
 The next token is end-of-file:
 
-> * Anything else
+> Anything else
 >
->   * If any of the tokens in the pending table character tokens list are character tokens that are not ASCII whitespace, then this is a parse error: reprocess the character tokens in the pending table character tokens list using the rules given in the "anything else" entry in the "in table" insertion mode.
+> : If any of the tokens in the pending table character tokens list are character tokens that are not ASCII whitespace, then this is a parse error: reprocess the character tokens in the pending table character tokens list using the rules given in the "anything else" entry in the "in table" insertion mode.
 >
->     Otherwise, insert the characters given by the pending table character tokens list.
+>   Otherwise, insert the characters given by the pending table character tokens list.
 >
->     Switch the insertion mode to the original insertion mode and reprocess the token.
+>   Switch the insertion mode to the original insertion mode and reprocess the token.
 
 OK, so we need to check what "anything else" in "in table" says.
 
-> * Anything else
+> Anything else
 >
->   * Parse error. Enable foster parenting, process the token using the rules for the "in body" insertion mode, and then disable foster parenting.
+> : Parse error. Enable foster parenting, process the token using the rules for the "in body" insertion mode, and then disable foster parenting.
 
 Aha, this says something about foster parenting! The rules in "in body" for a non-U+0000, non-ASCII whitespace character token, is to "[insert the token's character](https://html.spec.whatwg.org/multipage/parsing.html#insert-a-character)", which is an algorithm which calls into another algorithm, for finding the "[appropriate place for inserting a node](https://html.spec.whatwg.org/multipage/parsing.html#appropriate-place-for-inserting-a-node)":
 
-> * If foster parenting is enabled and target is a `table`, `tbody`, `tfoot`, `thead`, or `tr` element
+> If foster parenting is enabled and target is a `table`, `tbody`, `tfoot`, `thead`, or `tr` element
 >
->   * [...]
+> : [...]
 >
->     If last table has a parent node, then let adjusted insertion location be inside last table's parent node, immediately before last table, and abort these substeps.
+>   If last table has a parent node, then let adjusted insertion location be inside last table's parent node, immediately before last table, and abort these substeps.
 
 This is the part that says to insert the node before the table.
 
@@ -1847,109 +1828,109 @@ In 2009, Henri Sivonen found that the HTML parser needed to retain a quirk for w
 
 > I implemented a single quirk for HTML5 parsing yesterday.
 >
-> * March 1995
+> March 1995
 >
->   * Netscape 1.1 beta 1 is released with table support. Table closes a paragraph implicitly.
+> : Netscape 1.1 beta 1 is released with table support. Table closes a paragraph implicitly.
 >
-> * August 1995
+> August 1995
 >
->   * Internet Explorer 1.0 is released. Table does not close a paragraph.
+> : Internet Explorer 1.0 is released. Table does not close a paragraph.
 >
-> * May 1996
+> May 1996
 >
->   * The IETF publishes experimental RFC 1942 which says that table is block level content like paragraphs (i.e. closes paragraph implicitly).
+> : The IETF publishes experimental RFC 1942 which says that table is block level content like paragraphs (i.e. closes paragraph implicitly).
 >
-> * January 1997
+> January 1997
 >
->   * The W3C publishes HTML 3.2 with a DTD that makes tables close paragraphs implicitly in an SGML parser.
+> : The W3C publishes HTML 3.2 with a DTD that makes tables close paragraphs implicitly in an SGML parser.
 >
-> * December 1997
+> December 1997
 >
->   * The W3C publishes HTML 4.0 with a DTD that makes tables close paragraphs implicitly in an SGML parser.
+> : The W3C publishes HTML 4.0 with a DTD that makes tables close paragraphs implicitly in an SGML parser.
 >
-> * April 1998
+> April 1998
 >
->   * The W3C revises HTML 4.0 without changing the DTD on the point of paragraphs and tables.
+> : The W3C revises HTML 4.0 without changing the DTD on the point of paragraphs and tables.
 >
-> * December 1999
+> December 1999
 >
->   * The W3C publishes HTML 4.01 without changing the DTD on the point of paragraphs and tables.
+> : The W3C publishes HTML 4.01 without changing the DTD on the point of paragraphs and tables.
 >
-> * May 2000
+> May 2000
 >
->   * IE5 for Mac is released. It is the first shipping browser to have a quirks mode and a standards mode.
+> : IE5 for Mac is released. It is the first shipping browser to have a quirks mode and a standards mode.
 >
-> * July 2001
+> July 2001
 >
->   * A bug is filed saying that Mozilla is wrong in not making table close a paragraph implicitly and that Mozilla should start closing paragraphs in the standards mode.
+> : A bug is filed saying that Mozilla is wrong in not making table close a paragraph implicitly and that Mozilla should start closing paragraphs in thstandards mode.
 >
-> * October 2001
+> October 2001
 >
->   * IE6 is released. It is the first version of IE for Windows that has a quirks mode and a standards mode. A table doesn’t close a paragraph in either mode.
+> : IE6 is released. It is the first version of IE for Windows that has a quirks mode and a standards mode. A table doesn’t close a paragraph in eier mode.
 >
-> * June 2003
+> June 2003
 >
->   * The Mozilla bug is fixed making Mozilla close paragraphs upon tables in the standards mode. The quirks-mode behavior is left to not closing a paragraph upon a table.
+> : The Mozilla bug is fixed making Mozilla close paragraphs upon tables in the standards mode. The quirks-mode behavior is left to not closing a pagraph upon a table.
 >
-> * April 2005
+> April 2005
 >
->   * The Web Standards Project publishes the Acid2 test made by Ian Hickson and Håkon Lie. To pass the test, a user agent must close a paragraph upon table (in the standards mode).
+> : The Web Standards Project publishes the Acid2 test made by Ian Hickson and Håkon Lie. To pass the test, a user agent must close a paragraph upon tae (in the standards mode).
 >
-> * April 2005
+> April 2005
 >
->   * In order to pass Acid2, Safari is changed to make a table close a paragraph in the standards mode. The quirks-mode behavior is left to not closing a paragraph upon a table.
+> : In order to pass Acid2, Safari is changed to make a table close a paragraph in the standards mode. The quirks-mode behavior is left to not cling a paragraph upon a table.
 >
-> * May 2005
+> May 2005
 >
->   * In order to pass Acid2, Opera is changed to make a table close a paragraph in the standards mode. The quirks-mode behavior is left to not closing a paragraph upon a table.
+> : In order to pass Acid2, Opera is changed to make a table close a paragraph in the standards mode. The quirks-mode behavior is left to not closing a ragraph upon a table.
 >
-> * January 2006
+> January 2006
 >
->   * Ian Hickson changes the comment parsing part of Acid2 and blogs about it.
+> : Ian Hickson changes the comment parsing part of Acid2 and blogs about it.
 >
-> * February 2006
+> February 2006
 >
->   * Ian Hickson publishes the first draft of the HTML5 parsing algorithm. It makes a table close a paragraph but the source code of the spec contains a comment saying "XXX quirks: don't do this".
+> : Ian Hickson publishes the first draft of the HTML5 parsing algorithm. It makes a table close a paragraph but the source code of the spec contains a mment saying "XXX quirks: don't do this".
 >
-> * November 2006
+> November 2006
 >
->   * IE7 is released. A table doesn’t close a paragraph in either mode.
+> : IE7 is released. A table doesn’t close a paragraph in either mode.
 >
-> * March 2008
+> March 2008
 >
->   * A preliminary version of IE8 passes Acid2 when hosted on **www.webstandards.org**.
+> : A preliminary version of IE8 passes Acid2 when hosted on **www.webstandards.org**.
 >
-> * February 2009
+> February 2009
 >
->   * I file a spec bug requesting parsing quirks be defined.
+> : I file a spec bug requesting parsing quirks be defined.
 >
-> * March 2009
+> March 2009
 >
->   * IE8 is released. It has four layout modes. To pass Acid2, the new ones make a table close a paragraph. The parser behavior of `<p><table>` is now the only HTML parsing difference between the quirks and standards modes that is interoperably implemented in all of the top 4 browser engines.
+> : IE8 is released. It has four layout modes. To pass Acid2, the new ones make a table close a paragraph. The parser behavior of `<p><table>` is now thonly HTML parsing difference between the quirks and standards modes that is interoperably implemented in all of the top 4 browser engines.
 >
-> * March 31st 2009
+> March 31st 2009
 >
->   * Ian Hickson asks for vendor input about parsing quirks.
+> : Ian Hickson asks for vendor input about parsing quirks.
 >
-> * April 1st 2009
+> April 1st 2009
 >
->   * I start a thread about finding vendor input in Mozilla’s platform development newsgroup. The `<p><table>` issue seems to be the only quirk left.
+> : I start a thread about finding vendor input in Mozilla’s platform development newsgroup. The `<p><table>` issue seems to be the only quirk left.
 >
-> * April 1st 2009
+> April 1st 2009
 >
->   * Philip Taylor uses the Validator.nu HTML Parser to compile a list of dmoz-listed pages where closing paragraph vs. not closing would lead to different parse trees.
+> : Philip Taylor uses the Validator.nu HTML Parser to compile a list of dmoz-listed pages where closing paragraph vs. not closing would lead to dierent parse trees.
 >
-> * April 21st 2009
+> April 21st 2009
 >
->   * Simon Pieters analyzes 50 sites from Philip’s list concluding that "our options regarding `<p><table>` parsing are (1) having the quirk, and (2) changing Acid2".
+> : Simon Pieters analyzes 50 sites from Philip’s list concluding that "our options regarding `<p><table>` parsing are (1) having the quirk, and (2) chging Acid2".
 >
-> * April 22nd 2009
+> April 22nd 2009
 >
->   * I check in an implementation of the quirk into the Gecko HTML5 parsing repository.
+> : I check in an implementation of the quirk into the Gecko HTML5 parsing repository.
 >
-> * May 26th 2009
+> May 26th 2009
 >
->   * Hixie checks in the definition of the quirk into the HTML5 spec. The commit also includes this comment: "i hate myself (this quirk was basically caused by acid2; if i'd realised we could change the specs when i wrote acid2, we could have avoided having any parsing-mode quirks) -Hixie"
+> : Hixie checks in the definition of the quirk into the HTML5 spec. The commit also includes this comment: "i hate myself (this quirk was basically caused by acid2; if i'd realised we could change the specs when i wrote acid2, we could have avoided having any parsing-mode quirks) -Hixie"
 >
 > A big thank you to Philip Taylor and Simon Pieters for their research (both the feasibility research and the timeline research).
 
@@ -2625,19 +2606,17 @@ Support for parsing inline SVG and MathML in HTML was [added](https://lists.w3.o
 
 The last bullet point is specified like this:
 
-> * A start tag whose tag name is one of: "b", "big", "blockquote", "body", "br", "center", "code", "dd", "div", "dl", "dt", "em", "embed", "h1", "h2", "h3", "h4", "h5", "h6", "head", "hr", "i", "img", "li", "listing", "menu", "meta", "nobr", "ol", "p", "pre", "ruby", "s", "small", "span", "strong", "strike", "sub", "sup", "table", "tt", "u", "ul", "var"
+> A start tag whose tag name is one of: "b", "big", "blockquote", "body", "br", "center", "code", "dd", "div", "dl", "dt", "em", "embed", "h1", "h2", "h3", "h4", "h5", "h6", "head", "hr", "i", "img", "li", "listing", "menu", "meta", "nobr", "ol", "p", "pre", "ruby", "s", "small", "span", "strong", "strike", "sub", "sup", "table", "tt", "u", "ul", "var"; A start tag whose tag name is "font", if the token has any attributes named "color", "face", or "size"
 >
-> * A start tag whose tag name is "font", if the token has any attributes named "color", "face", or "size"
+> : Parse error.
 >
->   * Parse error.
+>   If the parser was originally created for the HTML fragment parsing algorithm, then act as described in the "any other start tag" entry below. (fragment case)
 >
->     If the parser was originally created for the HTML fragment parsing algorithm, then act as described in the "any other start tag" entry below. (fragment case)
+>   Otherwise:
 >
->     Otherwise:
+>   Pop an element from the stack of open elements, and then keep popping more elements from the stack of open elements until the current node is a MathML text integration point, an HTML integration point, or an element in the HTML namespace.
 >
->     Pop an element from the stack of open elements, and then keep popping more elements from the stack of open elements until the current node is a MathML text integration point, an HTML integration point, or an element in the HTML namespace.
->
->     Then, reprocess the token.
+>   Then, reprocess the token.
 
 Note that `font` is handled differently depending on its attributes. SVG has a font element, but so does HTML. Before SVG and MathML were added to HTML, there were web pages that used "bogus" `<svg>` or `<math>` start tags and then used HTML inside and expected the HTML to be rendered like they did in contemporary browsers. In order to not regress those pages, this breakout list of tags was specified.
 

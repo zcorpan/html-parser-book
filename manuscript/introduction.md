@@ -405,11 +405,11 @@ In early 2006, Firefox was at version 1.5. Its HTML parser had its own interesti
 >
 > The key requirements are probably:
 >
->  * Coherence: scripts that rely on DOM invariants (like the fact that the DOM is a tree) shouldn't go off into infinite loops.
+> * Coherence: scripts that rely on DOM invariants (like the fact that the DOM is a tree) shouldn't go off into infinite loops.
 >
->  * Transparency: we shouldn't have to describe a whole extra section that explains how the CSS rendering engine applies to HTML DOMs; CSS should just work on the real DOM as you would see it from script.
+> * Transparency: we shouldn't have to describe a whole extra section that explains how the CSS rendering engine applies to HTML DOMs; CSS should just work on the real DOM as you would see it from script.
 >
->  * Predictability: it shouldn't depend on, e.g., the protocol or network conditions — every browser should get the same DOM for the same original markup in all situations.
+> * Predictability: it shouldn't depend on, e.g., the protocol or network conditions — every browser should get the same DOM for the same original markup in all situations.
 >
 > The least worse [sic] option is probably the Safari-style on-the-fly reparenting, I think, but I'm not sure. It's the only one that fits those requirements. Is there a fifth option I'm missing?
 
@@ -431,27 +431,27 @@ In February 2006, Ian Hickson [announced on the WHATWG mailing list](https://lis
 >
 > It's not 100% complete. Some of the things that need work are:
 >
->  * Interaction with document.open/write/close is undefined
+> * Interaction with document.open/write/close is undefined
 >
->  * How to determine the character encoding
+> * How to determine the character encoding
 >
->  * Integration with quirks mode problems
+> * Integration with quirks mode problems
 >
->  * `<style>` parsing needs tweaking if we want to exactly match IE
+> * `<style>` parsing needs tweaking if we want to exactly match IE
 >
->  * `<base>` parsing needs tweaking to handle multiple `<base>`s
+> * `<base>` parsing needs tweaking to handle multiple `<base>`s
 >
->  * `<isindex>` needs some prose in the form submission section
+> * `<isindex>` needs some prose in the form submission section
 >
->  * No-frames and no-script modes aren't yet defined
+> * No-frames and no-script modes aren't yet defined
 >
->  * Execution of `<script>` is not yet defined
+> * Execution of `<script>` is not yet defined
 >
->  * New HTML5 elements aren't yet defined
+> * New HTML5 elements aren't yet defined
 >
->  * There are various cases (marked) where EOF handling is undefined
+> * There are various cases (marked) where EOF handling is undefined
 >
->  * Interaction with the "load" event is undefined
+> * Interaction with the "load" event is undefined
 >
 > However, none of the above are particularly critical to the parsing.
 >
