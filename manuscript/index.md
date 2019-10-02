@@ -3,11 +3,37 @@ layout: chapter.njk
 title: Idiosyncrancies of the HTML parser - The HTML Parser Book
 ---
 <header class=book-cover>
-<div><img aria-roledescription="book cover image" alt="Sketch of a platypus" src=_assets/img/Platypus_sketch_by_Hmich176.png></div>
-
-# Idiosyncracies of the HTML parser
-
-Simon Pieters
+<h1 role="presentation">
+<svg viewBox="0 -100 1000 800" role="presentation" focusable="false" id="book-cover-svg">
+  <style>
+    #book-cover-svg { background: white; border-radius: 30px; box-shadow: 0 0 30px rgba(0, 0, 0, 0.2); }
+    #book-cover-svg #book-title {
+      font-weight: 900;
+      font-size: 100px;
+    }
+    #book-cover-svg text {
+      font-family: system-ui, sans-serif;
+      opacity: 0.6;
+    }
+    #book-cover-svg #book-author {
+      font-weight: 700;
+      font-size: 25px;
+    }
+    #book-cover-svg > * { mix-blend-mode: multiply }
+  </style>
+  <rect fill=darkseagreen x=0 y=190 width=1000 height=610 />
+  <image role="img" aria-roledescription="book cover image" aria-label="Sketch of a platypus." xlink:href="_assets/img/Platypus_sketch_by_Hmich176.png" x="382" y="0" width="568" height="574"/>
+  <g text-anchor=end id=book-title role="heading" aria-level="1">
+    <text x=800 y=120>Idiosyncracies</text>
+    <text x=700 y=220>of the</text>
+    <text x=600 y=320>HTML</text>
+    <text x=500 y=420>parser</text>
+  </g>
+  <g id=book-author>
+    <text role=paragraph text-anchor=middle x=500 y=675>Simon Pieters</text>
+  </g>
+</svg>
+</h1>
 
 </header>
 
@@ -27,13 +53,13 @@ You can [buy the eBook](https://leanpub.com/html-parser-book/) on Leanpub. 50% o
 
 ## Table of Contents
 
-<ol class=toc start=0>
- <li><a href=/preface/>Preface</a>
- <li><a href=/introduction/>Introduction</a>
- <li><a href=/parser/>The HTML parser</a>
- <li><a href=/microsyntaxes/>Microsyntaxes</a>
- <li><a href=/dom-manipulation/>DOM manipulation</a>
- <li><a href=/serializing/>Serializing</a>
- <li value=1 type=A><a href=/implementations/>Implementations</a>
- <li value=2 type=A><a href=/conformance-checkers/>Conformance checkers</a>
-</ol>
+<ul class=toc>
+ <li><a href=/preface/>Preface</a> <span>0</span>
+ <li><a href=/introduction/>Introduction</a> <span>1</span>
+ <li><a href=/parser/>The HTML parser</a> <span>2</span>
+ <li><a href=/microsyntaxes/>Microsyntaxes</a> <span>3</span>
+ <li><a href=/dom-manipulation/>DOM manipulation</a> <span>4</span>
+ <li><a href=/serializing/>Serializing</a> <span>5</span>
+ <li><a href=/implementations/>Implementations</a> <span>A</span>
+ <li><a href=/conformance-checkers/>Conformance checkers</a> <span>B</span>
+</ul>

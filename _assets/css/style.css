@@ -14,15 +14,14 @@ code.language-html { background: #444; color: white; padding: 0.5em 1em; margin-
 table { border-collapse: collapse; border: hidden; }
 th, td { border: 1px solid gray; padding: 0 0.5em; vertical-align: baseline; text-align: left; }
 
-.book-cover { text-align: center; min-height: calc(100vh - 4em); display: grid; align-items: safe center; justify-content: safe center; }
-.book-cover img { max-height: calc(80vh - 6em); min-height: 287px; min-width: 284px; object-fit: contain; }
+.book-cover { text-align: center; min-height: calc(100vh - 6em); display: grid; align-items: center; }
+.book-cover h1 { font: inherit; margin: 0; }
+.book-cover svg { display: block; }
+.book-cover p { margin-top: -2em; padding-bottom: 2em; font-weight: bold; opacity: 0.6; }
 
 .toc { counter-reset: item; padding: 0; }
 .toc > li { list-style-type: none; display: flex; margin-bottom: 1em; border-bottom: 2px #ccc solid; }
-.toc > li + li { counter-increment: item; }
-.toc > li::after { content: counter(item); flex-grow: 1; text-align: right;  }
-.toc > li[type="A"][value="1"]::after { content: "A"; }
-.toc > li[type="A"][value="2"]::after { content: "B"; }
+.toc > li span { flex-grow: 1; text-align: right;  }
 .toc > li > a { text-decoration: none; }
 
 blockquote { border-left: 0.25em solid darkseagreen; padding: 0.25em 1.25em 0.25em 1em; margin-left: 1em; margin-right: 1em; background-color: whitesmoke; }
@@ -40,7 +39,6 @@ blockquote blockquote { margin-left: 0; margin-right: 0; }
   h1, h2, h3, th, strong, html code { color: #eee; }
   code.language-html { background-color: #222; color: #ddd; }
   blockquote { background-color: #444; }
-  .book-cover img { filter: invert(0.865) brightness(1.5); }
   :link { color: gold; }
   :visited { color: goldenrod; }
   :any-link:active { color: pink; }
