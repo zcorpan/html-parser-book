@@ -30,7 +30,7 @@
   <rect fill="url(#book-cover-bg)" x="-79.5" y="-300" width="1159" height="1500" filter="url(#book-cover-shadow)"/>
   <image role="img" aria-roledescription="book cover image" aria-label="Sketch of a platypus." xlink:href="Platypus_sketch_by_Hmich176.png" x="382" y="0" width="568" height="574"/>
   <g text-anchor="end" id="book-title" role="heading" aria-level="1">
-    <text x="820" y="120">Idiosyncracies</text>
+    <text x="820" y="120">Idiosyncrasies</text>
     <text x="720" y="220">of the</text>
     <text x="620" y="320">HTML</text>
     <text x="520" y="420">parser</text>

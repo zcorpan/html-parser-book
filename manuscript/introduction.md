@@ -1,6 +1,8 @@
 ---
 layout: chapter.njk
 title: Introduction
+next: parser
+nextTitle: The HTML parser
 ---
 # Chapter 1. Introduction
 
@@ -154,7 +156,7 @@ When the HTML parser was first specified [in 2006](http://ln.hixie.ch/?start=113
 
 IE6 had an interesting HTML parser. It did not necessarily produce a tree; rather it would produce a graph, to more faithfully preserve author intent. Ill-formed markup, e.g., `<em><p></em></p>`, would result in an ill-formed DOM. This could cause scripts to go into infinite loops by just trying to iterate over the DOM.
 
-In early 2006, Firefox was at version 1.5. Its HTML parser had its own interesting effects, but unlike IE it would always produce a strict DOM tree. Safari was similar to Mozilla, but had a different approach to handling misnested blocks in inlines. Opera also had its own approach, which involved styling nodes in ways that could not be explained by looking at the DOM tree alone. To understand what was going on, let’s go back and read what Ian Hickson, then the editor of the HTML standard, [found when he was specifying the HTML parser](http://ln.hixie.ch/?start=1138169545&count=1).
+In early 2006, Firefox was at version 1.5. Its HTML parser had its own interesting effects, but unlike IE it would always produce a strict DOM tree. Safari was similar to Mozilla, but had a different approach to handling misnested blocks in inlines. Opera also had its own approach, which involved styling nodes in ways that could not be explained by looking at the DOM tree alone. To understand what was going on, let's go back and read what Ian Hickson, then the editor of the HTML standard, [found when he was specifying the HTML parser](http://ln.hixie.ch/?start=1138169545&count=1).
 
 > Imagine the following (invalid) markup:
 >
@@ -413,7 +415,7 @@ In early 2006, Firefox was at version 1.5. Its HTML parser had its own interesti
 >
 > The least worse [sic] option is probably the Safari-style on-the-fly reparenting, I think, but I'm not sure. It's the only one that fits those requirements. Is there a fifth option I'm missing?
 
-Well, it appeared that there wasn’t a fifth option, as the Safari approach was what was adopted. This is called the Adoption Agency Algorithm in the HTML standard.
+Well, it appeared that there wasn't a fifth option, as the Safari approach was what was adopted. This is called the Adoption Agency Algorithm in the HTML standard.
 
 ## The HTML parser is specified
 
@@ -459,7 +461,7 @@ In February 2006, Ian Hickson [announced on the WHATWG mailing list](https://lis
 >
 > The more evidence we have that this parsing model is solid and works with the real Web, the more likely we are to be able to convince Apple/Safari/Mozilla to implement it. And if all the browsers implement the same parsing model, then HTML interoperability on the Web will take a huge leap forward. T'would be save [sic] everyone a lot of time.
 
-Wouldn’t it, indeed.
+Wouldn't it, indeed.
 
 The following table shows when each browser shipped with a new HTML parser implementation, conforming to the specification.
 
@@ -472,7 +474,7 @@ The following table shows when each browser shipped with a new HTML parser imple
 
 ## The HTML syntax
 
-This section shouldn’t reveal many surprises, but you might learn something new nevertheless. The rationale of some restrictions are sometimes explained here or in later sections. If you have read the "[Writing HTML documents](https://html.spec.whatwg.org/multipage/syntax.html#writing)" section of the HTML standard, then you can skip this section.
+This section shouldn't reveal many surprises, but you might learn something new nevertheless. The rationale of some restrictions are sometimes explained here or in later sections. If you have read the "[Writing HTML documents](https://html.spec.whatwg.org/multipage/syntax.html#writing)" section of the HTML standard, then you can skip this section.
 
 ### The doctype
 
@@ -500,7 +502,7 @@ The doctype can be either:
 
 Also case-insensitive, except for the "about:legacy-compat" part.
 
-The purpose of the longer doctype is for compatibility with markup generators that are unable to produce the short doctype. If you don’t find yourself in such a situation, just use the short doctype.
+The purpose of the longer doctype is for compatibility with markup generators that are unable to produce the short doctype. If you don't find yourself in such a situation, just use the short doctype.
 
 Prior versions of HTML had other doctypes that are now defined to trigger one of the different rendering modes. For example, this HTML 4.01 doctype trigger no-quirks mode:
 
@@ -556,7 +558,7 @@ The `pre` and `textarea` elements have a special rule: they may begin with a new
 Use the force</pre>
 ```
 
-Foreign elements are slightly closer to XML in their syntax: "/>" works (self-closing start tag), CDATA sections work (`<![CDATA[ … ]]>`, the contents are like raw text). But note that other aspects still work like HTML; element names and attribute names are case-insensitive, and XML namespaces don’t work (only some namespaced attributes work with a predefined prefix).
+Foreign elements are slightly closer to XML in their syntax: "/>" works (self-closing start tag), CDATA sections work (`<![CDATA[ … ]]>`, the contents are like raw text). But note that other aspects still work like HTML; element names and attribute names are case-insensitive, and XML namespaces don't work (only some namespaced attributes work with a predefined prefix).
 
 ```html
 <p>Circling the drain.
@@ -625,7 +627,7 @@ Attributes come in a few different formats.
   <input value>
   ```
 
-* **Unquoted attribute value syntax.** The attribute name, optionally whitespace, `=`, optionally whitespace, then the value, which can’t be the empty string and is not allowed to contain whitespace or these characters: " ' = < > \`. If this is the last attribute and the start tag ends with `/>` (which is allowed on void elements and foreign elements), there has to be whitespace before the slash (otherwise the slash becomes part of the value). For example:
+* **Unquoted attribute value syntax.** The attribute name, optionally whitespace, `=`, optionally whitespace, then the value, which can't be the empty string and is not allowed to contain whitespace or these characters: " ' = < > \`. If this is the last attribute and the start tag ends with `/>` (which is allowed on void elements and foreign elements), there has to be whitespace before the slash (otherwise the slash becomes part of the value). For example:
 
   ```
   <input value=foo />
@@ -657,7 +659,7 @@ If the ampersand was unescaped in this example, like this:
 <a href="?title=Lone+Surrogates&reg">
 ```
 
-...then `&reg` would be interpreted as a named character reference, which expands to "®", i.e., it’s equivalent to:
+...then `&reg` would be interpreted as a named character reference, which expands to "®", i.e., it's equivalent to:
 
 ```html
 <a href="?title=Lone+Surrogates®">
@@ -675,7 +677,7 @@ Foreign elements support the following namespaced attributes (with fixed prefixe
 <svg xmlns="http://www.w3.org/2000/svg">
 ```
 
-Note that in the HTML syntax, it’s optional to declare the namespace.
+Note that in the HTML syntax, it's optional to declare the namespace.
 
 ```html
 <svg>
@@ -683,7 +685,7 @@ Note that in the HTML syntax, it’s optional to declare the namespace.
 
 ### Optional tags
 
-Certain tags can be omitted if the resulting DOM doesn’t change if they are so omitted, including "minor" changes such as where whitespace ends up or where a comment ends up. The rules for when they can be omitted are slightly convoluted, but they assume that the DOM is not allowed to change by omitting a tag. It is however conforming to intentionally move a tag such that omitting it no longer changes the DOM.
+Certain tags can be omitted if the resulting DOM doesn't change if they are so omitted, including "minor" changes such as where whitespace ends up or where a comment ends up. The rules for when they can be omitted are slightly convoluted, but they assume that the DOM is not allowed to change by omitting a tag. It is however conforming to intentionally move a tag such that omitting it no longer changes the DOM.
 
 For example, consider this snippet:
 
@@ -789,7 +791,7 @@ A somewhat recent change to comment syntax is that `--` is now allowed in the te
 <!-- Hello -- there -->
 ```
 
-The text is not allowed to contain `<!--` since that is an indicator of a nested comment, and nested comments don’t work.
+The text is not allowed to contain `<!--` since that is an indicator of a nested comment, and nested comments don't work.
 
 ```html
 <!-- <!-- this is an error --> -->

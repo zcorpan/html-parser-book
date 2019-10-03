@@ -1,7 +1,7 @@
 {
   "name": "html-parser-book",
   "version": "1.0.0",
-  "description": "The book 'Idiosyncracies of the HTML parser'",
+  "description": "The book 'Idiosyncrasies of the HTML parser'",
   "main": "index.js",
   "scripts": {
     "build": "npx @11y/eleventy",
@@ -20,6 +20,7 @@
   "homepage": "https://htmlparser.info/",
   "devDependencies": {
     "@11ty/eleventy": "^0.9.0",
+    "markdown-it-anchor": "^5.2.4",
     "markdown-it-deflist": "^2.0.3"
   },
   "dependencies": {}

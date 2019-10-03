@@ -1,4 +1,4 @@
-# Idiosyncracies of the HTML parser
+# Idiosyncrasies of the HTML parser
 
 This book is written in [Markua](https://leanpub.com/markua/read) and is published on [Leanpub](https://leanpub.com/html-parser-book) and on https://htmlparser.info/ using [Netlify](https://www.netlify.com).
 

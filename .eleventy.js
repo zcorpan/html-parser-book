@@ -1,12 +1,28 @@
 module.exports = function(eleventyConfig) {
   let markdownIt = require("markdown-it");
   let markdownItDeflist = require("markdown-it-deflist");
-  let options = {
-    html: true
+  let markdownItAnchor = require("markdown-it-anchor");
+  let slugify = function (s) {
+      let newStr = String(s).trim().toLowerCase()
+        .replace(/\s+/g, '-')
+        .replace(/[():.,&'`]/g, '');
+      return encodeURIComponent(newStr);
+    }
+  let markdownItAnchorOpts = {
+    slugify,
   };
-  let markdownLib = markdownIt(options).use(markdownItDeflist);
+  let options = {
+    html: true,
+  };
 
-  eleventyConfig.setLibrary("md", markdownLib);
+  eleventyConfig.addShortcode("ref", function(page, title) {
+    return `<a href="/${page}/#${slugify(title)}">${title}</a>`;
+  });
+
+  eleventyConfig.setLibrary("md", markdownIt(options)
+    .use(markdownItAnchor, markdownItAnchorOpts)
+    .use(markdownItDeflist)
+  );
 
   eleventyConfig.addPassthroughCopy("_assets");
 
