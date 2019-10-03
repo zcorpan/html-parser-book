@@ -1,12 +1,14 @@
 ---
 layout: chapter.njk
 title: Preface
+next: introduction
+nextTitle: Introduction
 ---
 # Preface
 
 ## Intended audience
 
-This is not an HTML beginner’s book. The intended audience is web developers who want to gain a deeper understanding of how the HTML parser works, or the history and rationale behind certain behaviors. Some prior knowledge of HTML and the DOM is assumed. If you are going to implement your own HTML parser (awesome!), then this book will hopefully be helpful, but please implement from the [HTML standard](https://html.spec.whatwg.org/multipage/). If you contribute to a browser engine or to web standards (awesome!), then this book will hopefully be helpful. If nothing else, I hope it will at least be an interesting read.
+This is not an HTML beginner's book. The intended audience is web developers who want to gain a deeper understanding of how the HTML parser works, or the history and rationale behind certain behaviors. Some prior knowledge of HTML and the DOM is assumed. If you are going to implement your own HTML parser (awesome!), then this book will hopefully be helpful, but please implement from the [HTML standard](https://html.spec.whatwg.org/multipage/). If you contribute to a browser engine or to web standards (awesome!), then this book will hopefully be helpful. If nothing else, I hope it will at least be an interesting read.
 
 ## Definition
 
@@ -34,7 +36,7 @@ The following is a non-exhaustive list of things that would be good for most web
 
 * **How `</script>` works.** "`</script>`" in a script block does not always close the script. This is discussed in the *Script states* section of the *Tokenizer*.
 
-* **Implied tags/omitted tags.** Some tags are optional, and some tags are implied without being optional. This explains why, for example, it’s not possible to nest an `<ul>` in `<p>`. This is discussed in the *Implied tags* section of *Tree construction*.
+* **Implied tags/omitted tags.** Some tags are optional, and some tags are implied without being optional. This explains why, for example, it's not possible to nest an `<ul>` in `<p>`. This is discussed in the *Implied tags* section of *Tree construction*.
 
 * **document.body being null.** Before the `<body>` has been parsed, `document.body` is null. See the *Using DOM APIs* section.
 

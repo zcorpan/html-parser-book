@@ -1,16 +1,39 @@
 #!/usr/bin/env python3
 import fileinput
+import re
+
+def slugify(title):
+    title = title.lower()
+    title = re.sub(r"\s+", '-', title)
+    title = re.sub(r"[():.,&'`]", '', title);
+    return title
+
+def rewrite_ref(m):
+    title = m.group(1)
+    slug = slugify(title)
+    return "[" + title + "](#" + slug + ")"
+
+def add_heading_id(m):
+    line = m.group(0)
+    title = m.group(1)
+    slug = slugify(title)
+    return "{#" + slug + "}\n" + line
 
 conversions = [
   ['```dom-tree', '```'],
   ['/_assets/img/', 'images/'],  # .travis/push.sh moves these files - also see https://leanpub.com/markua/read#leanpub-auto-local-resources
+  [r'\{% ref "[^"]+", "([^"]+)" %\}', rewrite_ref],
+  [r'^#+ (.+)$', add_heading_id],
 ]
 
 def replace_inline(filename):
     with fileinput.FileInput(filename, inplace=True) as file:
         for line in file:
             for c in conversions:
-                line = line.replace(c[0], c[1])
+                if (callable(c[1])):
+                    line = re.sub(c[0], c[1], line)
+                else:
+                    line = line.replace(c[0], c[1])
             print(line, end='')
 
 if (len(conversions) > 0):

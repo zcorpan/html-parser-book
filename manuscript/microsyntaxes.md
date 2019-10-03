@@ -1,6 +1,8 @@
 ---
 layout: chapter.njk
 title: Microsyntaxes
+next: dom-manipulation
+nextTitle: DOM manipulation
 ---
 # Chapter 3. Microsyntaxes
 
@@ -172,7 +174,7 @@ The format of the srcset attribute is as follows:
 
     * Optional whitespace.
 
-    * A non-empty URL that doesn’t start or end with a comma.
+    * A non-empty URL that doesn't start or end with a comma.
 
     * Optionally a descriptor:
 

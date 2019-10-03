@@ -1,6 +1,8 @@
 ---
 layout: chapter.njk
 title: DOM manipulation
+next: serializing
+nextTitle: Serializing
 ---
 # Chapter 4. DOM manipulation
 

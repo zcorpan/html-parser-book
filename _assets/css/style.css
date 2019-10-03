@@ -24,6 +24,9 @@ th, td { border: 1px solid gray; padding: 0 0.5em; vertical-align: baseline; tex
 .toc > li span { flex-grow: 1; text-align: right;  }
 .toc > li > a { text-decoration: none; }
 
+nav { margin-top: 3em; border-top: 0.25em solid darkseagreen; border-bottom: 0.25em solid darkseagreen; text-align: right;  }
+footer { font-size: small; text-align: center; }
+
 blockquote { border-left: 0.25em solid darkseagreen; padding: 0.25em 1.25em 0.25em 1em; margin-left: 1em; margin-right: 1em; background-color: whitesmoke; }
 blockquote blockquote { margin-left: 0; margin-right: 0; }
 

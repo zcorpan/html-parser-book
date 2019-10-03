@@ -1,6 +1,7 @@
 ---
 layout: chapter.njk
 title: Conformance checkers
+next: end
 ---
 # Appendix B. Conformance checkers
 
