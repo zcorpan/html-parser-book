@@ -30,7 +30,6 @@ title: Idiosyncrancies of the HTML parser - The HTML Parser Book
     }
     #book-cover-svg text {
       font-family: Archistico, sans-serif;
-      opacity: 0.6;
     }
     #book-cover-svg #book-author {
       font-weight: normal;

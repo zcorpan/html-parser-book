@@ -22,10 +22,9 @@
     }
     #book-cover-svg text {
       font-family: Archistico, sans-serif;
-      opacity: 0.6;
     }
     #book-cover-svg #book-author {
-      font-weight: normal;
+      font-weight: bold;
       font-size: 50px;
     }
     #book-cover-svg image { mix-blend-mode: multiply }
