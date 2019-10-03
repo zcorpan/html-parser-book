@@ -3,7 +3,7 @@ import fileinput
 
 conversions = [
   ['```dom-tree', '```'],
-  ['/_assets/img/', 'images/'],  # .travis/push.sh moves these files
+  ['/_assets/img/', 'images/'],  # .travis/push.sh moves these files - also see https://leanpub.com/markua/read#leanpub-auto-local-resources
 ]
 
 def replace_inline(filename):

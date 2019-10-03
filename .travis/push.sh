@@ -6,7 +6,7 @@ setup_git() {
 }
 
 commit_files() {
-  git mv -k _assets/img manuscript/images || exit 1  # build-leanpub.py rewrites these references
+  git mv -k _assets/img manuscript/resources/images || exit 1  # build-leanpub.py rewrites these references
   git add manuscript/* || exit 1
   git commit --message "Travis build: $TRAVIS_BUILD_NUMBER" || exit 1
   git tag "v$TRAVIS_BUILD_NUMBER" || exit 1
