@@ -16,7 +16,7 @@ th, td { border: 1px solid gray; padding: 0 0.5em; vertical-align: baseline; tex
 
 .book-cover { text-align: center; min-height: calc(100vh - 4em); display: grid; align-items: center; }
 .book-cover h1 { font: inherit; margin: 0; }
-.book-cover svg { display: block; max-height: calc(100vh - 4em); }
+.book-cover svg { display: block; margin: 0 auto; max-height: calc(100vh - 4em); }
 .book-cover p { margin-top: -2em; padding-bottom: 2em; font-weight: bold; opacity: 0.6; }
 
 .toc { counter-reset: item; padding: 0; }

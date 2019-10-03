@@ -15,14 +15,13 @@ title: Idiosyncrancies of the HTML parser - The HTML Parser Book
       font-family: Archistico;
       src: url('/_assets/fonts/Archistico_Bold.woff') format('woff'),
            url('/_assets/fonts/Archistico_Bold.ttf') format('truetype');
-      font-weight: bold;
     }
     #book-cover-svg #book-title {
       font-size: 100px;
     }
     #book-cover-svg text {
       font-family: Archistico, sans-serif;
-      font-weight: bold;
+      font-weight: normal;
     }
     #book-cover-svg #book-author {
       font-size: 50px;
