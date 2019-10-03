@@ -3,6 +3,7 @@ import fileinput
 
 conversions = [
   ['```dom-tree', '```'],
+  ['/_assets/img/', 'images/'],  # .travis/push.sh moves these files
 ]
 
 def replace_inline(filename):

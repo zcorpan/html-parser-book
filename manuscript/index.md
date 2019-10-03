@@ -2,35 +2,61 @@
 layout: chapter.njk
 title: Idiosyncrancies of the HTML parser - The HTML Parser Book
 ---
+<link rel=preload as=font crossorigin href=/_assets/fonts/Archistico_Bold.woff>
+<link rel=preload as=font crossorigin href=/_assets/fonts/Archistico_Simple.woff>
 <header class=book-cover>
 <h1 role="presentation">
-<svg viewBox="0 -100 1000 800" role="presentation" focusable="false" id="book-cover-svg">
+<svg viewBox="-50 -350 1100 1600" role="presentation" focusable="false" id="book-cover-svg">
   <style>
-    #book-cover-svg { background: white; border-radius: 30px; box-shadow: 0 0 30px rgba(0, 0, 0, 0.2); }
+    /*
+    font    https://www.fontsquirrel.com/fonts/archistico
+    licence https://www.fontsquirrel.com/license/archistico
+    */
+    @font-face {
+      font-family: Archistico;
+      src: url('/_assets/fonts/Archistico_Bold.woff') format('woff'),
+           url('/_assets/fonts/Archistico_Bold.ttf') format('truetype');
+      font-weight: bold;
+    }
+    @font-face {
+      font-family: Archistico;
+      src: url('/_assets/fonts/Archistico_Simple.woff') format('woff'),
+           url('/_assets/fonts/Archistico_Simple.ttf') format('truetype');
+      font-weight: normal;
+    }
     #book-cover-svg #book-title {
-      font-weight: 900;
+      font-weight: bold;
       font-size: 100px;
     }
     #book-cover-svg text {
-      font-family: system-ui, sans-serif;
+      font-family: Archistico, sans-serif;
       opacity: 0.6;
     }
     #book-cover-svg #book-author {
-      font-weight: 700;
-      font-size: 25px;
+      font-weight: normal;
+      font-size: 50px;
     }
-    #book-cover-svg > * { mix-blend-mode: multiply }
+    #book-cover-svg image { mix-blend-mode: multiply }
   </style>
-  <rect fill=darkseagreen x=0 y=190 width=1000 height=610 />
-  <image role="img" aria-roledescription="book cover image" aria-label="Sketch of a platypus." xlink:href="_assets/img/Platypus_sketch_by_Hmich176.png" x="382" y="0" width="568" height="574"/>
-  <g text-anchor=end id=book-title role="heading" aria-level="1">
-    <text x=800 y=120>Idiosyncracies</text>
-    <text x=700 y=220>of the</text>
-    <text x=600 y=320>HTML</text>
-    <text x=500 y=420>parser</text>
+  <defs>
+    <filter id="book-cover-shadow">
+      <feDropShadow dx="0" dy="0" stdDeviation="15" flood-opacity="0.3"/>
+    </filter>
+    <linearGradient id="book-cover-bg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="33%" stop-color="white" />
+      <stop offset="33%" stop-color="darkseagreen" />
+    </linearGradient>
+  </defs>
+  <rect fill="url(#book-cover-bg)" x="0" y="-300" width="1000" height="1500" rx="10" filter="url(#book-cover-shadow)"></rect>
+  <image role="img" aria-roledescription="book cover image" aria-label="Sketch of a platypus." xlink:href="/_assets/img/Platypus_sketch_by_Hmich176.png" x="382" y="0" width="568" height="574"></image>
+  <g text-anchor="end" id="book-title" role="heading" aria-level="1">
+    <text x="820" y="120">Idiosyncracies</text>
+    <text x="720" y="220">of the</text>
+    <text x="620" y="320">HTML</text>
+    <text x="520" y="420">parser</text>
   </g>
-  <g id=book-author>
-    <text role=paragraph text-anchor=middle x=500 y=675>Simon Pieters</text>
+  <g id="book-author">
+    <text role="paragraph" text-anchor="middle" x="500" y="875">Simon Pieters</text>
   </g>
 </svg>
 </h1>
