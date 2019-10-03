@@ -22,7 +22,7 @@ For example, consider the following document:
 
 Bytes go over the network and a decoder will produce a stream of code points (the details of how that works is a topic of another book). The tokenizer walks through the stream of code points, character by character, and emits tokens; in this case: a doctype token, a start tag token (p), and a series of character tokens (one token per character, although implementations can optimize by combining character tokens, if the end result is equivalent). The tree builder takes those tokens and builds the following DOM:
 
-```dom-tree
+```
 #document
 ├── DOCTYPE: html
 └── html
@@ -1108,7 +1108,7 @@ It then stays in the *script data escaped state* until the end-of-file. The toke
 
 The resulting DOM is:
 
-```dom-tree
+```
 #document
 └── html
     ├── head
@@ -1177,7 +1177,7 @@ We then switch the insertion mode to "before head" and process the same token ag
 
 At this point the DOM looks like this:
 
-```dom-tree
+```
 #document
 ├── DOCTYPE: html
 └── html
@@ -1197,7 +1197,7 @@ The stack of open elements has just html and body, so there’s no p element to 
 
 "Insert an HTML element" will insert a div element, and push it to the stack of open elements. The stack is now: html, body, div. The DOM is:
 
-```dom-tree
+```
 #document
 ├── DOCTYPE: html
 └── html
@@ -1262,7 +1262,7 @@ Step 1 says that there is a parse error if there’s still an open element excep
 
 And now we’re done.
 
-```dom-tree
+```
 #document
 ├── DOCTYPE: html
 └── html
@@ -1375,7 +1375,7 @@ That is, it is inserted in the DOM and the contents are parsed as normal. For ex
 
 Resulting DOM:
 
-```dom-tree
+```
 #document
 ├── DOCTYPE: html
 └── html
@@ -1420,7 +1420,7 @@ It’s ignored. The final tag, the `base` start tag, is handled under the anythi
 
 It closes the `noscript` element, and the token is reprocessed. So the correct answer is "`</noscript>` before `<base>`".
 
-```dom-tree
+```
 #document
 └── html
     ├── head
@@ -1463,7 +1463,7 @@ If the tree builder finds a `frameset` start tag token in the "after head" inser
 <p><frameset>Who am I?
 ```
 
-```dom-tree
+```
 #document
 ├── DOCTYPE: html
 └── html
@@ -1511,7 +1511,7 @@ It turns out that it can’t. The association needs to happen even if the form e
 <input>
 ```
 
-```dom-tree
+```
 #document
 ├── DOCTYPE: html
 └── html
@@ -1543,7 +1543,7 @@ The parser ignores a `form` start tag token if the *form element pointer* is not
 
 This results in this DOM:
 
-```dom-tree
+```
 #document
 └── html
     ├── head
@@ -1615,7 +1615,7 @@ Huh, it didn’t remove the `div`! Usually, when the parser closes an element, i
   C
 ```
 
-```dom-tree
+```
 #document
 └── html
     ├── head
@@ -1654,7 +1654,7 @@ Did you notice that the handling of the `form` end tag had a check for a `templa
 
 The document’s DOM, and the `template` element’s *template contents* (more on this in the *Templates* section), are as follows:
 
-```dom-tree
+```
 #document
 └── html
     ├── head
@@ -1700,7 +1700,7 @@ A simple example:
 <table>1
 ```
 
-```dom-tree
+```
 #document
 └── html
     ├── head
@@ -1713,7 +1713,7 @@ So how does this happen? Let’s step through the spec.
 
 First, we parse the table start tag. We insert it as normal and switch to "in table".
 
-```dom-tree
+```
 #document
 └── html
     ├── head
@@ -1777,7 +1777,7 @@ Notice that the `tbody` tags were not in the quiz, yet the above is equivalent. 
 <table><tr><td>
 ```
 
-```dom-tree
+```
 #document
 └── html
     ├── head
@@ -1804,7 +1804,7 @@ Table-related tags (except for `table` itself) are ignored outside tables (excep
 <body><caption>Tableless <tr>web <td>design
 ```
 
-```dom-tree
+```
 #document
 └── html
     ├── head
@@ -1992,7 +1992,7 @@ Apart from HTML parser-level syntax requirements, the *template contents* has no
 <table><template>
 ```
 
-```dom-tree
+```
 #document
 └── html
     ├── head
@@ -2008,7 +2008,7 @@ Generally, table markup outside a `table` is ignored:
 <div><tr><td>X
 ```
 
-```dom-tree
+```
 #document
 └── html
     ├── head
@@ -2023,7 +2023,7 @@ However, in `template`s, it just works:
 <template><tr><td>X
 ```
 
-```dom-tree
+```
 #document
 └── html
     ├── head
@@ -2043,7 +2043,7 @@ If you have unexpected content between the table row and the table cell, it woul
 
 ...results in the following *template contents*:
 
-```dom-tree
+```
 #document
 └── html
     ├── head
@@ -2110,7 +2110,7 @@ Some JavaScript is needed to create a definition of custom elements, so that the
 <select><div><b><iframe><style><plaintext></select>X
 ```
 
-```dom-tree
+```
 #document
 └── html
     ├── head
@@ -2127,7 +2127,7 @@ There are 3 tags that implicitly close a `select` and then be reprocessed: `inpu
 <select><input>
 ```
 
-```dom-tree
+```
 #document
 └── html
     ├── head
@@ -2138,7 +2138,7 @@ There are 3 tags that implicitly close a `select` and then be reprocessed: `inpu
 
 The `select` start tag is treated just like the `select` *end* tag. Therefore, the answer to the quiz is "2".
 
-```dom-tree
+```
 #document
 └── html
     ├── head
@@ -2153,7 +2153,7 @@ The `select` start tag is treated just like the `select` *end* tag. Therefore, t
 <table><tr><td><select><td>X
 ```
 
-```dom-tree
+```
 #document
 └── html
     ├── head
@@ -2191,7 +2191,7 @@ The `br` end tag is treated as a `br` start tag. This is handled from the "befor
 </br>
 ```
 
-```dom-tree
+```
 #document
 └── html
     ├── head
@@ -2213,7 +2213,7 @@ For example, one can omit tags in a `ruby` element (this is the Japanese text �
 ...<ruby>漢<rp>（<rt>かん<rp>）</rp>字<rp>（<rt>じ<rp>）</ruby>...
 ```
 
-```dom-tree
+```
 #document
 └── html
     ├── head
@@ -2239,7 +2239,7 @@ For example, one can omit tags in a `ruby` element (this is the Japanese text �
 
 This would render as follows:
 
-![The two main ideographs, each with its annotation in hiragana rendered in a smaller font above it.](/_assets/img/sample-ruby-ja.png)
+![The two main ideographs, each with its annotation in hiragana rendered in a smaller font above it.](images/sample-ruby-ja.png)
 
 If you have something between the head end tag and the body start tag (where only whitespace is allowed), some tags cause an element to be inserted into the `head` (`base`, `basefont`, `bgsound`, `link`, `meta`, `noframes`, `script`, `style`, `template`, `title`), while other tags or non-whitespace text implicitly opens the `body` element.
 
@@ -2251,7 +2251,7 @@ If you have something between the head end tag and the body start tag (where onl
 <noscript></noscript>
 ```
 
-```dom-tree
+```
 #document
 ├── DOCTYPE: html
 └── html
@@ -2269,7 +2269,7 @@ When seeing an `a` start tag if there’s an `a` element in the *list of active 
 <p><a href="1108470371">Anchor Bar reportedly opening Las Vegas location<a>.
 ```
 
-```dom-tree
+```
 #document
 └── html
     ├── head
@@ -2288,7 +2288,7 @@ Similarly, a `table` start tag in a `table` (not in a table cell) implies a `tab
 <h2>Intentionally Left Blank</h2>
 ```
 
-```dom-tree
+```
 #document
 └── html
     ├── head
@@ -2322,7 +2322,7 @@ Some cases are easy, for example, the `h1`-`h6` elements can be closed by any ot
 <h2>WikiMatrix - Compare them all</h1>
 ```
 
-```dom-tree
+```
 #document
 └── html
     ├── head
@@ -2340,7 +2340,7 @@ The "default" handling of misnested markup, which is used for unknown elements, 
 <span>20 ways to <dfn>commute</span> to</dfn> work.
 ```
 
-```dom-tree
+```
 #document
 └── html
     ├── head
@@ -2382,7 +2382,7 @@ A formatting element gets reopened across other elements until it is explicitly 
 <p>in his hands
 ```
 
-```dom-tree
+```
 #document
 └── html
     ├── head
@@ -2407,7 +2407,7 @@ OK, but what is Noah doing in an HTML parser? Well, in case of a flood, he saves
 <p><i>He's got the whole world in his hands.
 ```
 
-```dom-tree
+```
 #document
 └── html
     ├── head
@@ -2450,7 +2450,7 @@ The Noah’s Ark clause also checks the attributes, not just the tag name.
 
 The DOM will be:
 
-```dom-tree
+```
 #document
 └── html
     ├── head
@@ -2492,7 +2492,7 @@ The *Adoption Agency Algorithm* (AAA) governs how to deal with this.
 
 Up to and including the "`X`", nothing surprising happens. The `p` element is inserted into the `em` element.
 
-```dom-tree
+```
 #document
 ├── DOCTYPE: html
 └── html
@@ -2505,7 +2505,7 @@ Up to and including the "`X`", nothing surprising happens. The `p` element is in
 
 When seeing the `em` end tag, the AAA kicks in. It will insert the `p` to the `body`, and insert the `em` to the `p`, and then close the `em` element. The resulting DOM is thus:
 
-```dom-tree
+```
 #document
 ├── DOCTYPE: html
 └── html
@@ -2526,7 +2526,7 @@ So what happens with the markup in the quiz?
 
 It is exactly the same as the `<em><p></em>` case above, that is, it also triggers AAA, and is thus a parse error and is invalid.
 
-```dom-tree
+```
 #document
 └── html
     ├── head
