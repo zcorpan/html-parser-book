@@ -1,6 +1,6 @@
 ---
 layout: chapter.njk
-title: Idiosyncrancies of the HTML parser - The HTML Parser Book
+title: Idiosyncrasies of the HTML parser - The HTML Parser Book
 ---
 <link rel=preload as=font crossorigin href=/_assets/fonts/Archistico_Bold.woff>
 <header class=book-cover>
@@ -40,7 +40,7 @@ title: Idiosyncrancies of the HTML parser - The HTML Parser Book
   <rect fill="url(#book-cover-bg)" x="0" y="-300" width="1000" height="1500" rx="10" filter="url(#book-cover-shadow)"></rect>
   <image role="img" aria-roledescription="book cover image" aria-label="Sketch of a platypus." xlink:href="/_assets/img/Platypus_sketch_by_Hmich176.png" x="382" y="0" width="568" height="574"></image>
   <g text-anchor="end" id="book-title" role="heading" aria-level="1">
-    <text x="820" y="120">Idiosyncracies</text>
+    <text x="820" y="120">Idiosyncrasies</text>
     <text x="720" y="220">of the</text>
     <text x="620" y="320">HTML</text>
     <text x="520" y="420">parser</text>
