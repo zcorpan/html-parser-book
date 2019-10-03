@@ -3,7 +3,6 @@ layout: chapter.njk
 title: Idiosyncrancies of the HTML parser - The HTML Parser Book
 ---
 <link rel=preload as=font crossorigin href=/_assets/fonts/Archistico_Bold.woff>
-<link rel=preload as=font crossorigin href=/_assets/fonts/Archistico_Simple.woff>
 <header class=book-cover>
 <h1 role="presentation">
 <svg viewBox="-50 -350 1100 1600" role="presentation" focusable="false" id="book-cover-svg">
@@ -18,21 +17,14 @@ title: Idiosyncrancies of the HTML parser - The HTML Parser Book
            url('/_assets/fonts/Archistico_Bold.ttf') format('truetype');
       font-weight: bold;
     }
-    @font-face {
-      font-family: Archistico;
-      src: url('/_assets/fonts/Archistico_Simple.woff') format('woff'),
-           url('/_assets/fonts/Archistico_Simple.ttf') format('truetype');
-      font-weight: normal;
-    }
     #book-cover-svg #book-title {
-      font-weight: bold;
       font-size: 100px;
     }
     #book-cover-svg text {
       font-family: Archistico, sans-serif;
+      font-weight: bold;
     }
     #book-cover-svg #book-author {
-      font-weight: normal;
       font-size: 50px;
     }
     #book-cover-svg image { mix-blend-mode: multiply }
