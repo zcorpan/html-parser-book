@@ -26,7 +26,7 @@ For example, the following document:
 
 ...is parsed into the following DOM tree:
 
-```dom-tree
+```
 #document
 ├── DOCTYPE: html
 └── html lang="en"
@@ -79,7 +79,7 @@ SGML has some convenience markup features that browsers did not implement for HT
 
 But browsers parse it as a `title` start tag with a bunch of attributes, until they find a `>`:
 
-```dom-tree
+```
 #document
 ├── DOCTYPE: html
 └── html
@@ -164,7 +164,7 @@ In early 2006, Firefox was at version 1.5. Its HTML parser had its own interesti
 >
 > What should the DOM look like? The general consensus is that the DOM should look like this:
 >
-> ```dom-tree
+> ```
 > #document
 > ├── DOCTYPE: html
 > └── html
@@ -201,7 +201,7 @@ In early 2006, Firefox was at version 1.5. Its HTML parser had its own interesti
 >
 > The DOM looks like this:
 >
-> ```dom-tree
+> ```
 > #document
 > ├── DOCTYPE: html
 > └── html
@@ -236,7 +236,7 @@ In early 2006, Firefox was at version 1.5. Its HTML parser had its own interesti
 >
 > Mozilla
 >
-> ```dom-tree
+> ```
 > #document
 > ├── DOCTYPE: html
 > └── html
@@ -250,7 +250,7 @@ In early 2006, Firefox was at version 1.5. Its HTML parser had its own interesti
 >
 > Safari
 >
-> ```dom-tree
+> ```
 > #document
 > └── html
 >     └── body
@@ -278,7 +278,7 @@ In early 2006, Firefox was at version 1.5. Its HTML parser had its own interesti
 >
 > Result:
 >
-> ```dom-tree
+> ```
 > #document
 > └── html
 >     └── body
@@ -312,7 +312,7 @@ In early 2006, Firefox was at version 1.5. Its HTML parser had its own interesti
 >
 > Result:
 >
-> ```dom-tree
+> ```
 > #document
 > └── html
 >     └── body
@@ -353,7 +353,7 @@ In early 2006, Firefox was at version 1.5. Its HTML parser had its own interesti
 >
 > ...we find:
 >
-> ```dom-tree
+> ```
 > #document
 > └── html
 >     └── body
@@ -377,7 +377,7 @@ In early 2006, Firefox was at version 1.5. Its HTML parser had its own interesti
 >
 > How about Mozilla? Let's try the same trick. The result:
 >
-> ```dom-tree
+> ```
 > #document
 > └── html
 >     └── body
