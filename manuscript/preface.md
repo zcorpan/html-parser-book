@@ -66,6 +66,10 @@ This book contains quotes from the [WHATWG HTML Standard](https://html.spec.what
 
 > Copyright © 2018 WHATWG (Apple, Google, Mozilla, Microsoft). This work is licensed under a [Creative Commons Attribution 4.0 International License](https://creativecommons.org/licenses/by/4.0/).
 
+The font used on the front cover is [Archistico](https://www.fontsquirrel.com/fonts/archistico), by [Archistico](https://www.archistico.com/), and has the following license:
+
+> You can use the font for commercial purposes, but not sell it! Every once in a comment on the page would be nice.
+
 Thanks to Ian Hickson, Henri Sivonen, Tim Berners-Lee, Anne van Kesteren, and Jeff Jaffe for letting me quote their emails, blog posts, etc. in this book. TODO
 
 Thanks to Ingvar Stepanyan for letting me use some of his Twitter quizzes in this book. TODO
