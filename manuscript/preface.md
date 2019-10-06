@@ -70,9 +70,9 @@ The font used on the front cover is [Archistico](https://www.fontsquirrel.com/fo
 
 > You can use the font for commercial purposes, but not sell it! Every once in a comment on the page would be nice.
 
-Thanks to Ian Hickson, Henri Sivonen, Tim Berners-Lee, Anne van Kesteren, and Jeff Jaffe for letting me quote their emails, blog posts, etc. in this book. TODO
+Thanks to Ian Hickson and Henri Sivonen for letting me quote their emails, blog posts, etc. in this book.
 
-Thanks to Ingvar Stepanyan for letting me use some of his Twitter quizzes in this book. TODO
+Thanks to Ingvar Stepanyan for letting me use some of his Twitter quizzes in this book.
 
 Thanks to Mike Smith for providing a raw log from a validator instance for the *Most common errors* section.
 
