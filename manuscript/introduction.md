@@ -8,7 +8,34 @@ nextTitle: The HTML parser
 
 ## The DOM, parsing, and serialization
 
-The Document Object Model (DOM) is a representation of a document as a tree of nodes (e.g., `Element` nodes and `Text` nodes). Each node can have a list of other nodes as its children. Nodes can also have certain properties, for example `Element` nodes can have a name and a list of attributes, while a `Text` node has data. The DOM also includes APIs to traverse and mutate the tree.
+The Document Object Model (DOM) is a representation of a document as a tree of nodes. Some kinds of nodes can have child nodes (thus forming a tree).
+
+These are the different kinds of nodes that the HTML parser can produce, and which nodes they are allowed to have as children, if any:
+
+`Document`
+: The root node. Allowed children: `Comment`, `DocumentType`, `Element`
+
+`DocumentType`
+: The doctype (e.g., `<!doctype html>`). No children.
+
+`Element`
+: An element (e.g., `<p>Hello</p>`). Allowed children: `Element`, `Text`, `Comment`.
+
+`DocumentFragment`
+: Used when parsing {% ref "parser", "`template`s" %}. Allowed children: `Element`, `Text`, `Comment`.
+
+`Text`
+: A text node (e.g., `Hello`). No children.
+
+`Comment`
+: A comment (e.g., `<!-- hello -->`). No children.
+
+Nodes can also have certain properties; for example:
+
+* `Element` nodes have a `namespaceURI` and `localName` which together represent the element type (e.g., "an HTML `p` element"), and a list of attributes (e.g., `<html lang="en">` has one attribute).
+* `Text` and `Comment` nodes have `data` which holds the node's text contents.
+
+The DOM also includes APIs to traverse and mutate the tree with script. For example, the `foo.remove()` method removes a node from its parent, `bar.append(foo)` inserts `foo` into `bar` as the last child. This is discussed in {% ref "dom-manipulation", "Chapter 4. DOM manipulation" %}.
 
 Parsing HTML means to turn a string of characters (the markup) into a DOM tree.
 
@@ -45,9 +72,9 @@ For example, the following document:
         └── #text:
 ```
 
-How this works is what this this book is about.
+How this works is discussed in {% ref "parser", "Chapter 2. The HTML parser" %}.
 
-Serializing HTML means to do the opposite of parsing, i.e., start with a DOM representation of a document, and turning it to a string. This is discussed in the *Serializing HTML* chapter.
+Serializing HTML means to do the opposite of parsing, i.e., start with a DOM representation of a document, and turning it to a string. This is discussed in {% ref "serializing", "Chapter 5. Serializing" %}.
 
 A tool that is handy for quickly trying what DOM tree is produced for a piece of HTML markup is the [*Live DOM Viewer*](http://software.hixie.ch/utilities/js/live-dom-viewer/), which Ian Hickson created when he was writing the HTML parser specification. Give it a try!
 
