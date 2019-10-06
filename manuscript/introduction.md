@@ -4,8 +4,10 @@ title: Introduction
 next: parser
 nextTitle: The HTML parser
 ---
+{#chapter-1-introduction}
 # Chapter 1. Introduction
 
+{#the-dom-parsing-and-serialization}
 ## The DOM, parsing, and serialization
 
 The Document Object Model (DOM) is a representation of a document as a tree of nodes. Some kinds of nodes can have child nodes (thus forming a tree).
@@ -22,7 +24,7 @@ These are the different kinds of nodes that the HTML parser can produce, and whi
 : An element (e.g., `<p>Hello</p>`). Allowed children: `Element`, `Text`, `Comment`.
 
 `DocumentFragment`
-: Used when parsing {% ref "parser", "`template`s" %}. Allowed children: `Element`, `Text`, `Comment`.
+: Used when parsing [`template`s](#templates). Allowed children: `Element`, `Text`, `Comment`.
 
 `Text`
 : A text node (e.g., `Hello`). No children.
@@ -35,7 +37,7 @@ Nodes can also have certain properties; for example:
 * `Element` nodes have a `namespaceURI` and `localName` which together represent the element type (e.g., "an HTML `p` element"), and a list of attributes (e.g., `<html lang="en">` has one attribute).
 * `Text` and `Comment` nodes have `data` which holds the node's text contents.
 
-The DOM also includes APIs to traverse and mutate the tree with script. For example, the `foo.remove()` method removes a node from its parent, `bar.append(foo)` inserts `foo` into `bar` as the last child. This is discussed in {% ref "dom-manipulation", "Chapter 4. DOM manipulation" %}.
+The DOM also includes APIs to traverse and mutate the tree with script. For example, the `foo.remove()` method removes a node from its parent, `bar.append(foo)` inserts `foo` into `bar` as the last child. This is discussed in [Chapter 4. DOM manipulation](#chapter-4-dom-manipulation).
 
 Parsing HTML means to turn a string of characters (the markup) into a DOM tree.
 
@@ -55,7 +57,7 @@ For example, the following document:
 
 ...is parsed into the following DOM tree:
 
-```dom-tree
+```
 #document
 ├── DOCTYPE: html
 └── html lang="en"
@@ -72,14 +74,16 @@ For example, the following document:
         └── #text:
 ```
 
-How this works is discussed in {% ref "parser", "Chapter 2. The HTML parser" %}.
+How this works is discussed in [Chapter 2. The HTML parser](#chapter-2-the-html-parser).
 
-Serializing HTML means to do the opposite of parsing, i.e., start with a DOM representation of a document, and turning it to a string. This is discussed in {% ref "serializing", "Chapter 5. Serializing" %}.
+Serializing HTML means to do the opposite of parsing, i.e., start with a DOM representation of a document, and turning it to a string. This is discussed in [Chapter 5. Serializing](#chapter-5-serializing).
 
 A tool that is handy for quickly trying what DOM tree is produced for a piece of HTML markup is the [*Live DOM Viewer*](http://software.hixie.ch/utilities/js/live-dom-viewer/), which Ian Hickson created when he was writing the HTML parser specification. Give it a try!
 
+{#history-of-html-parsers}
 ## History of HTML parsers
 
+{#sgml--early-html}
 ### SGML & early HTML
 
 Standard Generalized Markup Language (SGML) is a syntax framework for defining markup languages which predates HTML and the web, defined in 1986. HTML was originally inspired by SGML (in particular the [SGMLguid](https://en.wikipedia.org/wiki/SGMLguid) language, an application of SGML), and later defined to be a proper application of SGML. However, web browsers have never used an actual SGML parser to parse HTML.
@@ -108,7 +112,7 @@ SGML has some convenience markup features that browsers did not implement for HT
 
 But browsers parse it as a `title` start tag with a bunch of attributes, until they find a `>`:
 
-```dom-tree
+```
 #document
 ├── DOCTYPE: html
 └── html
@@ -167,6 +171,7 @@ The HTML standard has the following note about the relationship to SGML:
 
 In 2000, before Netscape 6 was released, [Gecko had a parser mode](https://bugzilla.mozilla.org/show_bug.cgi?id=40190) called "Strict DTD" that enforced stricter rules for HTML for documents with certain doctypes. This was quickly found to be incompatible with existing web content, and was [removed](https://bugzilla.mozilla.org/show_bug.cgi?id=50070) only two months after the parser mode was turned on in beta.
 
+{#xml--xhtml}
 ### XML & XHTML
 
 XML is, like SGML, a syntax framework for defining markup languages, and is a simplification of SGML. Unlike SGML, XML defined error handling – a syntax error must halt normal processing. It omitted many features of SGML, such as SHORTTAG and optional tags. This allowed for parsing documents without reading the DTD. DTDs were retained in XML to allow for validation, although better schema languages were developed later. In hindsight it would have been a good opportunity to drop DTD support from XML, as it complicates the parser quite a bit.
@@ -177,6 +182,7 @@ XHTML 1.0 is a reformulation of HTML 4.01 in XML. It has all the same features a
 
 Indeed, the HTML standard now specifies that `</br>` is to be parsed as `<br>`. The space before the slash was for compatibility with Netscape 4, which would parse `<br/>` as an element `br/` which is not a known HTML element.
 
+{#internet-explorer-firefox-safari--opera}
 ### Internet Explorer, Firefox, Safari & Opera
 
 When the HTML parser was first specified [in 2006](http://ln.hixie.ch/?start=1137740632&count=1), Internet Explorer was at version 6.
@@ -193,7 +199,7 @@ In early 2006, Firefox was at version 1.5. Its HTML parser had its own interesti
 >
 > What should the DOM look like? The general consensus is that the DOM should look like this:
 >
-> ```dom-tree
+> ```
 > #document
 > ├── DOCTYPE: html
 > └── html
@@ -230,7 +236,7 @@ In early 2006, Firefox was at version 1.5. Its HTML parser had its own interesti
 >
 > The DOM looks like this:
 >
-> ```dom-tree
+> ```
 > #document
 > ├── DOCTYPE: html
 > └── html
@@ -265,7 +271,7 @@ In early 2006, Firefox was at version 1.5. Its HTML parser had its own interesti
 >
 > Mozilla
 >
-> ```dom-tree
+> ```
 > #document
 > ├── DOCTYPE: html
 > └── html
@@ -279,7 +285,7 @@ In early 2006, Firefox was at version 1.5. Its HTML parser had its own interesti
 >
 > Safari
 >
-> ```dom-tree
+> ```
 > #document
 > └── html
 >     └── body
@@ -307,7 +313,7 @@ In early 2006, Firefox was at version 1.5. Its HTML parser had its own interesti
 >
 > Result:
 >
-> ```dom-tree
+> ```
 > #document
 > └── html
 >     └── body
@@ -341,7 +347,7 @@ In early 2006, Firefox was at version 1.5. Its HTML parser had its own interesti
 >
 > Result:
 >
-> ```dom-tree
+> ```
 > #document
 > └── html
 >     └── body
@@ -382,7 +388,7 @@ In early 2006, Firefox was at version 1.5. Its HTML parser had its own interesti
 >
 > ...we find:
 >
-> ```dom-tree
+> ```
 > #document
 > └── html
 >     └── body
@@ -406,7 +412,7 @@ In early 2006, Firefox was at version 1.5. Its HTML parser had its own interesti
 >
 > How about Mozilla? Let's try the same trick. The result:
 >
-> ```dom-tree
+> ```
 > #document
 > └── html
 >     └── body
@@ -444,6 +450,7 @@ In early 2006, Firefox was at version 1.5. Its HTML parser had its own interesti
 
 Well, it appeared that there wasn't a fifth option, as the Safari approach was what was adopted. This is called the Adoption Agency Algorithm in the HTML standard.
 
+{#the-html-parser-is-specified}
 ## The HTML parser is specified
 
 A couple of years prior to the HTML parser being specified, in June 2004, the W3C decided to discontinue work on HTML at a workshop on [Web Applications and Compound Documents](https://www.w3.org/2004/04/webapps-cdf-ws/). In response, Opera, Mozilla, and Apple set up the Web Hypertext Application Technology Working Group (WHATWG), an initiative, open for anyone to contribute, to extend HTML in a backwards-compatible manner (in contrast with the W3C XForms and XHTML 2.0 specifications, which were [by design not backwards compatible](https://wiki.whatwg.org/wiki/W3C#History)). One of the grounding principles of the WHATWG was well-defined error handling, which had not been addressed for HTML previously.
@@ -499,10 +506,12 @@ The following table shows when each browser shipped with a new HTML parser imple
 | Opera             | 12      | 2012-08-30   |
 | Internet Explorer | 10      | 2012-09-04   |
 
+{#the-html-syntax}
 ## The HTML syntax
 
 This section shouldn't reveal many surprises, but you might learn something new nevertheless. The rationale of some restrictions are sometimes explained here or in later sections. If you have read the "[Writing HTML documents](https://html.spec.whatwg.org/multipage/syntax.html#writing)" section of the HTML standard, then you can skip this section.
 
+{#the-doctype}
 ### The doctype
 
 The doctype is required because without a doctype, browsers use quirks mode for the document, which changes some behavior, mainly in CSS. Quirks mode was introduced by IE5 for Mac, released in 2000, in an attempt to both be compatible with the contemporary legacy and with the CSS1 specification. This approach was then copied by all browsers and has now been specified. There are now three rendering modes for HTML:
@@ -540,6 +549,7 @@ Prior versions of HTML had other doctypes that are now defined to trigger one of
 
 One of my first [contributions](https://lists.w3.org/Archives/Public/public-whatwg-archive/2005Jun/0109.html) to the WHATWG, in June 2005, was to propose to change the doctype to `<!doctype html>`. Finally a doctype that can be remembered! (Though, for some reason, I still remember how to type `<!doctype html public "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">`. Sigh.)
 
+{#elements}
 ### Elements
 
 HTML defines the following kinds of elements:
@@ -593,6 +603,7 @@ Foreign elements are slightly closer to XML in their syntax: "/>" works (self-cl
 </p>
 ```
 
+{#documents}
 ### Documents
 
 An HTML document consists of a doctype followed by an `html` element, and there may be whitespace and comments before, between, and after. The following example is a complete and conforming HTML document:
@@ -610,6 +621,7 @@ An HTML document consists of a doctype followed by an `html` element, and there 
 </html>
 ```
 
+{#start-tags}
 ### Start tags
 
 A start tag has this format:
@@ -632,6 +644,7 @@ Foreign elements (SVG and MathML) support self-closing start tags, which end wit
 <CIRCLE r="1"/>
 ```
 
+{#end-tags}
 ### End tags
 
 An end tag has this format:
@@ -644,6 +657,7 @@ An end tag has this format:
 
 Attributes are not allowed on end tags.
 
+{#attributes}
 ### Attributes
 
 Attributes come in a few different formats.
@@ -710,6 +724,7 @@ Note that in the HTML syntax, it's optional to declare the namespace.
 <svg>
 ```
 
+{#optional-tags}
 ### Optional tags
 
 Certain tags can be omitted if the resulting DOM doesn't change if they are so omitted, including "minor" changes such as where whitespace ends up or where a comment ends up. The rules for when they can be omitted are slightly convoluted, but they assume that the DOM is not allowed to change by omitting a tag. It is however conforming to intentionally move a tag such that omitting it no longer changes the DOM.
@@ -756,6 +771,7 @@ Here are the tags that may (sometimes) be omitted:
 | `td`       |           | Omissible |
 | `th`       |           | Omissible |
 
+{#character-references}
 ### Character references
 
 There are three kinds of character references:
@@ -790,6 +806,7 @@ However, other unescaped ampersands are technically allowed:
 This & is OK.
 ```
 
+{#cdata-sections}
 ### CDATA sections
 
 CDATA sections can only be used in foreign content, and have this format:
@@ -800,6 +817,7 @@ CDATA sections can only be used in foreign content, and have this format:
 <svg><title><![CDATA[ <foo> & <bar> ]]></title> ... </svg>
 ```
 
+{#comments}
 ### Comments
 
 Comments have this format:

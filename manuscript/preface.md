@@ -4,12 +4,15 @@ title: Preface
 next: introduction
 nextTitle: Introduction
 ---
+{#preface}
 # Preface
 
+{#intended-audience}
 ## Intended audience
 
 This is not an HTML beginner's book. The intended audience is web developers who want to gain a deeper understanding of how the HTML parser works, or the history and rationale behind certain behaviors. Some prior knowledge of HTML and the DOM is assumed. If you are going to implement your own HTML parser (awesome!), then this book will hopefully be helpful, but please implement from the [HTML standard](https://html.spec.whatwg.org/multipage/). If you contribute to a browser engine or to web standards (awesome!), then this book will hopefully be helpful. If nothing else, I hope it will at least be an interesting read.
 
+{#definition}
 ## Definition
 
 Dictionary.com offers the following [definition](https://www.dictionary.com/browse/parse) of *parse* in the context of computers:
@@ -22,12 +25,14 @@ The Wikipedia page for [Parsing](https://en.wikipedia.org/wiki/Parsing) offers t
 
 In the context of HTML, the *HTML parser* is responsible for the process of converting a stream of characters (the HTML markup) to an tree representation known as the Document Object Model (the DOM).
 
+{#scope}
 ## Scope
 
 This book covers the history of HTML parsers, how to write syntactically correct HTML, how an HTML parser works, including error handling, what can be done with the parsed DOM representation, and how to serialize it back to a string. It also covers parsing of some HTML *microsyntaxes* (parsing of some attribute values), which are strictly speaking not part of the HTML parser, but a layer above. It further discusses implementations and conformance checkers.
 
 Parsing of other languages, such as XML, JavaScript, JSX (React's HTML-like syntax), or CSS, is not covered in this book.
 
+{#practical-application}
 ## Practical application
 
 Knowing exactly how the HTML parser works is not necessary to be a successful web developer. However, some things can be good to know, and having a deeper understanding makes it easier to reason about its behavior. It can also be good to know that you should usually pull in an HTML parser instead of writing a [regular expression to "parse" HTML](https://stackoverflow.com/a/1732454).
@@ -48,10 +53,12 @@ The following is a non-exhaustive list of things that would be good for most web
 
 * **Web compatibility.** The HTML parser specification is known to be compatible with HTML as it is used on the web. When Opera implemented the specified HTML parser, it eliminated [20% of its web compatibility bugs](https://dev.opera.com/blog/opera-mini-server-upgrade/) (of any kind).
 
+{#about-the-author}
 ## About the author
 
 Simon started contributing to the WHATWG in 2005, worked at Opera Software on Quality Assurance and web standards between 2007 and 2017, and currently works with web standards and web platform testing at Bocoup. He contributed to the design of some aspects of the HTML parser specification, such as how SVG in HTML works and finding a web-compatible way to tokenize script elements. He edited the specification for the `picture` element from 2014 onwards and is currently an editor of the WHATWG [HTML standard](https://html.spec.whatwg.org/) and the WHATWG [Quirks Mode standard](https://quirks.spec.whatwg.org/).
 
+{#acknowledgements}
 ## Acknowledgements
 
 Thanks to Mathias Bynens for suggesting the platypus for the front cover (I asked on Twitter "If the HTML parser were an animal, what would it be?").

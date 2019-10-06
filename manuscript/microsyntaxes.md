@@ -4,6 +4,7 @@ title: Microsyntaxes
 next: dom-manipulation
 nextTitle: DOM manipulation
 ---
+{#chapter-3-microsyntaxes}
 # Chapter 3. Microsyntaxes
 
 Microsyntaxes in HTML are technically not part of the HTML parser. Instead they are a layer above, operating on (usually) attribute values. For example, boolean attributes have a simple microsyntax, where the allowed value is either the empty string or the same as the attribute name, case-insensitively, and the processing is to ignore the value.
@@ -24,6 +25,7 @@ This is invalid, but is treated the same as the above (the input is disabled):
 
 Some of the more interesting microsyntaxes are explained in this chapter.
 
+{#numbers}
 ## Numbers
 
 HTML has the following kinds of numbers:
@@ -44,6 +46,7 @@ HTML has the following kinds of numbers:
 
 It further specifies lists of floating-point numbers (used for image map coordinates, covered in the next section), and lists of dimensions (used by the `cols` and `rows` attributes on `frameset`, not covered in this book).
 
+{#integers}
 ### Integers
 
 The format of a signed integer is an optional "-" followed by one or more ASCII digits. The format of non-negative integers is just ASCII digits.
@@ -64,6 +67,7 @@ The processing of signed integers is as follows:
 
 The processing of non-negative integers is the same as that of signed integers, except that negative values result in an error.
 
+{#dimensions}
 ### Dimensions
 
 The allowed format for dimensions in HTML (for example for the `width` attribute of `img`) is simply that of non-negative integers.
@@ -86,6 +90,7 @@ The processing allows for fractions and percentages, but that is non-conforming 
 
 The processing of non-zero dimensions is the same as that of dimensions, except that negative values result in an error.
 
+{#floating-point-numbers}
 ### Floating-point numbers
 
 HTML, JavaScript and CSS all have their own definitions of floating-point numbers. HTML differs from the other two in the format in that a leading "+" sign is not allowed, and if the number is a fraction of one, the leading "0" cannot be omitted. HTML and CSS further cannot represent the Infinity or NaN values.
@@ -118,6 +123,7 @@ The processing is as follows:
 
 * If there is leading garbage, or if there is no number, then an error is returned. Otherwise the parsed number is returned, converted to a finite IEEE 754 double-precision floating-point value. (TODO link)
 
+{#image-map-coordinates}
 ## Image map coordinates
 
 The `area` element represents an area of an image that is a hyperlink. The coordinates of this area is described using the `coords` attributes, which is a list of floating-point numbers, each separated by a "," character (and no other characters, e.g, no whitespace).
@@ -156,6 +162,7 @@ In January 2016, I changed the specification for parsing lists of floating-point
 
 Before the change, only integers were allowed, and using a fraction in a number caused that value to be ignored, which was not particularly useful. The handling of bogus values was also especially strange, sometimes dropping all subsequent values.
 
+{#responsive-images}
 ## Responsive images
 
 In May 2012, Ian Hickson added a `srcset` attribute to the `img` element, to address the needs of being able to use images of different resolution depending on the resolution of the screen, and images of different size depending on the viewport size.
@@ -164,6 +171,7 @@ Separately, a group of web developers were advocating for an element-based solut
 
 In the end (2014), both the `picture` element and the `srcset` attribute were specified, since they could complement each other. A `sizes` attribute was also added, to be used together with "width" descriptors in the `srcset` attribute. For an introduction to responsive images, see the relevant section in the HTML standard TODO link, or TODO other link.
 
+{#srcset}
 ### Srcset
 
 The format of the srcset attribute is as follows:
@@ -204,8 +212,11 @@ The processing is as follows:
 
 * Run the above steps in a loop.
 
+{#sizes}
 ### Sizes
 
+{#colors}
 ## Colors
 
+{#meta-refresh}
 ## Meta refresh
