@@ -90,9 +90,9 @@ But browsers parse it as a `title` start tag with a bunch of attributes, until t
     └── body
 ```
 
-You may have come in contact with an SGML parser when validating your markup, for example at validator.w3.org. Up to and including HTML4, it used a DTD-based validator for HTML, which used an SGML parser. The example above would thus validate but not work in browsers. More recently, validator.w3.org started to emit warnings whenever the SHORTTAG feature was used.
+You may have come in contact with an SGML parser when validating your markup, for example at [validator.w3.org](https://validator.w3.org). Up to and including HTML4, it used a DTD-based validator for HTML, which used an SGML parser. The example above would thus validate but not work in browsers. More recently, validator.w3.org started to emit warnings whenever the SHORTTAG feature was used.
 
-As an interesting aside, when using the XML "/>" syntax in HTML, according to SGML rules it would trigger the SHORTTAG feature. When used on a void element, the slash just marks the end of the start tag, and the ">" is text content. Therefore, the following are equivalent:
+As an interesting aside, when using the XML "`/>`" syntax in HTML, according to SGML rules it would trigger the SHORTTAG feature. When used on a void element, the slash just marks the end of the start tag, and the "`>`" is text content. Therefore, the following are equivalent:
 
 ```html
 <link rel="stylesheet" href="style.css" />
@@ -102,13 +102,13 @@ As an interesting aside, when using the XML "/>" syntax in HTML, according to SG
 <link rel="stylesheet" href="style.css">>
 ```
 
-Note the extra ">" at the end. This is equivalent to having the ">" escaped as a character reference:
+Note the extra "`>`" at the end. This is equivalent to having the "`>`" escaped as a character reference:
 
 ```html
 <link rel="stylesheet" href="style.css">&gt;
 ```
 
-Since the ">" (or &gt;) is text, and text is not allowed in `head`, this implicitly opens the `body` element (the start and end tags of `head` and `body` are optional). However, note that web browsers never supported the SHORTTAG feature, and would instead basically ignore the slash, so it has not been any problem in practice to use "/>" on void elements (such as `link`) in HTML.
+Since the "`>`" (or `&gt;`) is text, and text is not allowed in `head`, this implicitly opens the `body` element (the start and end tags of `head` and `body` are optional). However, note that web browsers never supported the SHORTTAG feature, and would instead basically ignore the slash, so it has not been any problem in practice to use "`/>`" on void elements (such as `link`) in HTML.
 
 SGML is incompatible with HTML in other ways as well. For example, enumerated attributes can be shortened to only the *value* per SGML, but HTML user agents parse it as an *attribute name*.
 
@@ -537,7 +537,7 @@ Void elements consist of just a start tag.
 <br>
 ```
 
-The `template` element is special because its contents are parsed into a separate `DocumentFragment` instead of being children of the element itself. This is discussed in more detail in the *Templates* section of *Tree construction*.
+The `template` element is special because its contents are parsed into a separate `DocumentFragment` instead of being children of the element itself. This is discussed in more detail in the {% ref "parser", "Templates" %} section in {% ref "parser", "Chapter 2. The HTML parser" %}.
 
 ```html
 <template><img src="[[ src ]]" alt="[[ alt ]]"></template>
@@ -558,7 +558,7 @@ The `pre` and `textarea` elements have a special rule: they may begin with a new
 Use the force</pre>
 ```
 
-Foreign elements are slightly closer to XML in their syntax: "/>" works (self-closing start tag), CDATA sections work (`<![CDATA[ … ]]>`, the contents are like raw text). But note that other aspects still work like HTML; element names and attribute names are case-insensitive, and XML namespaces don't work (only some namespaced attributes work with a predefined prefix).
+Foreign elements are slightly closer to XML in their syntax: "`/>`" works (self-closing start tag), CDATA sections work (`<![CDATA[ … ]]>`, the contents are like raw text). But note that other aspects still work like HTML; element names and attribute names are case-insensitive, and XML namespaces don't work (only some namespaced attributes work with a predefined prefix).
 
 ```html
 <p>Circling the drain.
@@ -587,7 +587,7 @@ An HTML document consists of a doctype followed by an `html` element, and there 
 
 A start tag has this format:
 
-`<`, the tag name (case-insensitive), whitespace (if there are attributes), any number of attributes separated by whitespace, optionally some whitespace, ">". (In the HTML syntax, whitespace means [ASCII whitespace](https://infra.spec.whatwg.org/#ascii-whitespace), i.e., tab, line feed, form feed, carriage return, or space.)
+`<`, the tag name (case-insensitive), whitespace (if there are attributes), any number of attributes separated by whitespace, optionally some whitespace, `>`. (In the HTML syntax, whitespace means [ASCII whitespace](https://infra.spec.whatwg.org/#ascii-whitespace), i.e., tab, line feed, form feed, carriage return, or space.)
 
 ```html
 <p class="foo">
@@ -599,7 +599,7 @@ For void elements, the tag may end with either `>` or `/>`, although the slash m
 <hr/>
 ```
 
-Foreign elements (SVG and MathML) support self-closing start tags, which end with "/>" and means there are no contents and no end tag. The element name for foreign elements is case-insensitive in the HTML syntax.
+Foreign elements (SVG and MathML) support self-closing start tags, which end with `/>` and means there are no contents and no end tag. The element name for foreign elements is case-insensitive in the HTML syntax.
 
 ```html
 <CIRCLE r="1"/>
@@ -627,7 +627,7 @@ Attributes come in a few different formats.
   <input value>
   ```
 
-* **Unquoted attribute value syntax.** The attribute name, optionally whitespace, `=`, optionally whitespace, then the value, which can't be the empty string and is not allowed to contain whitespace or these characters: " ' = < > \`. If this is the last attribute and the start tag ends with `/>` (which is allowed on void elements and foreign elements), there has to be whitespace before the slash (otherwise the slash becomes part of the value). For example:
+* **Unquoted attribute value syntax.** The attribute name, optionally whitespace, `=`, optionally whitespace, then the value, which can't be the empty string and is not allowed to contain whitespace or these characters: `"` `'` `=` `<` `>` and \`. If this is the last attribute and the start tag ends with `/>` (which is allowed on void elements and foreign elements), there has to be whitespace before the slash (otherwise the slash becomes part of the value). For example:
 
   ```
   <input value=foo />

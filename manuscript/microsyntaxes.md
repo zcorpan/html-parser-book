@@ -42,7 +42,7 @@ HTML has the following kinds of numbers:
 
 * Floating-point numbers
 
-It further specifies lists of floating-point numbers (used for image map coordinates, covered in the next section), and lists of dimensions (used by the `cols` and `rows` attributes on `frameset`, not covered in this book).
+It further specifies lists of floating-point numbers (used for {% ref "microsyntaxes", "image map coordinates" %}), and lists of dimensions (used by the `cols` and `rows` attributes on `frameset`, not covered in this book).
 
 ### Integers
 

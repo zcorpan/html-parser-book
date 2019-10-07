@@ -34,23 +34,23 @@ Knowing exactly how the HTML parser works is not necessary to be a successful we
 
 The following is a non-exhaustive list of things that would be good for most web developers to understand about the HTML parser.
 
-* **How `</script>` works.** "`</script>`" in a script block does not always close the script. This is discussed in the *Script states* section of the *Tokenizer*.
+* **How `</script>` works.** "`</script>`" in a script block does not always close the script. This is discussed in the {% ref "parser", "Script states" %} section in {% ref "parser", "Chapter 2. The HTML parser" %}.
 
-* **Implied tags/omitted tags.** Some tags are optional, and some tags are implied without being optional. This explains why, for example, it's not possible to nest an `<ul>` in `<p>`. This is discussed in the *Implied tags* section of *Tree construction*.
+* **Implied tags/omitted tags.** Some tags are optional, and some tags are implied without being optional. This explains why, for example, it's not possible to nest an `<ul>` in `<p>`. This is discussed in the {% ref "parser", "Implied tags" %} section in {% ref "parser", "Chapter 2. The HTML parser" %}.
 
-* **document.body being null.** Before the `<body>` has been parsed, `document.body` is null. See the *Using DOM APIs* section.
+* **`document.body` being null.** Before the `<body>` has been parsed, `document.body` is null. See {% ref "dom-manipulation", "Chapter 4. DOM manipulation"}.
 
 * **Scripting and styling.** Knowing what the DOM will look like helps with working with the DOM with script or writing selectors in CSS. This has some overlap with implied tags. For example, `<tbody>` is implied in `<table>` even if that tag is not present.
 
-* **Writing correct HTML.** Knowing how the parser works may give you more confidence in how to write HTML. For example, a relatively common error is to use "/>" syntax on a non-void HTML element (`br` is a void element, `div` is not void), although that is not supported (it will be treated as a regular start tag, ignoring the slash).
+* **Writing correct HTML.** Knowing how the parser works may give you more confidence in how to write HTML. For example, a relatively common error is to use "`/>`" syntax on a non-void HTML element (`br` is a void element, `div` is not void), although that is not supported (it will be treated as a regular start tag, ignoring the slash). See {% ref "introduction", "The HTML syntax" %} section in {% ref "introduction", "Chapter 1. Introduction" %}.
 
-* **Security.** For example, cross-site scripting attacks sometimes target holes in sanitizers. Such attacks may be prevented by using an HTML parser-based sanitizer. See the *HTML parser implementations* section for examples of such sanitizers.
+* **Security.** For example, cross-site scripting (XSS) attacks sometimes target holes in sanitizers. Such attacks may be prevented by using an HTML parser-based sanitizer. See {% ref "implementations", "Appendix A. Implementations" %} for examples of such sanitizers.
 
 * **Web compatibility.** The HTML parser specification is known to be compatible with HTML as it is used on the web. When Opera implemented the specified HTML parser, it eliminated [20% of its web compatibility bugs](https://dev.opera.com/blog/opera-mini-server-upgrade/) (of any kind).
 
 ## About the author
 
-Simon started contributing to the WHATWG in 2005, worked at Opera Software on Quality Assurance and web standards between 2007 and 2017, and currently works with web standards and web platform testing at Bocoup. He contributed to the design of some aspects of the HTML parser specification, such as how SVG in HTML works and finding a web-compatible way to tokenize script elements. He edited the specification for the `picture` element from 2014 onwards and is currently an editor of the WHATWG [HTML standard](https://html.spec.whatwg.org/) and the WHATWG [Quirks Mode standard](https://quirks.spec.whatwg.org/).
+Simon started contributing to the WHATWG in 2005, worked at Opera Software on Quality Assurance and web standards between 2007 and 2017, and currently works with web standards and web platform testing at Bocoup. He contributed to the design of some aspects of the HTML parser specification, such as how SVG in HTML works and finding a web-compatible way to tokenize script elements. He edited the specification for the `picture` element from 2014 onwards and is currently an editor of the WHATWG [HTML standard](https://html.spec.whatwg.org/) and the WHATWG [Quirks Mode standard](https://quirks.spec.whatwg.org/). His Twitter handle is [@zcorpan](https://twitter.com/zcorpan).
 
 ## Acknowledgements
 
@@ -74,6 +74,14 @@ Thanks to Ian Hickson and Henri Sivonen for letting me quote their emails, blog 
 
 Thanks to Ingvar Stepanyan for letting me use some of his Twitter quizzes in this book.
 
-Thanks to Mike Smith for providing a raw log from a validator instance for the *Most common errors* section.
+Thanks to Mike Smith for providing a raw log from a validator instance for the {% ref "conformance-checkers", "Most common errors" %} section in {% ref "conformance-checkers", "Appendix B. Conformance checkers" %}.
 
 Thanks to Marcos Caceres, Sam Sneddon, Taylor Hunt, Mike Smith, Anne van Kesteren, Marie Staver, Ian Hickson, Mathias Bynens, Henri Sivonen, and Philip Jägenstedt for reviewing this book.
+
+## Contribute
+
+The source code for this book is [available on GitHub](https://github.com/zcorpan/html-parser-book/). This book and the source code is [licensed under CC-BY-4.0](https://github.com/zcorpan/html-parser-book/blob/master/LICENSE). Feel free to report issues, submit pull requests, fork, etc.! If you wish to make a translation or otherwise reuse the work, you are welcome to do so (as allowed by the license). Please report an issue, to avoid duplicate work and so I can help get you set up.
+
+In the [web version of this book](https://htmlparser.info/), there is a feedback link in the bottom-right corner. You can select some text and click the feedback link to create a new issue about the selected text in the GitHub repository. The link has `accesskey="1"` so it can be activated with the keyboard — how to activate it depends on the browser and OS, see [documentation on MDN about `accesskey`](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/accesskey).
+
+If you use Twitter, you can provide feedback or ask questions there at [@htmlparserbook](https://twitter.com/htmlparserbook). You can follow this account if you want to be notified about new commits.
