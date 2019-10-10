@@ -50,7 +50,7 @@ The following is a non-exhaustive list of things that would be good for most web
 
 ## About the author
 
-Simon started contributing to the WHATWG in 2005, worked at Opera Software on Quality Assurance and web standards between 2007 and 2017, and currently works with web standards and web platform testing at Bocoup. He contributed to the design of some aspects of the HTML parser specification, such as how SVG in HTML works and finding a web-compatible way to tokenize script elements. He edited the specification for the `picture` element from 2014 onwards and is currently an editor of the WHATWG [HTML standard](https://html.spec.whatwg.org/) and the WHATWG [Quirks Mode standard](https://quirks.spec.whatwg.org/). His Twitter handle is [@zcorpan](https://twitter.com/zcorpan).
+Simon started contributing to the WHATWG in 2005, worked at Opera Software on Quality Assurance and web standards between 2007 and 2017, and currently works with web standards and web platform testing at [Bocoup](https://bocoup.com/). He contributed to the design of some aspects of the HTML parser specification, such as how SVG in HTML works and finding a web-compatible way to tokenize `script` elements. He edited the specification for the `picture` element from 2014 onwards and is currently an editor of the WHATWG [HTML standard](https://html.spec.whatwg.org/) and the WHATWG [Quirks Mode standard](https://quirks.spec.whatwg.org/). His Twitter handle is [@zcorpan](https://twitter.com/zcorpan).
 
 ## Acknowledgements
 
