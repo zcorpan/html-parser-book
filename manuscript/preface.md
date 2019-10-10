@@ -38,7 +38,7 @@ The following is a non-exhaustive list of things that would be good for most web
 
 * **Implied tags/omitted tags.** Some tags are optional, and some tags are implied without being optional. This explains why, for example, it's not possible to nest an `<ul>` in `<p>`. This is discussed in the {% ref "parser", "Implied tags" %} section in {% ref "parser", "Chapter 2. The HTML parser" %}.
 
-* **`document.body` being null.** Before the `<body>` has been parsed, `document.body` is null. See {% ref "dom-manipulation", "Chapter 4. DOM manipulation"}.
+* **`document.body` being null.** Before the `<body>` has been parsed, `document.body` is null. See {% ref "dom-manipulation", "Chapter 4. DOM manipulation" %}.
 
 * **Scripting and styling.** Knowing what the DOM will look like helps with working with the DOM with script or writing selectors in CSS. This has some overlap with implied tags. For example, `<tbody>` is implied in `<table>` even if that tag is not present.
 
