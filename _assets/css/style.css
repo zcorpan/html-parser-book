@@ -19,12 +19,17 @@ th, td { border: 1px solid gray; padding: 0 0.5em; vertical-align: baseline; tex
 .book-cover svg { display: block; margin: 0 auto; max-height: calc(100vh - 4em); }
 .book-cover p { margin-top: -2em; padding-bottom: 2em; font-weight: bold; opacity: 0.6; }
 
-.toc { counter-reset: item; padding: 0; }
-.toc > li { list-style-type: none; display: flex; margin-bottom: 1em; border-bottom: 2px #ccc solid; }
-.toc > li span { flex-grow: 1; text-align: right;  }
-.toc > li > a { text-decoration: none; }
+ul.toc { padding: 0; }
+ul.toc > li { list-style-type: none; display: flex; margin-bottom: 1em; border-bottom: 2px #ccc solid; }
+ul.toc > li span { flex-grow: 1; text-align: right;  }
+ul.toc > li > a { text-decoration: none; }
 
-nav { margin-top: 3em; border-top: 0.25em solid darkseagreen; border-bottom: 0.25em solid darkseagreen; text-align: right;  }
+nav.toc li { list-style-type: none; }
+nav.toc > ol { margin-left: 0; padding-left: 0; }
+summary { color: darkseagreen; font-size: small; font-weight: bold; cursor: default; text-align: center; border-bottom: 0.25em solid darkseagreen; }
+
+nav { border-bottom: 0.25em solid darkseagreen; }
+nav.next { margin-top: 3em; border-top: 0.25em solid darkseagreen; text-align: right; }
 footer { font-size: small; text-align: center; }
 
 blockquote { border-left: 0.25em solid darkseagreen; padding: 0.25em 1.25em 0.25em 1em; margin-left: 1em; margin-right: 1em; background-color: whitesmoke; }
