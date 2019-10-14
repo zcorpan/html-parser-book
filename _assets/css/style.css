@@ -26,7 +26,16 @@ ul.toc > li > a { text-decoration: none; }
 
 nav.toc li { list-style-type: none; }
 nav.toc > ol { margin-left: 0; padding-left: 0; }
-summary { color: darkseagreen; font-size: small; font-weight: bold; cursor: default; text-align: center; border-bottom: 0.25em solid darkseagreen; }
+summary { color: darkseagreen; font-size: small; font-weight: bold; cursor: default; text-align: center; border-bottom: 0.25em solid darkseagreen; user-select: none; }
+
+details[open] > summary ~ * {
+  animation: fade-in .25s ease-in;
+}
+
+@keyframes fade-in {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
 
 nav { border-bottom: 0.25em solid darkseagreen; }
 nav.next { margin-top: 3em; border-top: 0.25em solid darkseagreen; text-align: right; }
