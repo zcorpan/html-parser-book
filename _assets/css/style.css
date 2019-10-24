@@ -1,4 +1,5 @@
 html { font-family: system-ui, sans-serif; line-height: 1.5; font-weight: 300; margin: 0 5%; }
+html.home { background: linear-gradient(to bottom, #eee, #fff) repeat-x; background-size: auto 100vh }
 body { max-width: 50em; margin: 0 auto; padding: 2em 0 4em; }
 img { max-width: 100%; }
 h1 { margin-top: 1.5em; margin-bottom: 1.5em; font-size: 3em; line-height: 1.1; color: #333; font-weight: 800; }
@@ -52,7 +53,7 @@ blockquote blockquote { margin-left: 0; margin-right: 0; }
 .octicon-issue-opened { fill: currentColor; vertical-align: middle; }
 
 @media (prefers-color-scheme: dark) {
-  html { background: #333; color: white; }
+  html, html.home { background: #333; color: white; }
   h1, h2, h3, th, strong, html code { color: #eee; }
   code.language-html { background-color: #222; color: #ddd; }
   blockquote { background-color: #444; }
