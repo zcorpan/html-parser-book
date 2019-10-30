@@ -56,19 +56,19 @@ Simon started contributing to the WHATWG in 2005, worked at Opera Software on Qu
 
 Thanks to Mathias Bynens for suggesting the platypus for the front cover (I asked on Twitter "If the HTML parser were an animal, what would it be?").
 
-The [platypus image](https://en.wikipedia.org/wiki/File:Platypus_sketch_by_Hmich176.gif) is from Wikipedia, by Hmich176, with the following licenses:
+The [platypus sketch](https://en.wikipedia.org/wiki/File:Platypus_sketch_by_Hmich176.gif) on the front cover is from Wikipedia, by Hmich176, with the following licenses:
 
 > GNU Free Documentation License
 >
 > Creative Commons Attribution-ShareAlike 3.0
 
-This book contains quotes from the [WHATWG HTML Standard](https://html.spec.whatwg.org/multipage/) which has the following copyright and license:
-
-> Copyright © 2018 WHATWG (Apple, Google, Mozilla, Microsoft). This work is licensed under a [Creative Commons Attribution 4.0 International License](https://creativecommons.org/licenses/by/4.0/).
-
 The font used on the front cover is [Archistico](https://www.fontsquirrel.com/fonts/archistico), by [Archistico](https://www.archistico.com/), and has the following license:
 
 > You can use the font for commercial purposes, but not sell it! Every once in a comment on the page would be nice.
+
+This book contains quotes from the [WHATWG HTML Standard](https://html.spec.whatwg.org/multipage/) which has the following copyright and license:
+
+> Copyright © 2018 WHATWG (Apple, Google, Mozilla, Microsoft). This work is licensed under a [Creative Commons Attribution 4.0 International License](https://creativecommons.org/licenses/by/4.0/).
 
 Thanks to Ian Hickson and Henri Sivonen for letting me quote their emails, blog posts, etc. in this book.
 

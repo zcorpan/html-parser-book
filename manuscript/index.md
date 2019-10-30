@@ -30,11 +30,11 @@ title: Idiosyncrasies of the HTML parser - The HTML Parser Book
   </style>
   <defs>
     <filter id="book-cover-shadow">
-      <feDropShadow dx="0" dy="0" stdDeviation="15" flood-opacity="0.3"/>
+      <feDropShadow dx="0" dy="0" stdDeviation="15" flood-opacity="0.3"></feDropShadow>
     </filter>
     <linearGradient id="book-cover-bg" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="33%" stop-color="white" />
-      <stop offset="33%" stop-color="darkseagreen" />
+      <stop offset="33%" stop-color="white"></stop>
+      <stop offset="33%" stop-color="darkseagreen"></stop>
     </linearGradient>
   </defs>
   <rect fill="url(#book-cover-bg)" x="0" y="-300" width="1000" height="1500" rx="10" filter="url(#book-cover-shadow)"></rect>
@@ -57,9 +57,9 @@ title: Idiosyncrasies of the HTML parser - The HTML Parser Book
 
 The HTML parser is a piece of software that processes HTML markup and produces an in-memory tree representation (known as the DOM).
 
-The HTML parser has many strange behaviors. For more than a decade, the HTML standards stated that HTML was an application of SGML, while web browsers used a very different approach to parsing HTML. Then, the WHATWG specified that the HTML parser was much closer to what contemporary web browsers did. Today, all browsers have conforming HTML parsers. This book will highlight the ins and outs of the HTML parser, and contains almost-impossible quizzes.
+The HTML parser has many strange behaviors. This book will highlight the ins and outs of the HTML parser, and contains almost-impossible quizzes.
 
-HTML is not only used by basically all of the web, but it is also part of many modern applications. The HTML parser is part of the foundation of the web platform. HTML parsers can be found in web browsers, but are also implemented in various languages and platforms.
+HTML is not only used by basically all of the web, but it is also part of many modern applications. The HTML parser is part of the foundation of the web platform.
 
 You can [buy the eBook](https://leanpub.com/html-parser-book/) on Leanpub. 50% of royalties go to [Amazon Watch](https://amazonwatch.org/).
 
