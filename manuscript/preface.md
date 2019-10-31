@@ -70,7 +70,7 @@ This book contains quotes from the [WHATWG HTML Standard](https://html.spec.what
 
 > Copyright © 2018 WHATWG (Apple, Google, Mozilla, Microsoft). This work is licensed under a [Creative Commons Attribution 4.0 International License](https://creativecommons.org/licenses/by/4.0/).
 
-Thanks to Ian Hickson and Henri Sivonen for letting me quote their emails, blog posts, etc. in this book. [The Last of the Parsing Quirks](https://hsivonen.fi/last-html-quirk/) by Henri Sivonen is licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
+Thanks to Ian Hickson and Henri Sivonen for letting me quote their emails, blog posts, etc. in this book.
 
 Thanks to Ingvar Stepanyan for letting me use some of his Twitter quizzes in this book.
 
