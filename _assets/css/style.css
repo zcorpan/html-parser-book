@@ -1,9 +1,11 @@
 html { font-family: system-ui, sans-serif; line-height: 1.5; font-weight: 300; margin: 0 5%; }
 html.home { background: linear-gradient(to bottom, #eee, #fff) repeat-x; background-size: auto 100vh }
 body { max-width: 50em; margin: 0 auto; padding: 2em 0 4em; }
+html.home body { padding-top: 0; }
 img { max-width: 100%; }
 h1 { margin-top: 1.5em; margin-bottom: 1.5em; font-size: 3em; line-height: 1.1; color: #333; font-weight: 800; }
 h2, h3 { margin-top: 3em; }
+.book-cover + h2 { margin-top: 1.5em; }
 h2, h3, th, strong { font-weight: 600; color: #222; }
 h2 code, h3 code, th code, strong code { color: black; font-size: inherit; }
 pre, code { font-family: Andale Mono, Monaco, Consolas, Lucida Console, monospace; font-size: 0.875em; white-space: pre-wrap; }
@@ -15,10 +17,9 @@ code.language-html { background: #444; color: white; padding: 0.5em 1em; margin-
 table { border-collapse: collapse; border: hidden; }
 th, td { border: 1px solid gray; padding: 0 0.5em; vertical-align: baseline; text-align: left; }
 
-.book-cover { text-align: center; min-height: calc(100vh - 4em); display: grid; align-items: center; }
+.book-cover { text-align: center; min-height: 100vh; display: grid; align-items: center; }
 .book-cover h1 { font: inherit; margin: 0; }
-.book-cover svg { display: block; margin: 0 auto; max-height: calc(100vh - 4em); }
-.book-cover p { margin-top: -2em; padding-bottom: 2em; font-weight: bold; opacity: 0.6; }
+.book-cover svg { display: block; margin: 0 auto; max-height: 100vh; }
 
 ul.toc { padding: 0; }
 ul.toc > li { list-style-type: none; display: flex; margin-bottom: 1em; border-bottom: 2px #ccc solid; }
@@ -47,6 +48,8 @@ blockquote blockquote { margin-left: 0; margin-right: 0; }
 
 :link { color: royalblue; }
 :visited { color: slateblue; }
+:any-link { text-decoration-color: silver; }
+:any-link:hover { text-decoration-thickness: 2px; }
 :any-link:active { color: darkred; }
 
 .selected-text-file-an-issue { position: fixed; bottom: 0; right: 0; padding: 0.25em; color: inherit !important; }
@@ -59,6 +62,7 @@ blockquote blockquote { margin-left: 0; margin-right: 0; }
   blockquote { background-color: #444; }
   :link { color: gold; }
   :visited { color: goldenrod; }
+  :any-link { text-decoration-color: gray; }
   :any-link:active { color: pink; }
   #book-cover-shadow feDropShadow { flood-opacity: 1; }
 }
