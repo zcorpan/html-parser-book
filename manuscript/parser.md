@@ -1824,7 +1824,7 @@ Table-related tags (except for `table` itself) are ignored outside tables (excep
 >
 > * `<font color=chucknorris>`
 
-In 2009, Henri Sivonen found that the HTML parser needed to retain a quirk for web compatibility. Here is his blog post [The Last of the Parsing Quirks](https://hsivonen.fi/last-html-quirk/) (copyright Mozilla Foundation, licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)) with the timeline.
+In 2009, Henri Sivonen found that the HTML parser needed to retain a quirk for web compatibility. Here is his blog post with the timeline: [The Last of the Parsing Quirks](https://hsivonen.fi/last-html-quirk/) (copyright Mozilla Foundation, licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/); modified to omit links).
 
 > I implemented a single quirk for HTML5 parsing yesterday.
 >
