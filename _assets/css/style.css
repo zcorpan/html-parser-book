@@ -22,13 +22,13 @@ th, td { border: 1px solid gray; padding: 0 0.5em; vertical-align: baseline; tex
 .book-cover svg { display: block; margin: 0 auto; max-height: 100vh; }
 
 ul.toc { padding: 0; }
-ul.toc > li { list-style-type: none; display: flex; margin-bottom: 1em; border-bottom: 2px #ccc solid; }
-ul.toc > li span { flex-grow: 1; text-align: right;  }
+ul.toc > li { list-style-type: none; display: flex; margin-bottom: 1em; border-bottom: 2px silver solid; }
+ul.toc > li span { flex-grow: 1; text-align: right; font-variant-numeric: tabular-nums; }
 ul.toc > li > a { text-decoration: none; }
 
 nav.toc li { list-style-type: none; }
 nav.toc > ol { margin-left: 0; padding-left: 0; }
-summary { color: darkseagreen; font-size: small; font-weight: bold; cursor: default; text-align: center; border-bottom: 0.25em solid darkseagreen; user-select: none; }
+summary { color: #578057; font-size: small; font-weight: bold; cursor: default; text-align: center; border-bottom: 0.25em solid darkseagreen; user-select: none; }
 
 details[open] > summary ~ * {
   animation: fade-in .25s ease-in;
@@ -46,10 +46,10 @@ footer { font-size: small; text-align: center; }
 blockquote { border-left: 0.25em solid darkseagreen; padding: 0.25em 1.25em 0.25em 1em; margin-left: 1em; margin-right: 1em; background-color: whitesmoke; }
 blockquote blockquote { margin-left: 0; margin-right: 0; }
 
-:link { color: royalblue; }
-:visited { color: slateblue; }
+:link { color: #244fd3; }
+:visited { color: #714d8f; }
 :any-link { text-decoration-color: silver; }
-:any-link:hover { text-decoration-thickness: 2px; }
+:any-link:hover { text-decoration-thickness: 2px; text-decoration-skip-ink: none; }
 :any-link:active { color: darkred; }
 
 .selected-text-file-an-issue { position: fixed; bottom: 0; right: 0; padding: 0.25em; color: inherit !important; }
@@ -59,10 +59,14 @@ blockquote blockquote { margin-left: 0; margin-right: 0; }
   html, html.home { background: #333; color: white; }
   h1, h2, h3, th, strong, html code { color: #eee; }
   code.language-html { background-color: #222; color: #ddd; }
-  blockquote { background-color: #444; }
+  blockquote { background-color: #3e3e3e; }
+  ul.toc > li { border-bottom-color: gray; }
+  summary { color: darkseagreen; }
+  summary, nav, nav.next, blockquote { border-color: #578057; }
   :link { color: gold; }
-  :visited { color: goldenrod; }
+  :visited { color: #dfa920; }
   :any-link { text-decoration-color: gray; }
   :any-link:active { color: pink; }
   #book-cover-shadow feDropShadow { flood-opacity: 1; }
+  img[src$="/sample-ruby-ja.png"] { mix-blend-mode: color-dodge; filter: invert(); }
 }
