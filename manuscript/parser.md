@@ -2705,14 +2705,7 @@ When the parser reaches `</script>`, before running the script, the `body` eleme
             └── #text:  document.head.outerHTML = ''; document.body.outerHTML = '';
 ```
 
-The first line in the script sets `document.head.outerHTML` to the empty string. `outerHTML` is like `innerHTML` but it replaces the element with the parsed nodes. The spec for [`outerHTML`](https://w3c.github.io/DOM-Parsing/#dom-element-outerhtml) states:
-
-> 1. Let parent be the context object's parent.
->
-> ...
->
-> 5. Let fragment be the result of invoking the fragment parsing algorithm with the new value as markup, and parent as the context element.
-> 6. Replace the context object with fragment within the context object's parent.
+The first line in the script sets `document.head.outerHTML` to the empty string. `outerHTML` is like `innerHTML` but it replaces the element with the parsed nodes. The spec for [`outerHTML`](https://w3c.github.io/DOM-Parsing/#dom-element-outerhtml) will invoke the [fragment parsing algorithm](https://w3c.github.io/DOM-Parsing/#dfn-fragment-parsing-algorithm) on the given value, and then call the DOM [replace](https://dom.spec.whatwg.org/#concept-node-replace) algorithm on the [context object](https://dom.spec.whatwg.org/#context-object) with the parsed result.
 
 The fragment parsing algorithm then calls the [HTML fragment parsing algorithm](https://html.spec.whatwg.org/multipage/parsing.html#html-fragment-parsing-algorithm), with *context* being the `html` element (the parent of the `head` element). This will set up a new instance of the HTML parser, with the state of the HTML parser as appropriate for *context*. In particular, this step:
 
