@@ -2038,7 +2038,7 @@ However, in `template`s, it just works:
 If you have unexpected content between the table row and the table cell, it would normally be foster-parented (end up before the table), but here there is no `table` element. Instead it ends up at the end of the `template` element:
 
 ```html
-<template><tr>foo<td>X
+<template><tr>orphan<td>X
 ```
 
 ...results in the following *template contents*:
@@ -2052,7 +2052,7 @@ If you have unexpected content between the table row and the table cell, it woul
     │           ├── tr
     │           │   └── td
     │           │       └── #text: X
-    │           └── #text: foo
+    │           └── #text: orphan
     └── body
 ```
 

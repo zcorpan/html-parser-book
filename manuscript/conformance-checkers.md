@@ -20,7 +20,7 @@ I asked Mike Smith, who contributes to the Validator.nu code base and maintains 
 | Percent | Message | Example | Error correction
 |---------|---------|---------|-------------
 | 21.15%  | Stray end tag "X". | `<div></span></div>` | `<div></div>`
-| 11.97%  | Start tag "X" seen but an element of the same type was already open. | `<a>foo <a>bar</a>` | `<a>foo </a><a>bar</a>`
+| 11.97%  | Start tag "X" seen but an element of the same type was already open. | `<a>click <a>here</a>` | `<a>click </a><a>here</a>`
 | 9.57%   | No "X" element in scope but a "X" end tag seen. | `<div></p></div>` | `<div><p></p></div>`
 | 9.11%   | End tag "X" seen, but there were open elements. | `<div><span></div>` | `<div><span></span></div>`
 | 6.69%   | No space between attributes. | `<div class=""title="">` | `<div class="" title="">`
@@ -46,10 +46,10 @@ I asked Mike Smith, who contributes to the Validator.nu code base and maintains 
 | 0.53%   | Bad character "X" after "`<`". Probable cause: Unescaped "`<`". Try escaping it as "`&lt;`". | `2<5` | `2&lt;5`
 | 0.41%   | Bogus comment. | `<!x>` | `<!--x-->`
 | 0.33%   | "X" start tag in table body. | `<table><td>` | `<table><tbody><tr><td>`
-| 0.31%   | Heading cannot be a child of another heading. | `<div><h2>Foo<h2><p>bar</p></div>` | `<div><h2>Foo</h2><h2><p>bar</p></h2></div>`
+| 0.31%   | Heading cannot be a child of another heading. | `<div><h2>Introduction<h2><p>...</p></div>` | `<div><h2>Introduction</h2><h2><p>...</p></h2></div>`
 | 0.23%   | End of file seen and there were open elements. | `<div>(EOF)` | `<div></div>(EOF)`
 | 0.23%   | Character reference was not terminated by a semicolon. | `&#xD` | `&#xD;`
-| 0.23%   | End tag had attributes. | `</div foo>` | `</div>`
+| 0.23%   | End tag had attributes. | `</div class=main>` | `</div>`
 | 0.15%   | A numeric character reference expanded to the C1 controls range. | `&#x80;` | `&#x20AC;`
 | 0.15%   | Saw a "form" start tag, but there was already an active "form" element. Nested forms are not allowed. Ignoring the tag. | `<form class="outer"><form class="inner">` | `<form class="outer">`
 

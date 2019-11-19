@@ -35,7 +35,7 @@ Nodes can also have certain properties; for example:
 * `Element` nodes have a `namespaceURI` and `localName` which together represent the element type (e.g., "an HTML `p` element"), and a list of attributes (e.g., `<html lang="en">` has one attribute).
 * `Text` and `Comment` nodes have `data` which holds the node's text contents.
 
-The DOM also includes APIs to traverse and mutate the tree with script. For example, the `foo.remove()` method removes a node from its parent, `bar.append(foo)` inserts `foo` into `bar` as the last child. This is discussed in {% ref "dom-manipulation", "Chapter 4. DOM manipulation" %}.
+The DOM also includes APIs to traverse and mutate the tree with script. For example, the `divElement.remove()` method removes a node from its parent, `footerElement.append(div)` inserts `divElement` into `footerElement` as the last child. This is discussed in {% ref "dom-manipulation", "Chapter 4. DOM manipulation" %}.
 
 Parsing HTML means to turn a string of characters (the markup) into a DOM tree.
 
@@ -617,7 +617,7 @@ A start tag has this format:
 `<`, the tag name (case-insensitive), whitespace (if there are attributes), any number of attributes separated by whitespace, optionally some whitespace, `>`. (In the HTML syntax, whitespace means [ASCII whitespace](https://infra.spec.whatwg.org/#ascii-whitespace), i.e., tab, line feed, form feed, carriage return, or space.)
 
 ```html
-<p class="foo">
+<p class="warning">
 ```
 
 For void elements, the tag may end with either `>` or `/>`, although the slash makes no difference.
@@ -648,28 +648,28 @@ Attributes are not allowed on end tags.
 
 Attributes come in a few different formats.
 
-* **Empty attribute syntax.** This is just the attribute name. The value in the DOM will be the empty string. This syntax is allowed for any attribute (provided that the empty string is an allowed value). For example:
+* **Empty attribute syntax.** This is just the attribute name. The value in the DOM will be the empty string. This syntax is often used for boolean attributes, but is allowed for any attribute (provided that the empty string is an allowed value). For example:
 
   ```
-  <input value>
+  <video preload>
   ```
 
 * **Unquoted attribute value syntax.** The attribute name, optionally whitespace, `=`, optionally whitespace, then the value, which can't be the empty string and is not allowed to contain whitespace or these characters: `"` `'` `=` `<` `>` and \`. If this is the last attribute and the start tag ends with `/>` (which is allowed on void elements and foreign elements), there has to be whitespace before the slash (otherwise the slash becomes part of the value). For example:
 
   ```
-  <input value=foo />
+  <source src=bbb_sunflower_2160p_60fps_normal.mp4 />
   ```
 
 * **Single-quoted attribute value syntax.** The attribute name, optionally whitespace, `=`, optionally whitespace, `'`, the value not containing `'`, then `'`. For example:
 
   ```
-  <input value='foo'>
+  <track src='big-buck-bunny.webvtt'>
   ```
 
 * **Double-quoted attribute value syntax.** The attribute name, optionally whitespace, `=`, optionally whitespace, `"`, the value not containing `"`, then `"`. For example:
 
   ```
-  <input value="foo">
+  <a href="https://peach.blender.org/download/">Download Big Buck Bunny</a>
   ```
 
 All attribute names are case-insensitive, including attributes on SVG and MathML elements.
@@ -717,15 +717,15 @@ Certain tags can be omitted if the resulting DOM doesn't change if they are so o
 For example, consider this snippet:
 
 ```html
-<p>foo</p>
-<p>bar</p>
+<p>Can a paragraph be one word long?</p>
+<p>Yes.</p>
 ```
 
 Because there is a line feed between the paragraphs, there will be a `Text` node for it in the DOM. Omitting the end tags will cause the line feed to be part of the first paragraph instead:
 
 ```html
-<p>foo
-<p>bar
+<p>Can a paragraph be one word long?
+<p>Yes.
 ```
 
 However, in most cases this makes no difference at all. (It can make a difference if you style the paragraphs as `display: inline-block`, for example.)
@@ -781,13 +781,13 @@ There are three kinds of character references:
 HTML has a concept of an ambiguous ampersand, which is `&`, alphanumerics (a-zA-Z0-9), `;`, when this is not a known named character reference. Ambiguous ampersands are not allowed. The following is an example of an ambiguous ampersand:
 
 ```html
-This &foobar; is an error.
+I've sent a support request to AT&T; no reply, yet.
 ```
 
 However, other unescaped ampersands are technically allowed:
 
 ```html
-This & is OK.
+Ind. Unrealisk & Ind. Brunn
 ```
 
 ### CDATA sections
@@ -797,7 +797,7 @@ CDATA sections can only be used in foreign content, and have this format:
 `<![CDATA[` (case-sensitive), text not containing `]]>`, then `]]>`.
 
 ```html
-<svg><title><![CDATA[ <foo> & <bar> ]]></title> ... </svg>
+<svg><title><![CDATA[ The <html>, <head>, & <title> elements ]]></title> ... </svg>
 ```
 
 ### Comments

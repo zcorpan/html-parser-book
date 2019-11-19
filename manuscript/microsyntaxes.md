@@ -198,7 +198,7 @@ The processing is as follows:
 
 * If the URL ends with a comma, then all trailing commas are removed (only a single trailing comma is conforming). Otherwise, descriptors for the current item are parsed:
 
-    * A state machine is used to tokenize descriptors. This is to handle whitespace and commas inside parentheses. For example, "foo(bar, baz)" is tokenized to a single descriptor. A top-level comma ends the tokenizer.
+    * A state machine is used to tokenize descriptors. This is to handle whitespace and commas inside parentheses. For example, `size(50, 50, 30)` is tokenized to a single descriptor. A top-level comma ends the tokenizer.
 
 * The tokenized descriptors are parsed into *density*, *width*, and *future-compat-h*. The last one is for gracefully handling future web content that uses not-yet-specified *height* descriptors in addition to *width* descriptors. If any of the descriptors are invalid, the entire candidate is dropped.
 
