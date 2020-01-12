@@ -3,16 +3,20 @@ layout: chapter.njk
 title: Conformance checkers
 next: end
 ---
+{#appendix-b-conformance-checkers}
 # Appendix B. Conformance checkers
 
+{#dtd-based-validators}
 ## DTD-based validators
 
 TODO
 
+{#validatornu}
 ## Validator.nu
 
 TODO
 
+{#most-common-errors}
 ### Most common errors
 
 I asked Mike Smith, who contributes to the Validator.nu code base and maintains validator.w3.org and checker.html5.org, about error logs from the validator. He kindly gave me raw logs for one of the instances. I filtered for the messages that come from the Validator.nu HTML parser and normalized the error messages by replacing variable parts with "X", then counted a particular error for a given URL only once. The distribution of these errors are given in the table below.
