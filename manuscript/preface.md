@@ -34,15 +34,15 @@ Knowing exactly how the HTML parser works is not necessary to be a successful we
 
 The following is a non-exhaustive list of things that would be good for most web developers to understand about the HTML parser.
 
-* **How `</script>` works.** "`</script>`" in a script block does not always close the script. This is discussed in the {% ref "parser", "Script states" %} section in {% ref "parser", "Chapter 2. The HTML parser" %}.
+* **How `</script>` works.** "`</script>`" in a script block does not always close the script. This is discussed in the {% ref "parser", "Script states" %} section in {% ref "parser", "Chapter 3. The HTML parser" %}.
 
-* **Implied tags/omitted tags.** Some tags are optional, and some tags are implied without being optional. This explains why, for example, it's not possible to nest an `<ul>` in `<p>`. This is discussed in the {% ref "parser", "Implied tags" %} section in {% ref "parser", "Chapter 2. The HTML parser" %}.
+* **Implied tags/omitted tags.** Some tags are optional, and some tags are implied without being optional. This explains why, for example, it's not possible to nest an `<ul>` in `<p>`. This is discussed in the {% ref "parser", "Implied tags" %} section in {% ref "parser", "Chapter 3. The HTML parser" %}.
 
-* **`document.body` being null.** Before the `<body>` has been parsed, `document.body` is null. See {% ref "dom-manipulation", "Chapter 4. DOM manipulation" %}.
+* **`document.body` being null.** Before the `<body>` has been parsed, `document.body` is null. See {% ref "dom-manipulation", "Chapter 5. DOM manipulation" %}.
 
 * **Scripting and styling.** Knowing what the DOM will look like helps with working with the DOM with script or writing selectors in CSS. This has some overlap with implied tags. For example, `<tbody>` is implied in `<table>` even if that tag is not present.
 
-* **Writing correct HTML.** Knowing how the parser works may give you more confidence in how to write HTML. For example, a relatively common error is to use "`/>`" syntax on a non-void HTML element (`br` is a void element, `div` is not void), although that is not supported (it will be treated as a regular start tag, ignoring the slash). See {% ref "introduction", "The HTML syntax" %} section in {% ref "introduction", "Chapter 1. Introduction" %}.
+* **Writing correct HTML.** Knowing how the parser works may give you more confidence in how to write HTML. For example, a relatively common error is to use "`/>`" syntax on a non-void HTML element (`br` is a void element, `div` is not void), although that is not supported (it will be treated as a regular start tag, ignoring the slash). See {% ref "syntax", "Chapter 3. The HTML syntax" %}.
 
 * **Security.** For example, cross-site scripting (XSS) attacks sometimes target holes in sanitizers. Such attacks may be prevented by using an HTML parser-based sanitizer. See {% ref "implementations", "Appendix A. Implementations" %} for examples of such sanitizers.
 

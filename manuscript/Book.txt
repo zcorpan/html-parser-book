@@ -1,1 +1,1 @@
-preface.mdintroduction.mdparser.mdmicrosyntaxes.mddom-manipulation.mdserializing.mdimplementations.mdconformance-checkers.md
+preface.mdintroduction.mdsyntax.mdparser.mdmicrosyntaxes.mddom-manipulation.mdserializing.mdimplementations.mdconformance-checkers.md

@@ -4,6 +4,6 @@ title: Serializing
 next: implementations
 nextTitle: Implementations
 ---
-# Chapter 5. Serializing
+# Chapter 6. Serializing
 
 TODO

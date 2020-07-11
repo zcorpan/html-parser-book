@@ -4,7 +4,7 @@ title: DOM manipulation
 next: serializing
 nextTitle: Serializing
 ---
-# Chapter 4. DOM manipulation
+# Chapter 5. DOM manipulation
 
 ## Using DOM APIs
 

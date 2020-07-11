@@ -4,7 +4,7 @@ title: The HTML parser
 next: microsyntaxes
 nextTitle: Microsyntaxes
 ---
-# Chapter 2. The HTML parser
+# Chapter 3. The HTML parser
 
 ## Overview of the HTML parser
 
@@ -2183,7 +2183,7 @@ The `select` start tag is treated just like the `select` *end* tag. Therefore, t
 >
 > * `p`, `br`, `br`, `p`
 
-Tags can in various situations be implied by other tags, or by text content. In the {% ref "parser", "Tables" %} section we discussed table-specific implied tags, e.g., that the `tr` start tag is implied by a `td` or `th` start tag when "in table". The `html`, `head` and `body` start and end tags are optional. (See the {% ref "introduction", "Optional tags" %} section in {% ref "introduction", "Chapter 1. Introduction" %} for the full list of optional tags.)
+Tags can in various situations be implied by other tags, or by text content. In the {% ref "parser", "Tables" %} section we discussed table-specific implied tags, e.g., that the `tr` start tag is implied by a `td` or `th` start tag when "in table". The `html`, `head` and `body` start and end tags are optional. (See the {% ref "syntax", "Optional tags" %} section in {% ref "syntax", "Chapter 2. The HTML syntax" %} for the full list of optional tags.)
 
 The `br` end tag is treated as a `br` start tag. This is handled from the "before html" insertion mode through to "in body".
 
