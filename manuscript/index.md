@@ -74,9 +74,10 @@ You can [buy the eBook](https://leanpub.com/html-parser-book/) on Leanpub. 50% o
  <li><a href=/introduction/>Introduction</a> <span>1</span>
  <li><a href=/syntax/>The HTML syntax</a> <span>2</span>
  <li><a href=/parser/>The HTML parser</a> <span>3</span>
- <li><a href=/microsyntaxes/>Microsyntaxes</a> <span>4</span>
- <li><a href=/dom-manipulation/>DOM manipulation</a> <span>5</span>
- <li><a href=/serializing/>Serializing</a> <span>6</span>
+ <li><a href=/scripting/>Scripting complications</a> <span>4</span>
+ <li><a href=/serializing/>Serializing</a> <span>5</span>
+ <li><a href=/security/>Security implications</a> <span>6</span>
  <li><a href=/implementations/>Implementations</a> <span>A</span>
  <li><a href=/conformance-checkers/>Conformance checkers</a> <span>B</span>
+ <li><a href=/microsyntaxes/>Microsyntaxes</a> <span>4</span>
 </ul>

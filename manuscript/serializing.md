@@ -1,9 +1,9 @@
 ---
 layout: chapter.njk
 title: Serializing
-next: implementations
-nextTitle: Implementations
+next: security
+nextTitle: Security implications
 ---
-# Chapter 6. Serializing
+# Chapter 5. Serializing
 
 TODO
