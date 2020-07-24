@@ -1,7 +1,8 @@
 ---
 layout: chapter.njk
 title: Conformance checkers
-next: end
+next: microsyntaxes
+nextTitle: Microsyntaxes
 ---
 # Appendix B. Conformance checkers
 

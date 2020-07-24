@@ -1,10 +1,9 @@
 ---
 layout: chapter.njk
 title: Microsyntaxes
-next: dom-manipulation
-nextTitle: DOM manipulation
+next: end
 ---
-# Chapter 4. Microsyntaxes
+# Appendix C. Microsyntaxes
 
 Microsyntaxes in HTML are technically not part of the HTML parser. Instead they are a layer above, operating on (usually) attribute values. For example, boolean attributes have a simple microsyntax, where the allowed value is either the empty string or the same as the attribute name, case-insensitively, and the processing is to ignore the value.
 

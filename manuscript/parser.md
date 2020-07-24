@@ -1,8 +1,8 @@
 ---
 layout: chapter.njk
 title: The HTML parser
-next: microsyntaxes
-nextTitle: Microsyntaxes
+next: scripting
+nextTitle: Scripting complications
 ---
 # Chapter 3. The HTML parser
 
@@ -10,7 +10,7 @@ nextTitle: Microsyntaxes
 
 The HTML parser consists of two major components, the tokenizer and the tree builder, which are both state machines.
 
-In the typical case, the input for the HTML parser comes from the network. However, it can also come from script with the `document.write()` API, which complicates the model. This is discussed in the {% ref "parser", "`document.write()`" %} section.
+In the typical case, the input for the HTML parser comes from the network. However, it can also come from script with the `document.write()` API, which complicates the model. This is discussed in the {% ref "scripting", "`document.write()`" %} section of {% ref "scripting", "Chapter 4. Scripting complications" %}.
 
 In the typical case, parsing a document goes through these stages:
 
@@ -1938,7 +1938,7 @@ In 2009, Henri Sivonen found that the HTML parser needed to retain a quirk for w
 
 When seeing a `script` start tag, the tree builder switches the tokenizer's state to the *script data state*, and changes the insertion mode to "text" (which is also used for RAWTEXT and RCDATA elements).
 
-When seeing the `script` end tag, the tree builder executes the script. The details of how this works is… complicated. See the {% ref "parser", "`document.write()`" %} section.
+When seeing the `script` end tag, the tree builder executes the script. The details of how this works is… complicated. See the {% ref "scripting", "`document.write()`" %} section of {% ref "scripting", "Chapter 4. Scripting complications" %}.
 
 The parser will not continue parsing until the script has been downloaded (if applicable) and executed, and also until pending stylesheets have been loaded. See the {% ref "parser", "Blocking the parser" %} section.
 
@@ -2621,152 +2621,6 @@ The last bullet point is specified like this:
 Note that `font` is handled differently depending on its attributes. SVG has a font element, but so does HTML. Before SVG and MathML were added to HTML, there were web pages that used "bogus" `<svg>` or `<math>` start tags and then used HTML inside and expected the HTML to be rendered like they did in contemporary browsers. In order to not regress those pages, this breakout list of tags was specified.
 
 The answer to the quiz is therefore: 1 child, 1 sibling. The first `<font/>` is parsed as an SVG element, and the `<font face/>` breaks out of foreign content and creates a sibling HTML `font` element.
-
-## Scripting
-
-TODO
-
-### Modifying the DOM during parsing
-
-Script can execute during parsing, and those scripts can modify the DOM. This can lead to some interesting effects.
-
-Simple example:
-
-```html
-<!doctype html>
-<body>
-<script>
- document.body.remove();
-</script>
-Oops.
-```
-
-The resulting DOM is:
-
-```dom-tree
-#document
-├── DOCTYPE: html
-└── html
-    └── head
-```
-
-At least it didn't lose its head...
-
-Note that the text "Oops.", which the parser processed *after* running the script, is not in the DOM. It was inserted into the `body` element, that the script had removed.
-
-> [\#HTMLQuiz](https://twitter.com/zcorpan/status/775616491379187712) what happens?
-> ```html
-> <iframe id=x></iframe>
-> <script>
-> x.contentDocument.body.appendChild(x);
-> </script>
-> ```
->
-> * wild `DOMException` appears
-> * `iframe` escapes
-
-Correct answer: `iframe` escapes.
-
-Nothing prevents the `iframe` element from being moved to its own document (`about:blank` is same-origin). So the `iframe` element is removed from its original document.
-
-The spec for [`appendChild()`](https://dom.spec.whatwg.org/#dom-node-appendchild) does have various checks in place to make sure that the resulting DOM wouldn't violate invariants; e.g., if you tried to append an element to a text node, that would throw. But appending an element to another element is allowed, even across (same-origin) documents.
-
-When an `iframe` is removed from a document, its [browsing context](https://html.spec.whatwg.org/multipage/browsers.html#windows) disappears. So the child document does not have a browsing context when the `iframe` element is inserted into it. Therefore the `iframe`, after the move, does not have a new child browsing context (there's no infinite recursion happening). The [spec for the `iframe` element](https://html.spec.whatwg.org/multipage/embedded-content.html#the-iframe-element
-) says:
-
-> When an iframe element is removed from a document, the user agent must discard the element's nested browsing context, if it is not null, and then set the element's nested browsing context to null.
-
-If the script had [saved a reference](http://software.hixie.ch/utilities/js/live-dom-viewer/saved/4461) to the `iframe`'s `window`, the script would still be able to access it, its document, and the moved `iframe` element, after the move.
-
-### `innerHTML` and friends
-
-TODO some introduction before getting into the weeds...
-
-> [\#htmlpubquiz](https://twitter.com/zcorpan/status/207345250744803328) How do you get a Siamese twins document (i.e. two `<head>`s and two `<body>`s) using only `innerHTML`/`outerHTML`?
-
-Correct answer:
-
-```html
-<!DOCTYPE html>
-<script>
-document.head.outerHTML = '';
-document.body.outerHTML = '';
-</script>
-```
-
-When the parser reaches `</script>`, before running the script, the `body` element hasn't been created yet:
-
-```dom-tree
-#document
-├── DOCTYPE: html
-└── html
-    └── head
-        └── script
-            └── #text:  document.head.outerHTML = ''; document.body.outerHTML = '';
-```
-
-The first line in the script sets `document.head.outerHTML` to the empty string. `outerHTML` is like `innerHTML` but it replaces the element with the parsed nodes. The spec for [`outerHTML`](https://w3c.github.io/DOM-Parsing/#dom-element-outerhtml) will invoke the [fragment parsing algorithm](https://w3c.github.io/DOM-Parsing/#dfn-fragment-parsing-algorithm) on the given value, and then call the DOM [replace](https://dom.spec.whatwg.org/#concept-node-replace) algorithm on the [context object](https://dom.spec.whatwg.org/#context-object) with the parsed result.
-
-The fragment parsing algorithm then calls the [HTML fragment parsing algorithm](https://html.spec.whatwg.org/multipage/parsing.html#html-fragment-parsing-algorithm), with *context* being the `html` element (the parent of the `head` element). This will set up a new instance of the HTML parser, with the state of the HTML parser as appropriate for *context*. In particular, this step:
-
-> 10. Reset the parser's insertion mode appropriately.
-
-...which [says](https://html.spec.whatwg.org/multipage/parsing.html#reset-the-insertion-mode-appropriately):
-
-> 15. If *node* is an `html` element, run these substeps:
->
->     1. If the head element pointer is null, switch the insertion mode to "before head" and return. (fragment case)
-
-So when this parser parses the markup given (the empty string), it starts in the "before head" insertion mode. It immediately reaches EOF, so steps through the usual states and appends a `head` and a `body` element.
-
-At this point, if we were to inspect the DOM right after the `document.head.outerHTML` assignment, it looks like this:
-
-```dom-tree
-#document
-├── DOCTYPE: html
-└── html
-    ├── head
-    └── body
-```
-
-The parser-created `head` has been replaced by fragment parser-created `head` and `body` elements. Now, `document.body` is no longer null, since a `body` element exists, even though the still running main parser hasn't created one yet.
-
-Next, the `document.body.outerHTML = ''` line does basically the same thing but for the new `body` element: replace it with new `head` and `body` elements:
-
-```dom-tree
-#document
-├── DOCTYPE: html
-└── html
-    ├── head
-    ├── head
-    └── body
-```
-
-The first `head` didn't go away; `outerHTML` only replaces the element you call it on, not other siblings.
-
-Now the script is done, and the main parser is allowed to continue. The insertion mode is "in head", since the `script` element was in `head`. The next token is end-of-file, so the insertion mode switches to "after head", where it inserts a `body` element and switches to "in body", and then it stops parsing.
-
-```dom-tree
-#document
-├── DOCTYPE: html
-└── html
-    ├── head
-    ├── head
-    ├── body
-    └── body
-```
-
-### `document.write()`
-
-TODO
-
-### Blocking the parser
-
-TODO
-
-## Speculative parsing
-
-TODO
 
 ## Tags that are no longer supported
 
