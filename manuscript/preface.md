@@ -80,7 +80,7 @@ Thanks to Marcos Caceres, Sam Sneddon, Taylor Hunt, Mike Smith, Anne van Kestere
 
 ## Contribute
 
-The source code for this book is [available on GitHub](https://github.com/zcorpan/html-parser-book/). This book and the source code is [licensed under CC-BY-4.0](https://github.com/zcorpan/html-parser-book/blob/master/LICENSE). Feel free to report issues, submit pull requests, fork, etc.! If you wish to make a translation or otherwise reuse the work, you are welcome to do so (as allowed by the license). Please report an issue, to avoid duplicate work and so I can help get you set up.
+The source code for this book is [available on GitHub](https://github.com/zcorpan/html-parser-book/). This book and the source code is [licensed under CC-BY-4.0](https://github.com/zcorpan/html-parser-book/blob/main/LICENSE). Feel free to report issues, submit pull requests, fork, etc.! If you wish to make a translation or otherwise reuse the work, you are welcome to do so (as allowed by the license). Please report an issue, to avoid duplicate work and so I can help get you set up.
 
 In the [web version of this book](https://htmlparser.info/), there is a feedback link in the bottom-right corner. You can select some text and click the feedback link to create a new issue about the selected text in the GitHub repository. The link has `accesskey="1"` so it can be activated with the keyboard — how to activate it depends on the browser and OS, see [documentation on MDN about `accesskey`](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/accesskey).
 

@@ -1,5 +1,5 @@
-// This file is forked from https://github.com/whatwg/whatwg.org/blob/master/resources.whatwg.org/file-issue.js
-// which is CC0 per https://github.com/whatwg/whatwg.org/blob/master/resources.whatwg.org/README.md
+// This file is forked from https://github.com/whatwg/whatwg.org/blob/main/resources.whatwg.org/file-issue.js
+// which is CC0 per https://github.com/whatwg/whatwg.org/blob/main/resources.whatwg.org/README.md
 
 (function () {
   'use strict';
