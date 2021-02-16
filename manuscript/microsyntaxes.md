@@ -185,7 +185,13 @@ The format of the srcset attribute is as follows:
 
 * If an *image candidate string* has no descriptors and no trailing whitespace, then the next *image candidate string* must begin with whitespace (otherwise it would get jammed together with the previous URL).
 
-A naïve processing would be to split the string on commas and then split on whitespace, to get a list of URLs and their descriptors. However, this would fail to correctly parse URLs that contain commas (for example data: URLs), and, for the purpose of compatibility with possible future complex descriptors, the parsing of those are more involved, too.
+The `srcset` microsyntax doesn't have legacy baggage (other than URLs) to attribute its complexity to. It was a new attribute and the syntax was designed. However, a number of requirements led to complexity anyway:
+
+* graceful error handling: in the spirit of HTML, an error somewhere shouldn't cause the entire attribute value to be ignored.
+
+* compatibility with URLs: URLs can contain basically any character and should still work. A naïve processing would be to split the string on commas and then split on whitespace, to get a list of URLs and their descriptors. However, this would fail to correctly parse URLs that contain commas (for example, `data:` URLs).
+
+* support future extensions: it should be possible to add new descriptors in the future without causing unexpected behavior in legacy user agents that don't support the new descriptor. One such anticipated descriptor is a descriptor analogous to the `integrity` attribute on `script` and `link` -- integrity checks would need to be per URL, so for images, each URL in `srcset` would need to be annotated individually.
 
 The processing is as follows:
 
@@ -197,13 +203,117 @@ The processing is as follows:
 
 * If the URL ends with a comma, then all trailing commas are removed (only a single trailing comma is conforming). Otherwise, descriptors for the current item are parsed:
 
-    * A state machine is used to tokenize descriptors. This is to handle whitespace and commas inside parentheses. For example, `size(50, 50, 30)` is tokenized to a single descriptor. A top-level comma ends the tokenizer.
+    * A state machine is used to tokenize descriptors. This is to handle whitespace and commas inside parentheses. For example, `size(50, 50, 30)` is tokenized to a single descriptor. A top-level comma ends the descriptors tokenizer.
 
-* The tokenized descriptors are parsed into *density*, *width*, and *future-compat-h*. The last one is for gracefully handling future web content that uses not-yet-specified *height* descriptors in addition to *width* descriptors. If any of the descriptors are invalid, the entire candidate is dropped.
+* The tokenized descriptors are parsed into *density*, *width*, and *future-compat-h*. If any of the descriptors are invalid, the entire candidate is dropped. The *future-compat-h* descriptor is for gracefully handling future web content that uses not-yet-specified *height* descriptors in addition to *width* descriptors. Instead of dropping the candidate when seeing a "h" descriptor, only that descriptor is ignored.
 
-* Run the above steps in a loop.
+* Run the above steps in a loop until reaching the end of the string.
 
 ### Sizes
+
+The `sizes` attribute is used in conjuction with the `srcset` attribute when *width* descriptors are used. The *width* descriptor tells the browser the width of the image resource, and the `sizes` attribute tells the browser what the *intended* layout size is for the image.
+
+You may wonder why this attribute is needed in the first place. Can't the browser just use the layout information that is provided in the CSS to decide which image to load?
+
+To answer this question, we first need to know a bit about how browsers load web pages. When navigating to a web page, the browser will first receive the HTML, and it will subsequently fetch further resources as it finds them in the HTML. For most kinds of resources, the HTML parser will continue processing while the subresource is being fetched. So for a simple document that includes an external stylesheet and then an image, the browser will fetch both in parallel.
+
+```html
+<!doctype html>
+<link rel=stylesheet href=style.css>
+<img src=image.png alt="wow">
+```
+
+This means that the browser can't wait for `style.css` to be available before starting to load the image, as that would regress page load performance.
+
+There are other scenarios to consider as well, but the above is the simplest one and is enough to justify the `sizes` attribute.
+
+A more complicated scenario involves `script` elements that block the HTML parser and an optimization that browsers have, the speculative tokenizer or speculative parser, that speculatively continues to process HTML past a blocking `script` element and speculatively fetch further subresources found, such as scripts, stylesheets, and images. A `script` element blocks the HTML parser if it is external (has a `src` attribute) and is a classic script (not `type="module"`) and does not use `async` or `defer` attributes.
+
+```html
+<!doctype html>
+<script src=script.js></script>
+<link rel=stylesheet href=style.css>
+<img src=image.png alt="wow">
+```
+
+The reason scripts can block the HTML parser is that scripts can call `document.write()`, which can change the state of the HTML parser and thus change the meaning of all markup after the `</script>` end tag. Consider `script.js` being the script `document.write('<!--');`. This would cause the rest of the page to be commented out, and thus not reference any subresources. Any speculative fetches would be invalidated and discarded.
+
+In this scenario, the impact for image fetches is the same as before: stylesheets may not be available at the time the browser wants to start an image fetch (speculatively or not). However, browsers wanted to not regress page load performance even for speculative image fetches. This was a requirement that a solution for responsive images needed to address somehow. We ended up with the `sizes` attribute to encode intended layout size for each image.
+
+In the simplest case, the `sizes` attribute has a single value, which is a CSS `<length>`. In the following example, `50vw` means half the width of the viewport.
+
+```html
+<img srcset="small.jpg 640w, large.jpg 1280w" sizes="50vw">
+```
+
+The intended layout size of an image often depends on how much space is available. In CSS, page layout can be made fluid, e.g., by using percentage widths. The layout can be further adapted to better suit different viewport sizes using *breakpoints*: using media queries, the page can switch to a single column layout for narrow viewports and a multiple column layout for wider viewports.
+
+To support this, the `sizes` attribute can provide several widths for different breakpoints.
+
+The syntax is a `<source-size-list>`, defined as follows:
+
+```css-value-syntax-definition
+<source-size-list> = [ <source-size># , ]? <source-size-value>
+<source-size> = <media-condition> <source-size-value>
+<source-size-value> = <length>
+```
+
+This uses CSS value syntax definition (TODO link). CSS syntax features work in this attribute, e.g., character escapes and CSS comments.
+
+In English, the syntax is:
+
+* optionally, a comma-separated list of one or more `<source-size>`, followed by a comma
+* a `<source-size-value>` (a CSS length)
+
+A `<source-size>` is a media condition, a space, and then a `<source-size-value>` (a CSS length).
+
+However, the parsing doesn't use the normal CSS property value rules. For a CSS property, a syntax error causes the entire declaration to be ignored. This wouldn't allow for graceful degradation in legacy browsers when new features are added to `sizes`, which wouldn't be ideal. Instead, `sizes` uses an approach similar to how CSS parses media query lists: an error in one media query causes only that media query to be ignored, not the entire list of media queries.
+
+```css
+@media (min-width: 500px), (unknown-feature: 123), print { ... }
+```
+
+`(unknown-feature: 123)` is invalid, so it is dropped, but the `(min-width: 500px)` and `print` media queries can still apply.
+
+Side note: *media condition* (used in `sizes`) is different from *media query* (used in `@media` and HTML `media` attributes). The difference is that media conditions do not include media types such as `screen` and `print`. TODO rationale
+
+So the `sizes` attribute has its own algorithm to gracefully parse its value:
+
+> When asked to parse a sizes attribute from an element, with a fallback width *width*, [parse a comma-separated list of component values](https://drafts.csswg.org/css-syntax/#parse-a-comma-separated-list-of-component-values) from the value of the element's sizes attribute (or the empty string, if the attribute is absent), and let unparsed sizes list be the result. [CSSSYNTAX]
+>
+> For each *unparsed size* in *unparsed sizes list*:
+>
+> 1. Remove all consecutive `<whitespace-token>`s from the end of *unparsed size*. If *unparsed size* is now empty, that is a parse error; continue to the next iteration of this algorithm.
+
+This just trims trailing whitespace, and skips over empty *unparsed size*s.
+
+> 2. If the last [component value](https://drafts.csswg.org/css-syntax/#component-value) in *unparsed size* is a valid non-negative `<source-size-value>`, let size be its value and remove the component value from unparsed size. Any CSS function other than the [math functions](https://drafts.csswg.org/css-values/#math-function) is invalid. Otherwise, there is a parse error; continue to the next iteration of this algorithm.
+
+This takes the last component value and checks if it's a valid `<source-size-value>`, and removes it from *unparsed size*. If it isn't valid, it skips to the next *unparsed size*.
+
+> 3. Remove all consecutive `<whitespace-token>`s from the end of *unparsed size*. If *unparsed size* is now empty, return *size* and exit this algorithm. If this was not the last item in *unparsed sizes list*, that is a parse error.
+
+Trim trailing whitespace again. At this point, there are two valid possibilities: *unparsed size* is not the last item and matches `<source-size>`, or it *is* the last item and matches `<source-size-value>`. *unparsed size* being empty at this point means it matches `<source-size-value>`, so that is returned. If it wasn't the last value, it means there is further stuff afterwards which will be ignored.
+
+> 4. Parse the remaining component values in *unparsed size* as a `<media-condition>`. If it does not parse correctly, or it does parse correctly but the `<media-condition>` evaluates to false, continue to the next iteration of this algorithm. [MQ]
+
+Reaching this step means we expect *unparsed size* (mutated to remove the trailing `<source-size-value>` and whitespace) to be a media condition. If it is and it matches the current environment, we carry on with the next step (which returns *size*). If not, we skip to the next *unparsed size*.
+
+> 5. Return *size* and exit this algorithm.
+>
+> If the above algorithm exhausts *unparsed sizes list* without returning a *size* value, follow these steps:
+>
+> 1. If *width* is not null, return a `<length>` with the value *width* and the unit 'px'.
+>
+> 2. Return `100vw`.
+
+This happens if there is no `sizes` attribute at all, or if all items are invalid, or don't match and there's no trailing `<source-size-value>` item.
+
+TODO was *width* dropped?
+
+The math functions aspect is interesting, since it allows using `calc()`, and as of recently (TODO date), `min()`, `max()`, `clamp()`, etc. Technically they should work both in the media condition and the `<source-size-value>`, but TODO browser support.
+
+TODO example with min/max.
 
 ## Colors
 
