@@ -4,13 +4,15 @@ title: The HTML parser
 next: scripting
 nextTitle: Scripting complications
 ---
+{#chapter-3-the-html-parser}
 # Chapter 3. The HTML parser
 
+{#overview-of-the-html-parser}
 ## Overview of the HTML parser
 
 The HTML parser consists of two major components, the tokenizer and the tree builder, which are both state machines.
 
-In the typical case, the input for the HTML parser comes from the network. However, it can also come from script with the `document.write()` API, which complicates the model. This is discussed in the {% ref "scripting", "`document.write()`" %} section of {% ref "scripting", "Chapter 4. Scripting complications" %}.
+In the typical case, the input for the HTML parser comes from the network. However, it can also come from script with the `document.write()` API, which complicates the model. This is discussed in the [`document.write()`](#documentwrite) section of [Chapter 4. Scripting complications](#chapter-4-scripting-complications).
 
 In the typical case, parsing a document goes through these stages:
 
@@ -24,7 +26,7 @@ For example, consider the following document:
 
 Bytes go over the network and a decoder will produce a stream of code points (the details of how that works is a topic of another book). The tokenizer walks through the stream of code points, character by character, and emits tokens; in this case: a doctype token, a start tag token (p), and a series of character tokens (one token per character, although implementations can optimize by combining character tokens, if the end result is equivalent). The tree builder takes those tokens and builds the following DOM:
 
-```dom-tree
+```
 #document
 ├── DOCTYPE: html
 └── html
@@ -34,8 +36,9 @@ Bytes go over the network and a decoder will produce a stream of code points (th
             └── #text: Hello world.
 ```
 
-Note that the tree builder created some elements (html, head, body) that did not have any corresponding tags in the source text. These elements have optional start and end tags, but implied tags can also happen in non-conforming cases, such as when a required end tag is omitted (more on this in the {% ref "parser", "Implied tags" %} section).
+Note that the tree builder created some elements (html, head, body) that did not have any corresponding tags in the source text. These elements have optional start and end tags, but implied tags can also happen in non-conforming cases, such as when a required end tag is omitted (more on this in the [Implied tags](#implied-tags) section).
 
+{#error-handling}
 ## Error handling
 
 The HTML parser specification specifies exactly what to do in case of an error. Technically, an implementation is allowed to abort processing upon an error, but no browser does that. Instead, they follow the specification to recover from the error in some particular way, which is carefully designed to be compatible with web content.
@@ -44,6 +47,7 @@ When the parser identifies something that is an error, it says that "it is a par
 
 > If the number is 0x00, then this is a null-character-reference parse error. Set the character reference code to 0xFFFD.
 
+{#detecting-character-encoding}
 ## Detecting character encoding
 
 The character encoding of the document must be specified (but not all documents do this). Not only must it be specified, but it must be UTF-8 (again not all documents do this).
@@ -92,6 +96,7 @@ If no encoding declaration is found, then the default will usually depend on the
 
 When the prescan has happened and potentially found a tentative encoding to use, we're ready to preprocess the input stream.
 
+{#preprocessing-the-input-stream}
 ## Preprocessing the input stream
 
 At this stage, we are working with a stream of code points rather than a stream of bytes. This is responsible for normalizing newlines to line feed characters. This is defined as follows:
@@ -122,6 +127,7 @@ y
 
 This will alert "2" (the "`x`" and the carriage return converted to line feed). The line feed after the `</script>` tag, which appears in the input stream after the script has run, is then ignored.
 
+{#tokenizer}
 ## Tokenizer
 
 The tokenizer processes each character in the input stream with a state machine. The output is a series of tokens that are used by the tree construction stage.
@@ -136,6 +142,7 @@ The possible tokens are: doctype, start tag, end tag, comment, character, and en
 
 * End-of-file has no properties.
 
+{#tags--text}
 ### Tags & text
 
 Let's walk through a simple example to see how the tokenizer works: how it switches states and what tokens are produced.
@@ -282,6 +289,7 @@ The correct answer is thus a comment node.
 
 Note that the *start tag open* state handles non-ASCII alpha differently; it will emit the `<` and the current input character as character tokens.
 
+{#attributes}
 ### Attributes
 
 > [\#HTMLQuiz](https://twitter.com/RReverser/status/732527451973267456) (don't cheat :) ). What class will the `<div class="a" class="b">` have?
@@ -426,6 +434,7 @@ Oops. Yes, little gsnedders autofocus, [we call them](https://xkcd.com/327/).
 
 To avoid this, the HTML standard [made \` in unquoted attribute values a parse error](https://lists.w3.org/Archives/Public/public-whatwg-archive/2009Oct/0033.html) in 2009.
 
+{#character-references}
 ### Character references
 
 > Let's do a simpler one this time. How many named entities (`&quot;`, `&amp;` and so on) are there in HTML? [\#HTMLQuiz](https://twitter.com/RReverser/status/730336128360980480)
@@ -579,6 +588,7 @@ Browsers had this mapping already when the HTML parser was specified, and there 
 
 One final character reference that is a parse error is `&#xD;` which maps to U+000D CARRIAGE RETURN. It's the only way to get such a character in the DOM from the parser; newlines are otherwise normalized to U+000A LINE FEED in the *preprocessing* stage.
 
+{#comments}
 ### Comments
 
 Comments ought to be pretty simple; they start with `<!--` and end with `-->`, and that's that. Right?
@@ -674,7 +684,7 @@ Reparsing is something that was carefully avoided in the standard. Apart from be
 >      Oh well. There's no way they could aCONNECTION TERMINATED BY PEER
 > ```
 
-Browsers also did reparsing in some other situations, such as an unclosed `title` element and, in particular, an unclosed `<!--` in a script element (which looks like a comment but is actually text). More on this in the {% ref "parser", "Script states" %} section. Switching to not doing reparsing was not without facing web compatibility problems. In March 2008, I sent the following [email](https://lists.w3.org/Archives/Public/public-html/2008Mar/0249.html) to the public-html mailing list:
+Browsers also did reparsing in some other situations, such as an unclosed `title` element and, in particular, an unclosed `<!--` in a script element (which looks like a comment but is actually text). More on this in the [Script states](#script-states) section. Switching to not doing reparsing was not without facing web compatibility problems. In March 2008, I sent the following [email](https://lists.w3.org/Archives/Public/public-html/2008Mar/0249.html) to the public-html mailing list:
 
 > We were fixing our bugs regarding reparsing, but were a bit scared to fix reparsing of comments and escaped text spans, so I asked in #whatwg if someone could be kind enough to provide some data on the matter...
 >
@@ -686,12 +696,13 @@ Browsers also did reparsing in some other situations, such as an unclosed `title
 >
 > We will probably not stop reparsing comments (in quirks mode) or escaped text spans (at least for script and style), at least not until other browsers do so. Maybe we can limit reparsing of escaped text spans to quirks mode, but we don't particularly like parsing differences between modes.
 
-(We will come back to "escaped text spans" in the {% ref "parser", "Script states" %} section.)
+(We will come back to "escaped text spans" in the [Script states](#script-states) section.)
 
 To counter the web compatibility problems, the string `--!>` was added as a way the parser can close a comment. Reparsing was not specified, but browsers continued to do that (until they rewrote their parsers).
 
 An IEism that was adopted in the standard was that `<!-->` and `<!--->` represent empty comments. That is, the dashes in the `<!--` can overlap the dashes in the `-->`.
 
+{#bogus-comments}
 ### Bogus comments
 
 Have you ever seen an HTML page with an XML declaration at the top?
@@ -710,6 +721,7 @@ If so, then you have stumbled across a "bogus comment". In HTML, some things cau
 
 Apart from `<?`, the sequence `</` followed by something that is not a-zA-Z, or `<!` that is not followed by `doctype` (case-insensitive) or `--` or, in foreign content, `[CDATA[` (case-sensitive), starts a bogus comment.
 
+{#doctypes}
 ### Doctypes
 
 There are 16 tokenizer states dedicated to doctypes, not including the *tag open state* (`<`) or the *markup declaration open state* (`<!`):
@@ -755,12 +767,13 @@ The reason is that the doctype used to have more stuff in it than just `<!doctyp
 
 There's the doctype name (`HTML`), the keyword `PUBLIC` (which could also be `SYSTEM`), the public identifier (`-//W3C//DTD HTML 4.01//EN`), and the system identifier (`http://www.w3.org/TR/html4/strict.dtd`). (In SGML, the public and system identifiers both identify a DTD. The public identifier would be used by an SGML parser to look up a local DTD in a catalog.)
 
-Since the doctype is used for {% ref "parser", "determining rendering mode" %}, and since the strings are exposed in the DOM, the tokenizer can’t just skip to the first "`>`" and then emit the token; it needs to collect the public and system identifiers.
+Since the doctype is used for [determining rendering mode](#determining-rendering-mode), and since the strings are exposed in the DOM, the tokenizer can’t just skip to the first "`>`" and then emit the token; it needs to collect the public and system identifiers.
 
 What happens if you have garbage in the doctype? It depends on where that garbage is; stuff after the system identifier is silently ignored. Unexpected characters elsewhere will set the *force-quirks flag* and switch to the *bogus DOCTYPE state*, which looks for a "`>`" to end the doctype.
 
 Using the "PUBLIC" or "SYSTEM" keywords but omitting the strings will set the *force-quirks flag*.
 
+{#cdata-sections}
 ### CDATA sections
 
 CDATA sections are only supported in foreign content, i.e., when the current node is an SVG or MathML element. The effect is that text between the `<![CDATA[` and `]]>` markers are treated as text rather than as markup, so you can use `&` and `<` without escaping them as character references.
@@ -775,10 +788,11 @@ So in HTML content, it ends up as a comment instead.
 
 Where CDATA sections *are* supported, the tokenizer emits normal character tokens for the text. This means that such text ends up being normal `Text` nodes in the DOM, rather than `CDATASection` nodes, which the DOM also has.
 
-As part of writing this book, I found a [bug](https://github.com/whatwg/html/issues/4016) in Safari and Chrome: CDATA sections are not supported in HTML integration points or MathML text integration points (more on this in {% ref "parser", "The foreign lands: SVG and MathML" %}). So avoid using it in, e.g., the SVG `title` element.
+As part of writing this book, I found a [bug](https://github.com/whatwg/html/issues/4016) in Safari and Chrome: CDATA sections are not supported in HTML integration points or MathML text integration points (more on this in [The foreign lands: SVG and MathML](#the-foreign-lands-svg-and-mathml)). So avoid using it in, e.g., the SVG `title` element.
 
 Most likely, the only case you will see CDATA sections in HTML is in the SVG `script` element, where it is supported in all browsers.
 
+{#rcdata-rawtext-and-plaintext-states}
 ### RCDATA, RAWTEXT and PLAINTEXT states
 
 When the tree builder sees certain start tag tokens, it will switch state of the tokenizer to RCDATA, RAWTEXT, or PLAINTEXT.
@@ -813,6 +827,7 @@ The PLAINTEXT state is similar to RAWTEXT, except that it can never switch to an
 
 Effectively, the rest of the document is unconditionally treated as plain text.
 
+{#script-states}
 ### Script states
 
 > Another [\#HTMLQuiz](https://twitter.com/RReverser/status/737992318146510849) (don't cheat :) ). What will be alerted here?
@@ -1110,7 +1125,7 @@ It then stays in the *script data escaped state* until the end-of-file. The toke
 
 The resulting DOM is:
 
-```dom-tree
+```
 #document
 └── html
     ├── head
@@ -1122,8 +1137,10 @@ The resulting DOM is:
 
 Since there is no actual script end tag, the script will not be executed. Executing scripts is, apart from constructing the DOM, part of the tree construction stage.
 
+{#tree-construction}
 ## Tree construction
 
+{#parsing-a-simple-document}
 ### Parsing a simple document
 
 Let's try a simple example and see what happens in the tree construction stage.
@@ -1149,7 +1166,7 @@ The tokenizer will produce these tokens:
 
 The tree construction stage (or the *tree builder*) will then take the stream of tokens as its input, and mutate a `Document` object as its result.
 
-There are a number of *insertion modes*, which govern how the tokens are handled. Initially, the insertion mode is the "initial" insertion mode (unsurprisingly). This insertion mode is the one that does something with doctype tokens (more on this in the next section, {% ref "parser", "Determining rendering mode" %}).
+There are a number of *insertion modes*, which govern how the tokens are handled. Initially, the insertion mode is the "initial" insertion mode (unsurprisingly). This insertion mode is the one that does something with doctype tokens (more on this in the next section, [Determining rendering mode](#determining-rendering-mode)).
 
 In this case, a `DocumentType` node is appended to the `Document`, and then the insertion mode is changed to "before html".
 
@@ -1179,7 +1196,7 @@ We then switch the insertion mode to "before head" and process the same token ag
 
 At this point the DOM looks like this:
 
-```dom-tree
+```
 #document
 ├── DOCTYPE: html
 └── html
@@ -1195,11 +1212,11 @@ The "in body" insertion mode is the mode that handles most of the tags in a typi
 >
 >   Insert an HTML element for the token.
 
-The stack of open elements has just html and body, so there's no p element to close. (We’ll discuss the details of this in the {% ref "parser", "Implied tags" %} section.)
+The stack of open elements has just html and body, so there's no p element to close. (We’ll discuss the details of this in the [Implied tags](#implied-tags) section.)
 
 "Insert an HTML element" will insert a div element, and push it to the stack of open elements. The stack is now: html, body, div. The DOM is:
 
-```dom-tree
+```
 #document
 ├── DOCTYPE: html
 └── html
@@ -1218,11 +1235,11 @@ We stay in the "in body" insertion mode. Next, we have a character token (D).
 >
 >   Set the frameset-ok flag to "not ok".
 
-Reconstructing active formatting elements is discussed in the {% ref "parser", "Misnested tags" %} section.
+Reconstructing active formatting elements is discussed in the [Misnested tags](#misnested-tags) section.
 
 "Insert the token's character" will check if there is a `Text` node immediately before, and if so, append to it. Otherwise it creates a new `Text` node. In this case, there is no `Text` node yet, but for the subsequent character tokens there is.
 
-The frameset-ok flag is discussed in the {% ref "parser", "Frameset" %} section.
+The frameset-ok flag is discussed in the [Frameset](#frameset) section.
 
 Finally, the end tag.
 
@@ -1264,7 +1281,7 @@ Step 1 says that there is a parse error if there's still an open element except 
 
 And now we're done.
 
-```dom-tree
+```
 #document
 ├── DOCTYPE: html
 └── html
@@ -1274,6 +1291,7 @@ And now we're done.
             └── #text: Divitis is a serious condition.
 ```
 
+{#determining-rendering-mode}
 ### Determining rendering mode
 
 > [\#HTMLQuiz](https://twitter.com/zcorpan/status/729710046716682244) (don't cheat :)) Which doctype does not trigger quirks mode? +@RReverser
@@ -1291,7 +1309,7 @@ The doctype determines the document's rendering mode.
 
 The following cases result in the document using quirks mode:
 
-* The token's *force quirks flag* is set. (See the {% ref "parser", "Doctypes" %} section.)
+* The token's *force quirks flag* is set. (See the [Doctypes](#doctypes) section.)
 
 * The token's name is not "`html`".
 
@@ -1339,6 +1357,7 @@ Let's go back to the quiz. `<!DOCTYPE YOLO>` triggers quirks mode because the na
 
 What about `<!DOCTYPE HTML PUBLIC "" "" ROFL>`? The empty string is different from absent public and system identifier, and is not in the list of things that trigger quirks mode. Trailing garbage in the doctype does not trigger the *force-quirks flag*. So it does not trigger quirks mode. The reason trailing garbage is ignored is that some web developers (about [0.02% of pages](https://lists.w3.org/Archives/Public/public-html/2008Feb/0403.html)) were overzealous in converting to XHTML that they thought the doctype ought to have a trailing slash as well.
 
+{#noscript}
 ### Noscript
 
 > [\#HTMLQuiz](https://twitter.com/zcorpan/status/744896721017257984) Which tag is implied where when scripting is *disabled*?
@@ -1375,7 +1394,7 @@ That is, it is inserted in the DOM and the contents are parsed as normal. For ex
 
 Resulting DOM:
 
-```dom-tree
+```
 #document
 ├── DOCTYPE: html
 └── html
@@ -1420,7 +1439,7 @@ It's ignored. The final tag, the `base` start tag, is handled under the anything
 
 It closes the `noscript` element, and the token is reprocessed. So the correct answer is "`</noscript>` before `<base>`".
 
-```dom-tree
+```
 #document
 └── html
     ├── head
@@ -1434,6 +1453,7 @@ The takeaway is that, out of the conforming elements in HTML, you can only use `
 
 Back in 2007, when `noscript` in head was [specified](https://lists.w3.org/Archives/Public/public-whatwg-archive/2007Jun/0335.html), browsers did different things (of course). In Firefox, `noscript` in `head` would imply a `<body>` start tag before it. In IE, the `noscript` element would be inserted in the `head`, but if it contained something that was not allowed in `head` (like an "`X`" character), then it would create an ill-formed DOM. Opera instead didn't insert any `noscript` element to the DOM. Safari changed in 2007 to allow `noscript` in `head`, and the specification was updated as a result, although what Safari did was different to what the specification said.
 
+{#frameset}
 ### Frameset
 
 Frameset is a feature that was introduced in HTML4 and immediately deprecated (and is now obsolete). It's like the `iframe`, but the whole page is a set of frames, in rows and columns. Such pages do not have a `body` element; instead they have a `frameset` element.
@@ -1463,7 +1483,7 @@ If the tree builder finds a `frameset` start tag token in the "after head" inser
 <p><frameset>Who am I?
 ```
 
-```dom-tree
+```
 #document
 ├── DOCTYPE: html
 └── html
@@ -1474,7 +1494,7 @@ If the tree builder finds a `frameset` start tag token in the "after head" inser
 
 How does the parser decide if the page is a "frameset" page or a "body" page? Glad you asked.
 
-You may recall from the {% ref "parser", "Parsing a simple document" %} section a mention of a frameset-ok flag. This flag determines whether, upon finding a `frameset` start tag token in the "in body" insertion mode, the page should be a frameset page.
+You may recall from the [Parsing a simple document](#parsing-a-simple-document) section a mention of a frameset-ok flag. This flag determines whether, upon finding a `frameset` start tag token in the "in body" insertion mode, the page should be a frameset page.
 
 The following things set the frameset-ok flag to "not ok".
 
@@ -1486,6 +1506,7 @@ The following things set the frameset-ok flag to "not ok".
 
 If the flag is "not ok", then `frameset` start tags are ignored. Otherwise, the parser removes the `body` element and its children from the DOM and inserts a `frameset` element, and switches the insertion mode to "in frameset". This insertion mode only inserts elements for `frameset`, `frame`, and `noframes` start tag tokens, and only inserts `Text` nodes for ASCII whitespace character tokens. Everything else is dropped on the floor.
 
+{#forms}
 ### Forms
 
 Forms have some unusual behaviors.
@@ -1511,7 +1532,7 @@ It turns out that it can't. The association needs to happen even if the form ele
 <input>
 ```
 
-```dom-tree
+```
 #document
 ├── DOCTYPE: html
 └── html
@@ -1543,7 +1564,7 @@ The parser ignores a `form` start tag token if the *form element pointer* is not
 
 This results in this DOM:
 
-```dom-tree
+```
 #document
 └── html
     ├── head
@@ -1615,7 +1636,7 @@ Huh, it didn't remove the `div`! Usually, when the parser closes an element, it 
   C
 ```
 
-```dom-tree
+```
 #document
 └── html
     ├── head
@@ -1652,9 +1673,9 @@ Did you notice that the handling of the `form` end tag had a check for a `templa
 </template>
 ```
 
-The document's DOM, and the `template` element’s *template contents* (more on this in the {% ref "parser", "Templates" %} section), are as follows:
+The document's DOM, and the `template` element’s *template contents* (more on this in the [Templates](#templates) section), are as follows:
 
-```dom-tree
+```
 #document
 └── html
     ├── head
@@ -1676,6 +1697,7 @@ There's a nested `form`! And the "`D`" `Text` node is where we’d expect (child
 
 In `template`s, `form`s are parsed more like `div`s, and aren't using the form element pointer.
 
+{#tables--foster-parenting}
 ### Tables & foster parenting
 
 > [\#HTMLQuiz](https://twitter.com/RReverser/status/736219152709472256) In which order will the numbers appear for such bad HTML?
@@ -1700,7 +1722,7 @@ A simple example:
 <table>1
 ```
 
-```dom-tree
+```
 #document
 └── html
     ├── head
@@ -1713,7 +1735,7 @@ So how does this happen? Let's step through the spec.
 
 First, we parse the table start tag. We insert it as normal and switch to "in table".
 
-```dom-tree
+```
 #document
 └── html
     ├── head
@@ -1777,7 +1799,7 @@ Notice that the `tbody` tags were not in the quiz, yet the above is equivalent. 
 <table><tr><td>
 ```
 
-```dom-tree
+```
 #document
 └── html
     ├── head
@@ -1804,7 +1826,7 @@ Table-related tags (except for `table` itself) are ignored outside tables (excep
 <body><caption>Tableless <tr>web <td>design
 ```
 
-```dom-tree
+```
 #document
 └── html
     ├── head
@@ -1812,6 +1834,7 @@ Table-related tags (except for `table` itself) are ignored outside tables (excep
         └── #text: Tableless web design
 ```
 
+{#the-last-of-the-parsing-quirks}
 ### The last of the parsing quirks
 
 > [\#HTMLQuiz](https://twitter.com/zcorpan/status/740653950899216384) the HTML parser has a single difference in quirks mode compared to no-quirks. What is it?
@@ -1934,16 +1957,18 @@ In 2009, Henri Sivonen found that the HTML parser needed to retain a quirk for w
 >
 > A big thank you to Philip Taylor and Simon Pieters for their research (both the feasibility research and the timeline research).
 
+{#scripts}
 ### Scripts
 
 When seeing a `script` start tag, the tree builder switches the tokenizer's state to the *script data state*, and changes the insertion mode to "text" (which is also used for RAWTEXT and RCDATA elements).
 
-When seeing the `script` end tag, the tree builder executes the script. The details of how this works is… complicated. See the {% ref "scripting", "`document.write()`" %} section of {% ref "scripting", "Chapter 4. Scripting complications" %}.
+When seeing the `script` end tag, the tree builder executes the script. The details of how this works is… complicated. See the [`document.write()`](#documentwrite) section of [Chapter 4. Scripting complications](#chapter-4-scripting-complications).
 
-The parser will not continue parsing until the script has been downloaded (if applicable) and executed, and also until pending stylesheets have been loaded. See the {% ref "parser", "Blocking the parser" %} section.
+The parser will not continue parsing until the script has been downloaded (if applicable) and executed, and also until pending stylesheets have been loaded. See the [Blocking the parser](#blocking-the-parser) section.
 
 But, if we ignore those things, then handling of the `script` end tag is easy. The `script` element is popped off the stack of open elements, and the insertion mode is switched back to what it was before entering the "text" insertion mode.
 
+{#templates}
 ### Templates
 
 The `template` element ([added to HTML in June 2013](https://www.w3.org/Bugs/Public/show_bug.cgi?id=17930)) is used to declare fragments of HTML that can be cloned and inserted in the document by script. The HTML standard has the following example:
@@ -1992,7 +2017,7 @@ Apart from HTML parser-level syntax requirements, the *template contents* has no
 <table><template>
 ```
 
-```dom-tree
+```
 #document
 └── html
     ├── head
@@ -2008,7 +2033,7 @@ Generally, table markup outside a `table` is ignored:
 <div><tr><td>X
 ```
 
-```dom-tree
+```
 #document
 └── html
     ├── head
@@ -2023,7 +2048,7 @@ However, in `template`s, it just works:
 <template><tr><td>X
 ```
 
-```dom-tree
+```
 #document
 └── html
     ├── head
@@ -2043,7 +2068,7 @@ If you have unexpected content between the table row and the table cell, it woul
 
 ...results in the following *template contents*:
 
-```dom-tree
+```
 #document
 └── html
     ├── head
@@ -2060,6 +2085,7 @@ The tree builder changes where to insert nodes for template elements in the "[ap
 
 > If the adjusted insertion location is inside a `template` element, let it instead be inside the `template` element's template contents, after its last child (if any).
 
+{#custom-elements}
 ### Custom elements
 
 Custom elements ([added to HTML in April 2016](https://github.com/whatwg/html/pull/1012)) come in two variants:
@@ -2090,6 +2116,7 @@ Customized built-in elements are normal HTML elements, with a special `is` attri
 
 Some JavaScript is needed to create a definition of custom elements, so that they can do something useful. If you're interested in learning about this, check out [Using custom elements on MDN](https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_custom_elements) or the section on [custom elements in the HTML standard](https://html.spec.whatwg.org/multipage/custom-elements.html#custom-elements).
 
+{#the-select-element}
 ### The `select` element
 
 > [\#HTMLQuiz](https://twitter.com/zcorpan/status/1035816155267645440) how many select elements in the DOM?
@@ -2110,7 +2137,7 @@ Some JavaScript is needed to create a definition of custom elements, so that the
 <select><div><b><iframe><style><plaintext></select>X
 ```
 
-```dom-tree
+```
 #document
 └── html
     ├── head
@@ -2127,7 +2154,7 @@ There are 3 tags that implicitly close a `select` and then be reprocessed: `inpu
 <select><input>
 ```
 
-```dom-tree
+```
 #document
 └── html
     ├── head
@@ -2138,7 +2165,7 @@ There are 3 tags that implicitly close a `select` and then be reprocessed: `inpu
 
 The `select` start tag is treated just like the `select` *end* tag. Therefore, the answer to the quiz is "2".
 
-```dom-tree
+```
 #document
 └── html
     ├── head
@@ -2153,7 +2180,7 @@ The `select` start tag is treated just like the `select` *end* tag. Therefore, t
 <table><tr><td><select><td>X
 ```
 
-```dom-tree
+```
 #document
 └── html
     ├── head
@@ -2167,6 +2194,7 @@ The `select` start tag is treated just like the `select` *end* tag. Therefore, t
                         └── #text: X
 ```
 
+{#implied-tags}
 ### Implied tags
 
 > [\#HTMLQuiz](https://twitter.com/zcorpan/status/730891209019822084) (don't cheat :)) Which elements will be children of body for this?
@@ -2183,7 +2211,7 @@ The `select` start tag is treated just like the `select` *end* tag. Therefore, t
 >
 > * `p`, `br`, `br`, `p`
 
-Tags can in various situations be implied by other tags, or by text content. In the {% ref "parser", "Tables" %} section we discussed table-specific implied tags, e.g., that the `tr` start tag is implied by a `td` or `th` start tag when "in table". The `html`, `head` and `body` start and end tags are optional. (See the {% ref "syntax", "Optional tags" %} section in {% ref "syntax", "Chapter 2. The HTML syntax" %} for the full list of optional tags.)
+Tags can in various situations be implied by other tags, or by text content. In the [Tables](#tables) section we discussed table-specific implied tags, e.g., that the `tr` start tag is implied by a `td` or `th` start tag when "in table". The `html`, `head` and `body` start and end tags are optional. (See the [Optional tags](#optional-tags) section in [Chapter 2. The HTML syntax](#chapter-2-the-html-syntax) for the full list of optional tags.)
 
 The `br` end tag is treated as a `br` start tag. This is handled from the "before html" insertion mode through to "in body".
 
@@ -2191,7 +2219,7 @@ The `br` end tag is treated as a `br` start tag. This is handled from the "befor
 </br>
 ```
 
-```dom-tree
+```
 #document
 └── html
     ├── head
@@ -2213,7 +2241,7 @@ For example, one can omit tags in a `ruby` element (this is the Japanese text �
 ...<ruby>漢<rp>（<rt>かん<rp>）</rp>字<rp>（<rt>じ<rp>）</ruby>...
 ```
 
-```dom-tree
+```
 #document
 └── html
     ├── head
@@ -2239,7 +2267,7 @@ For example, one can omit tags in a `ruby` element (this is the Japanese text �
 
 This would render as follows:
 
-![The two main ideographs, each with its annotation in hiragana rendered in a smaller font above it.](/_assets/img/sample-ruby-ja.png)
+![The two main ideographs, each with its annotation in hiragana rendered in a smaller font above it.](images/sample-ruby-ja.png)
 
 If you have something between the head end tag and the body start tag (where only whitespace is allowed), some tags cause an element to be inserted into the `head` (`base`, `basefont`, `bgsound`, `link`, `meta`, `noframes`, `script`, `style`, `template`, `title`), while other tags or non-whitespace text implicitly opens the `body` element.
 
@@ -2251,7 +2279,7 @@ If you have something between the head end tag and the body start tag (where onl
 <noscript></noscript>
 ```
 
-```dom-tree
+```
 #document
 ├── DOCTYPE: html
 └── html
@@ -2263,13 +2291,13 @@ If you have something between the head end tag and the body start tag (where onl
         └── noscript
 ```
 
-When seeing an `a` start tag if there's an `a` element in the *list of active formatting elements* (see the {% ref "parser", "Active formatting elements & Noah's Ark" %} section), then it implies an `a` end tag before it, but this is a parse error; the `a` end tag is *not* optional. The following example has two a start tags (end tag is mistyped as a start tag):
+When seeing an `a` start tag if there's an `a` element in the *list of active formatting elements* (see the [Active formatting elements & Noah's Ark](#active-formatting-elements--noahs-ark) section), then it implies an `a` end tag before it, but this is a parse error; the `a` end tag is *not* optional. The following example has two a start tags (end tag is mistyped as a start tag):
 
 ```html
 <p><a href="1108470371">Anchor Bar reportedly opening Las Vegas location<a>.
 ```
 
-```dom-tree
+```
 #document
 └── html
     ├── head
@@ -2288,7 +2316,7 @@ Similarly, a `table` start tag in a `table` (not in a table cell) implies a `tab
 <h2>Intentionally Left Blank</h2>
 ```
 
-```dom-tree
+```
 #document
 └── html
     ├── head
@@ -2299,8 +2327,9 @@ Similarly, a `table` start tag in a `table` (not in a table cell) implies a `tab
             └── #text: Intentionally Left Blank
 ```
 
-When in foreign content (SVG or MathML), certain start tags imply closure of open foreign content elements and are then reprocessed. More on this in {% ref "parser", "The foreign lands: SVG and MathML" %} section.
+When in foreign content (SVG or MathML), certain start tags imply closure of open foreign content elements and are then reprocessed. More on this in [The foreign lands: SVG and MathML](#the-foreign-lands-svg-and-mathml) section.
 
+{#misnested-tags}
 ### Misnested tags
 
 > [\#HTMLQuiz](https://twitter.com/zcorpan/status/732922814941007872) HTML allows you to nest `p` in `a`. It also generally allows you to omit `</p>`. Can you do both?
@@ -2322,7 +2351,7 @@ Some cases are easy, for example, the `h1`-`h6` elements can be closed by any ot
 <h2>WikiMatrix - Compare them all</h1>
 ```
 
-```dom-tree
+```
 #document
 └── html
     ├── head
@@ -2340,7 +2369,7 @@ The "default" handling of misnested markup, which is used for unknown elements, 
 <span>20 ways to <dfn>commute</span> to</dfn> work.
 ```
 
-```dom-tree
+```
 #document
 └── html
     ├── head
@@ -2354,6 +2383,7 @@ The "default" handling of misnested markup, which is used for unknown elements, 
 
 Other elements are slightly more complicated, such as the `b`, `i`, and `a` elements, which are so-called *formatting elements*.
 
+{#active-formatting-elements--noahs-ark}
 #### Active formatting elements & Noah's Ark
 
 The *formatting elements* are are:
@@ -2382,7 +2412,7 @@ A formatting element gets reopened across other elements until it is explicitly 
 <p>in his hands
 ```
 
-```dom-tree
+```
 #document
 └── html
     ├── head
@@ -2407,7 +2437,7 @@ OK, but what is Noah doing in an HTML parser? Well, in case of a flood, he saves
 <p><i>He's got the whole world in his hands.
 ```
 
-```dom-tree
+```
 #document
 └── html
     ├── head
@@ -2450,7 +2480,7 @@ The Noah's Ark clause also checks the attributes, not just the tag name.
 
 The DOM will be:
 
-```dom-tree
+```
 #document
 └── html
     ├── head
@@ -2480,9 +2510,10 @@ The DOM will be:
                                     └── #text: Who am I?
 ```
 
+{#adoption-agency-algorithm}
 #### Adoption Agency Algorithm
 
-Do you recall the misnested blocks in inlines case in the {% ref "introduction", "History of HTML parsers" %} section?
+Do you recall the misnested blocks in inlines case in the [History of HTML parsers](#history-of-html-parsers) section?
 
 ```html
 <!DOCTYPE html><em><p>X</em>Y</p>
@@ -2492,7 +2523,7 @@ The *Adoption Agency Algorithm* (AAA) governs how to deal with this.
 
 Up to and including the "`X`", nothing surprising happens. The `p` element is inserted into the `em` element.
 
-```dom-tree
+```
 #document
 ├── DOCTYPE: html
 └── html
@@ -2505,7 +2536,7 @@ Up to and including the "`X`", nothing surprising happens. The `p` element is in
 
 When seeing the `em` end tag, the AAA kicks in. It will insert the `p` to the `body`, and insert the `em` to the `p`, and then close the `em` element. The resulting DOM is thus:
 
-```dom-tree
+```
 #document
 ├── DOCTYPE: html
 └── html
@@ -2526,7 +2557,7 @@ So what happens with the markup in the quiz?
 
 It is exactly the same as the `<em><p></em>` case above, that is, it also triggers AAA, and is thus a parse error and is invalid.
 
-```dom-tree
+```
 #document
 └── html
     ├── head
@@ -2540,6 +2571,7 @@ In July 2013, there was [a change to the AAA](https://github.com/whatwg/html/com
 
 TODO loop limits, marker.
 
+{#hoisting-attributes}
 ### Hoisting attributes
 
 (https://twitter.com/RReverser/status/734689240739680256)
@@ -2564,6 +2596,7 @@ The correct answer to the quiz is thus `{a: 1, b: 2, c: 4}`.
 
 Using `html` or `body` tags where they are not expected is, of course, a parse error, so don't do this.
 
+{#the-foreign-lands-svg-and-mathml}
 ### The foreign lands: SVG and MathML
 
 > [\#HTMLQuiz](https://twitter.com/zcorpan/status/749976380247605248) how many children will the `<svg>` element have in the DOM?
@@ -2622,12 +2655,15 @@ Note that `font` is handled differently depending on its attributes. SVG has a f
 
 The answer to the quiz is therefore: 1 child, 1 sibling. The first `<font/>` is parsed as an SVG element, and the `<font face/>` breaks out of foreign content and creates a sibling HTML `font` element.
 
+{#tags-that-are-no-longer-supported}
 ## Tags that are no longer supported
 
+{#the-isindex-parser-macro}
 ### The `isindex` parser macro
 
 TODO
 
+{#the-menuitem-element}
 ### The `menuitem` element
 
 TODO
