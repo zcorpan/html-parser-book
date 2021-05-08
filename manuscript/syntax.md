@@ -4,10 +4,12 @@ title: The HTML syntax
 next: parser
 nextTitle: The HTML parser
 ---
+{#chapter-2-the-html-syntax}
 # Chapter 2. The HTML syntax
 
 This chapter covers the syntax of HTML, i.e. how to write HTML. This chapter is similar to the [Writing HTML documents](https://html.spec.whatwg.org/multipage/syntax.html#writing) section of the HTML standard.
 
+{#the-doctype}
 ## The doctype
 
 The doctype is required because without a doctype, browsers use quirks mode for the document, which changes some behavior, mainly in CSS. Quirks mode was introduced by IE5 for Mac, released in 2000, in an attempt to both be compatible with the contemporary legacy and with the CSS1 specification. This approach was then copied by all browsers and has now been specified. There are now three rendering modes for HTML:
@@ -45,6 +47,7 @@ Prior versions of HTML had other doctypes that are now defined to trigger one of
 
 One of my first [contributions](https://lists.w3.org/Archives/Public/public-whatwg-archive/2005Jun/0109.html) to the WHATWG, in June 2005, was to propose to change the doctype to `<!doctype html>`. Finally a doctype that can be remembered! (Though, for some reason, I still remember how to type `<!doctype html public "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">`. Sigh.)
 
+{#elements}
 ## Elements
 
 HTML defines the following kinds of elements:
@@ -69,7 +72,7 @@ Void elements consist of just a start tag.
 <br>
 ```
 
-The `template` element is special because its contents are parsed into a separate `DocumentFragment` instead of being children of the element itself. This is discussed in more detail in the {% ref "parser", "Templates" %} section in {% ref "parser", "Chapter 3. The HTML parser" %}.
+The `template` element is special because its contents are parsed into a separate `DocumentFragment` instead of being children of the element itself. This is discussed in more detail in the [Templates](#templates) section in [Chapter 3. The HTML parser](#chapter-3-the-html-parser).
 
 ```html
 <template><img src="[[ src ]]" alt="[[ alt ]]"></template>
@@ -98,6 +101,7 @@ Foreign elements are slightly closer to XML in their syntax: "`/>`" works (self-
 </p>
 ```
 
+{#documents}
 ## Documents
 
 An HTML document consists of a doctype followed by an `html` element, and there may be whitespace and comments before, between, and after. The following example is a complete and conforming HTML document:
@@ -115,6 +119,7 @@ An HTML document consists of a doctype followed by an `html` element, and there 
 </html>
 ```
 
+{#start-tags}
 ## Start tags
 
 A start tag has this format:
@@ -137,6 +142,7 @@ Foreign elements (SVG and MathML) support self-closing start tags, which end wit
 <CIRCLE r="1"/>
 ```
 
+{#end-tags}
 ## End tags
 
 An end tag has this format:
@@ -149,6 +155,7 @@ An end tag has this format:
 
 Attributes are not allowed on end tags.
 
+{#attributes}
 ## Attributes
 
 Attributes come in a few different formats.
@@ -215,6 +222,7 @@ Note that in the HTML syntax, it's optional to declare the namespace.
 <svg>
 ```
 
+{#optional-tags}
 ## Optional tags
 
 Certain tags can be omitted if the resulting DOM doesn't change if they are so omitted, including "minor" changes such as where whitespace ends up or where a comment ends up. The rules for when they can be omitted are slightly convoluted, but they assume that the DOM is not allowed to change by omitting a tag. It is however conforming to intentionally move a tag such that omitting it no longer changes the DOM.
@@ -261,6 +269,7 @@ Here are the tags that may (sometimes) be omitted:
 | `td`       |           | Omissible |
 | `th`       |           | Omissible |
 
+{#character-references}
 ## Character references
 
 There are three kinds of character references:
@@ -295,6 +304,7 @@ However, other unescaped ampersands are technically allowed:
 Ind. Unrealisk & Ind. Brunn
 ```
 
+{#cdata-sections}
 ## CDATA sections
 
 CDATA sections can only be used in foreign content, and have this format:
@@ -305,6 +315,7 @@ CDATA sections can only be used in foreign content, and have this format:
 <svg><title><![CDATA[ The <html>, <head>, & <title> elements ]]></title> ... </svg>
 ```
 
+{#comments}
 ## Comments
 
 Comments have this format:
