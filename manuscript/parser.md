@@ -2622,11 +2622,71 @@ Note that `font` is handled differently depending on its attributes. SVG has a f
 
 The answer to the quiz is therefore: 1 child, 1 sibling. The first `<font/>` is parsed as an SVG element, and the `<font face/>` breaks out of foreign content and creates a sibling HTML `font` element.
 
+### The `image` parser macro
+
+A parser macro in HTML is like a macro in a text editor: a shorthand that expands to something else. The HTML standard has a single parser macro (but used to have another, see {% ref "parser", "the `isindex` parser macro" %}): an `image` start tag token is treated as an `img` start tag token by the tree builder.
+
+> : A start tag whose tag name is "image"
+>    Parse error. Change the token's tag name to "img" and reprocess it. (Don't ask.)
+
+It says "Don't ask", and so [evelynn was apparently obliged to ask on Twitter](https://twitter.com/gentlevoid/status/1431014223245549570):
+
+> I know the MDN literally says "don't ask" but I simply HAVE TO know more about what makes the `<image>` tag so vile
+>
+> https://developer.mozilla.org/en-US/docs/Web/HTML/Element/image
+
+[According to Sam Sneddon](https://twitter.com/gsnedders/status/1431018142210330625), this parser macro dates back to (at least) Mosiac:
+
+> As far as I'm aware, it's not even that. It was "img" from Mosaic's first implementation in 1993. "image" I believe existed as an alias due to developers getting confused why "image" didn't work.
+
+I replied:
+
+> Browsers did this before the HTML parser was specified. The spec has this in the source:
+>
+> `<!-- As of 2005-12, studies showed that around 0.2% of pages used the <image> element. -->`
+>
+> HTML+ had `<image>`, but that spec was largely ignored: https://w3.org/MarkUp/HTMLPlus/htmlplus_21.html
+
+So, browsers had been doing this since forever, and when the HTML parser was specified, enough web content relied on it to cement the behavior to this day.
+
 ## Tags that are no longer supported
+
+The vast majority of idiosyncrasies in HTML parsing survive, but not all. This section lists some of the things that were once special parsing behaviors, but have at some point been removed completely.
 
 ### The `isindex` parser macro
 
-TODO
+The [very first draft for HTML included an `isindex` tag](http://info.cern.ch/hypertext/WWW/MarkUp/Tags.html#18).
+
+> This tag informs the reader that the document is an index document. As well as reading it, the reader may use a keyword search.
+
+The effect it had was to present a form with a text field and a search button. When submitted, the typed keywords were added to the URL after a "?", and separated from each other with "+".
+
+The [first draft of HTML 4.0 marked `isindex` as deprecated](https://www.w3.org/TR/WD-html40-970708/interact/forms.html#edef-ISINDEX).
+
+When the HTML parser was specified in 2006 (already part of [the initial commit](https://github.com/whatwg/html/commit/c3550d90867392905edbd91c94fec8c89fbfe648)), `isindex` was defined as a parser macro, expanding into:
+
+```
+<form><hr><p><label>...text...<input name="isindex" ...attributes...>...text...</label></p></form>
+```
+
+The "...text..." depended on the user's preferred language, per spec:
+
+> The two streams of character tokens together should, together with the `input` element, express the equivalent of "This is a searchable index. Insert your search keywords here: (input field)" in the user's preferred language.
+
+The "...attributes..." part was all the attributes from the "isindex" token, except with the "name" attribute set to the value "isindex" (ignoring any explicit "name" attribute).
+
+Some browsers implemented `isindex` as a parser macro already, while others did not and treated it more like its own element that was a widget. (TODO which browsers?)
+
+The standard was then tweaked a few times to [support the `action` and `prompt` attributes](https://github.com/whatwg/html/commit/6b777fcdfda3412b4eb54dced551df732f962bb7), [remove the `<p>` from the macro](493eabd4d012e4269f0cb991b645ced97deecab0), [change the default label text](https://github.com/whatwg/html/commit/2ddd75fbb1430b1584bab38c0a8fe03d31790f0e), until ultimately in 2016, [`isindex` support was removed altogether](https://github.com/whatwg/html/commit/5c44abc734eb483f9a7ec79da5844d2fe63d9c3b).
+
+[Chromium removed `isindex` in 2014](https://groups.google.com/a/chromium.org/g/blink-dev/c/14q_I06gwg8/m/0a3JI0kjbC0J), and [EdgeHTML had also removed it before the spec change](https://github.com/whatwg/html/issues/1088). [WebKit removed it in 2016](https://bugs.webkit.org/show_bug.cgi?id=7139#c12), and [Gecko in 2017](https://bugzilla.mozilla.org/show_bug.cgi?id=1266495#c24).
+
+The motivation for the removal is for security -- the [blink-dev thread](https://groups.google.com/a/chromium.org/g/blink-dev/c/14q_I06gwg8/m/0a3JI0kjbC0J) points to [this XSS vector](http://www.thespanner.co.uk/2008/08/26/new-xss-vector/).
+
+> ```
+> <isindex type=image src=1 onerror=alert(1)>
+> ```
+> Because IE treats the isindex element (a very old html element) as a input tag you can specify the same attributes and execute javascript.
 
 ### The `menuitem` element
 
