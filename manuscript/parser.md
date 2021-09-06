@@ -2675,7 +2675,7 @@ The "...text..." depended on the user's preferred language, per spec:
 
 The "...attributes..." part was all the attributes from the "isindex" token, except with the "name" attribute set to the value "isindex" (ignoring any explicit "name" attribute).
 
-Some browsers implemented `isindex` as a parser macro already, while others did not and treated it more like its own element that was a widget. (TODO which browsers?)
+Internet Explorer and Opera implemented `isindex` as a parser macro already, while Firefox and Safari treated it more like its own element, like a widget. One practical difference is that `document.createElement('isindex')` created an unknown element in Internet Explorer and Opera (and per spec), but worked in Firefox and Safari (before their HTML parser rewrites).
 
 The standard was then tweaked a few times to [support the `action` and `prompt` attributes](https://github.com/whatwg/html/commit/6b777fcdfda3412b4eb54dced551df732f962bb7), [remove the `<p>` from the macro](493eabd4d012e4269f0cb991b645ced97deecab0), [change the default label text](https://github.com/whatwg/html/commit/2ddd75fbb1430b1584bab38c0a8fe03d31790f0e), until ultimately in 2016, [`isindex` support was removed altogether](https://github.com/whatwg/html/commit/5c44abc734eb483f9a7ec79da5844d2fe63d9c3b).
 
@@ -2687,6 +2687,8 @@ The motivation for the removal is for security -- the [blink-dev thread](https:/
 > <isindex type=image src=1 onerror=alert(1)>
 > ```
 > Because IE treats the isindex element (a very old html element) as a input tag you can specify the same attributes and execute javascript.
+
+Similarly, you could use `<isindex action="javascript:...">` or `<isindex formaction="javascript:...">` or other variants. Today, now that `isindex` parses as an unknown element, the `isindex`-specific XSS variants don't work.
 
 ### The `menuitem` element
 
