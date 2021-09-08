@@ -6,11 +6,21 @@ nextTitle: Serializing
 ---
 # Chapter 4. Scripting complications
 
+Implementations of HTML that do not need to support executing scripts are exempt from various complications, in particular the necessary hoops for `document.write()`. Browsers that wish to be compatible with the vast majority of the web will have to support scripting, and jump through the hoops with elegance.
+
 ## Revised overview of the HTML parser
 
-TODO
+Because of `document.write()`, the  {% ref "parser", "overview of the HTML parser" %} in {% ref "parser", "Chapter 3. The HTML parser" %} is incomplete.
+
+The HTML standard has this diagram:
+
+![]()
 
 ## `document.write()`
+
+A script in an inline `<script>` is executed by the tree builder, while handling the `</script>` end tag. The parser is blocked until the script has completed. If the script calls `document.write()`, the characters passed in are added to the parser's input stream. The algorithm for `document.write()` makes the HTML parser consume those characters, before returning (i.e., before allowing the next statement in the script run).
+
+What if those characters are `<script>...</script>`? Then you have to execute that script before the `document.write()` can return. What if that script `document.write()`s another script? Yes, I suppose you get the picture. (TODO discuss nested document.write limit.)
 
 TODO
 
@@ -21,6 +31,8 @@ TODO
 ### Speculative parsing a.k.a. preload scanner
 
 TODO
+
+## The scripting flag and the `noscript` element
 
 ## Other parser APIs
 
