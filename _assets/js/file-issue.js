@@ -21,6 +21,11 @@
 
   document.body.append(fileLink);
 
+  document.onselectionchange = e => {
+    const selection = window.getSelection();
+    fileLink.classList.toggle('user-selection-exists', !selection.isCollapsed);
+  };
+
   function getOriginalFilingURL() {
     const dataAttr = document.currentScript.getAttribute("data-file-issue-url");
     if (dataAttr) {
