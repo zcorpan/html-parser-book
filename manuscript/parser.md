@@ -2626,14 +2626,15 @@ The answer to the quiz is therefore: 1 child, 1 sibling. The first `<font/>` is 
 
 A parser macro in HTML is like a macro in a text editor: a shorthand that expands to something else. The HTML standard has a single parser macro (but used to have another, see {% ref "parser", "the `isindex` parser macro" %}): an `image` start tag token is treated as an `img` start tag token by the tree builder.
 
-> : A start tag whose tag name is "image"
->    Parse error. Change the token's tag name to "img" and reprocess it. (Don't ask.)
+> A start tag whose tag name is "image"
+>
+> : Parse error. Change the token's tag name to "img" and reprocess it. (Don't ask.)
 
 It says "Don't ask", and so [evelynn was apparently obliged to ask on Twitter](https://twitter.com/gentlevoid/status/1431014223245549570):
 
 > I know the MDN literally says "don't ask" but I simply HAVE TO know more about what makes the `<image>` tag so vile
 >
-> https://developer.mozilla.org/en-US/docs/Web/HTML/Element/image
+> [https://developer.mozilla.org/en-US/docs/Web/HTML/Element/image](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/image)
 
 [According to Sam Sneddon](https://twitter.com/gsnedders/status/1431018142210330625), this parser macro dates back to (at least) Mosiac:
 
