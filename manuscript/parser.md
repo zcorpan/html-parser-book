@@ -2689,7 +2689,7 @@ The [first draft of HTML 4.0 marked `isindex` as deprecated](https://www.w3.org/
 
 When the HTML parser was specified in 2006 (already part of [the initial commit](https://github.com/whatwg/html/commit/c3550d90867392905edbd91c94fec8c89fbfe648)), `isindex` was defined as a parser macro, expanding into:
 
-```
+```html
 <form><hr><p><label>...text...<input name="isindex" ...attributes...>...text...</label></p></form>
 ```
 
@@ -2707,7 +2707,7 @@ The standard was then tweaked a few times to [support the `action` and `prompt` 
 
 The motivation for the removal is for security -- the [blink-dev thread](https://groups.google.com/a/chromium.org/g/blink-dev/c/14q_I06gwg8/m/0a3JI0kjbC0J) points to [this XSS vector](http://www.thespanner.co.uk/2008/08/26/new-xss-vector/).
 
-> ```
+> ```html
 > <isindex type=image src=1 onerror=alert(1)>
 > ```
 > Because IE treats the isindex element (a very old html element) as a input tag you can specify the same attributes and execute javascript.
