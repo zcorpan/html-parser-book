@@ -82,6 +82,20 @@ A tool that is handy for quickly trying what DOM tree is produced for a piece of
 
 ### SGML & early HTML
 
+The earliest documentation on HTML, as far as I know, is [HyperText Mark-up Language](http://info.cern.ch/hypertext/WWW/MarkUp/MarkUp.html), from CERN, 1992 ([also hosted on w3.org](https://www.w3.org/History/19921103-hypertext/hypertext/WWW/MarkUp/MarkUp.html)). The first paragraph reads:
+
+> The WWW system uses marked-up text to represent a hypertext document for transmision over the network. The hypertext mark-up language is an SGML format. WWW parsers should ignore tags which they do not understand, and ignore attributes which they do not understand of tags which they do understand.
+
+Already here, it is established that HTML is an SGML format, but that parsers should ignore tags and attributes they don't understand.
+
+The next few drafts are at IETF:
+* [Hypertext Markup Language (HTML)](https://tools.ietf.org/id/draft-ietf-iiir-html-00.txt), also known as "draft-ietf-iiir-html-00", June 1993
+* [HyperText Markup Language Specification - 2.0](https://datatracker.ietf.org/doc/html/draft-ietf-html-spec-00), November 1994
+
+These maintain that HTML is an SGML document type, however draft-ietf-iiir-html-00 also says:
+
+> Conversely, to implement an HTML parser, one need only implement those parts of an SGML parser that are needed to parse an instance after parsing the HTML DTD.
+
 Standard Generalized Markup Language (SGML) is a syntax framework for defining markup languages which predates HTML and the web, defined in 1986. HTML was originally inspired by SGML (in particular the [SGMLguid](https://en.wikipedia.org/wiki/SGMLguid) language, an application of SGML), and later defined to be a proper application of SGML. However, web browsers have never used an actual SGML parser to parse HTML.
 
 To parse a document, SGML required a Document Type Definition (DTD), which was specified in the doctype declaration. The DTD specifies which tags are optional, which attributes are allowed (and their values for enumerated attributes), how elements are allowed to be nested, and so forth. HTML user agents roughly integrated the DTD semantics directly into the parser without caring about how things were formally defined, and were able to parse HTML regardless of the doctype declaration.
