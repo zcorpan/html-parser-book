@@ -2665,13 +2665,13 @@ FROM (
     page = url )
 WHERE
   markup != ''
-  AND regexp_contains(markup, r'(?i)(\ssrc\s*=)')
-  AND NOT regexp_contains(markup, r'(?i)(\s(xlink\:)href\s*=)')
+  AND REGEXP_CONTAINS(markup, r'(?i)(\ssrc\s*=)')
+  AND NOT REGEXP_CONTAINS(markup, r'(?i)(\s(xlink\:)?href\s*=)')
 ```
 
-This resulted in [5,865 matched pages](https://docs.google.com/spreadsheets/d/18gwAYG7q-HLIj84ET49YHpd9arTiXftC6Zwd1kShKKs/edit?usp=sharing), out of the total dataset of 7,447,270 pages. This amounts to about 0.08%.
+This resulted in [5,840 matched pages](https://docs.google.com/spreadsheets/d/18gwAYG7q-HLIj84ET49YHpd9arTiXftC6Zwd1kShKKs/edit?usp=sharing), out of the total dataset of 7,447,270 pages. This amounts to about 0.08%.
 
-The research method I used here is a bit different from what Ian Hickson did back in 2005, so the number isn't directly comparable. We can however conclude that usage is still non-zero. It would be possible to run several queries over historical data in HTTP Archive, to figure out if there's a trend (does it decline over time?). This is left as an exercise to the reader.
+The research method I used here is a bit different from what Ian Hickson did back in 2005, so the numbers aren't directly comparable. We can however conclude that usage is still non-zero. It would be possible to run query historical data in HTTP Archive, to figure out if there's a trend (does usage decline over time?). This is left as an exercise to the reader.
 
 ## Tags that are no longer supported
 
