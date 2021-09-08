@@ -52,7 +52,8 @@ blockquote blockquote { margin-left: 0; margin-right: 0; }
 :any-link:hover { text-decoration-thickness: 2px; text-decoration-skip-ink: none; }
 :any-link:active { color: darkred; }
 
-.selected-text-file-an-issue { position: fixed; bottom: 0; right: 0; padding: 0.25em; color: inherit !important; }
+.selected-text-file-an-issue { position: fixed; bottom: 0; right: 0; padding: 0.25em; border-radius: 20px; background: #fff; color: inherit !important; box-shadow: 0 0 8px gray; }
+.selected-text-file-an-issue.user-selection-exists::before { content: attr(title); margin: 0 0.5em; }
 .octicon-issue-opened { fill: currentColor; vertical-align: middle; }
 
 @media (prefers-color-scheme: dark) {
@@ -67,6 +68,7 @@ blockquote blockquote { margin-left: 0; margin-right: 0; }
   :visited { color: #dfa920; }
   :any-link { text-decoration-color: gray; }
   :any-link:active { color: pink; }
+  .selected-text-file-an-issue { background: #333; box-shadow: 0 0 8px #000;}
   #book-cover-shadow feDropShadow { flood-opacity: 1; }
   img[src$="/sample-ruby-ja.png"] { mix-blend-mode: color-dodge; filter: invert(); }
 }
