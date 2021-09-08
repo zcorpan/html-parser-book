@@ -2649,6 +2649,30 @@ I replied:
 
 So, browsers had been doing this since forever, and when the HTML parser was specified, enough web content relied on it to cement the behavior to this day.
 
+I wanted to see how prevalent `image` usage is today, so I ran a new [query in HTTP Archive](https://httparchive.org/faq#how-do-i-use-bigquery-to-write-custom-queries-over-the-data). Since there are now pages using inline SVG in text/html, and SVG has an `image` element, I needed to exclude those in the query. I included only matches that use the `src` attribute, and excluded any matches that use `xlink:href` or `href`, and limited the search to top pages (not including stuff in iframes, scripts or stylesheets):
+
+```sql
+SELECT
+  page,
+  markup
+FROM (
+  SELECT
+    page,
+    ARRAY_TO_STRING(REGEXP_EXTRACT_ALL(body, r'(?i)(<image\s+[^>]*>)'), '\n') AS markup
+  FROM
+    `httparchive.response_bodies.2021_08_01_mobile`
+  WHERE
+    page = url )
+WHERE
+  markup != ''
+  AND regexp_contains(markup, r'(?i)(\ssrc\s*=)')
+  AND NOT regexp_contains(markup, r'(?i)(\s(xlink\:)href\s*=)')
+```
+
+This resulted in [5,865 matched pages](https://docs.google.com/spreadsheets/d/18gwAYG7q-HLIj84ET49YHpd9arTiXftC6Zwd1kShKKs/edit?usp=sharing), out of the total dataset of 7,447,270 pages. This amounts to about 0.08%.
+
+The research method I used here is a bit different from what Ian Hickson did back in 2005, so the number isn't directly comparable. We can however conclude that usage is still non-zero. It would be possible to run several queries over historical data in HTTP Archive, to figure out if there's a trend (does it decline over time?). This is left as an exercise to the reader.
+
 ## Tags that are no longer supported
 
 The vast majority of idiosyncrasies in HTML parsing survive, but not all. This section lists some of the things that were once special parsing behaviors, but have at some point been removed completely.
