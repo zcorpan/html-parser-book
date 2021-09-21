@@ -5,7 +5,7 @@ next: end
 ---
 # Appendix C. Microsyntaxes
 
-Microsyntaxes in HTML are technically not part of the HTML parser. Instead they are a layer above, operating on (usually) attribute values. For example, boolean attributes have a simple microsyntax, where the allowed value is either the empty string or the same as the attribute name, case-insensitively, and the processing is to ignore the value.
+Microsyntaxes in HTML are technically not part of the HTML parser. Instead they are a layer above, (usually) operating on attribute values. For example, boolean attributes have a simple microsyntax, where the allowed value is either the empty string or the same as the attribute name, case-insensitively, and the processing is to ignore the value.
 
 These are thus valid:
 
@@ -29,13 +29,13 @@ HTML has the following kinds of numbers:
 
 * Integers
 
-    * Signed integers
+  * Signed integers
 
-    * Non-negative integers
+  * Non-negative integers
 
 * Dimensions
 
-    * Percentages and lengths
+  * Percentages and lengths
 
 * Non-zero percentages and lengths
 
@@ -135,23 +135,23 @@ The processing is as follows:
 
 * For each value in the list:
 
-    * Leading garbage (anything but whitespace, comma, semicolon, ASCII digits, "." or "-") is ignored.
+  * Leading garbage (anything but whitespace, comma, semicolon, ASCII digits, "." or "-") is ignored.
 
-    * The number is parsed as a floating-point number. If that returns an error, zero is used instead.
+  * The number is parsed as a floating-point number. If that returns an error, zero is used instead.
 
-    * Trailing garbage is ignored.
+  * Trailing garbage is ignored.
 
-    * Whitespace, comma, or semicolon separates one value from the next.
+  * Whitespace, comma, or semicolon separates one value from the next.
 
 In January 2016, I changed the specification for parsing lists of floating-point numbers (TODO link ead6cfe392d338b66ed85fa84855061fd0990431). The commit message is as follows:
 
-*Revamp coords parsing to be more compatible and less insane*
+* Revamp coords parsing to be more compatible and less insane*
 
-*The old parser tried to mimic IE as close as possible. Now Edge is instead interested in aligning with Gecko/WebKit. This new algorithm was designed by studying implementations as well as invalid Web content.*
+* The old parser tried to mimic IE as close as possible. Now Edge is instead interested in aligning with Gecko/WebKit. This new algorithm was designed by studying implementations as well as invalid Web content.*
 
-*At the same time, support parsing of floating point numbers, as suggested by Travis Leithead in the bug below.*
+* At the same time, support parsing of floating point numbers, as suggested by Travis Leithead in the bug below.*
 
-*Fixes https://www.w3.org/Bugs/Public/show_bug.cgi?id=28148.*
+* Fixes https://www.w3.org/Bugs/Public/show_bug.cgi?id=28148.*
 
 Before the change, only integers were allowed, and using a fraction in a number caused that value to be ignored, which was not particularly useful. The handling of bogus values was also especially strange, sometimes dropping all subsequent values.
 
@@ -171,17 +171,17 @@ The format of the srcset attribute is as follows:
 
 * An *image candidate string* has this format:
 
-    * Optional whitespace.
+  * Optional whitespace.
 
-    * A non-empty URL that doesn't start or end with a comma.
+  * A non-empty URL that doesn't start or end with a comma.
 
-    * Optionally a descriptor:
+  * Optionally a descriptor:
 
-        * A *width descriptor*: Whitespace, a non-negative integer, and a "w" character.
+    * A *width descriptor*: Whitespace, a non-negative integer, and a "w" character.
 
-        * A *pixel density descriptor*: Whitespace, a floating-point number, and an "x" character.
+    * A *pixel density descriptor*: Whitespace, a floating-point number, and an "x" character.
 
-    * Optional whitespace.
+  * Optional whitespace.
 
 * If an *image candidate string* has no descriptors and no trailing whitespace, then the next *image candidate string* must begin with whitespace (otherwise it would get jammed together with the previous URL).
 
@@ -197,7 +197,7 @@ The processing is as follows:
 
 * If the URL ends with a comma, then all trailing commas are removed (only a single trailing comma is conforming). Otherwise, descriptors for the current item are parsed:
 
-    * A state machine is used to tokenize descriptors. This is to handle whitespace and commas inside parentheses. For example, `size(50, 50, 30)` is tokenized to a single descriptor. A top-level comma ends the tokenizer.
+  * A state machine is used to tokenize descriptors. This is to handle whitespace and commas inside parentheses. For example, `size(50, 50, 30)` is tokenized to a single descriptor. A top-level comma ends the tokenizer.
 
 * The tokenized descriptors are parsed into *density*, *width*, and *future-compat-h*. The last one is for gracefully handling future web content that uses not-yet-specified *height* descriptors in addition to *width* descriptors. If any of the descriptors are invalid, the entire candidate is dropped.
 

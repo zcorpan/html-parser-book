@@ -708,7 +708,7 @@ If so, then you have stumbled across a "bogus comment". In HTML, some things cau
 <!DOCTYPE html>
 ```
 
-Apart from `<?`, the sequence `</` followed by something that is not a-zA-Z, or `<!` that is not followed by `doctype` (case-insensitive) or `--` or, in foreign content, `[CDATA[` (case-sensitive), starts a bogus comment.
+Apart from `<?`, the sequence `</` followed by something that is not `a-zA-Z`, or `<!` that is not followed by `doctype` (case-insensitive) or `--` or, in foreign content, `[CDATA[` (case-sensitive), starts a bogus comment.
 
 ### Doctypes
 
@@ -914,9 +914,7 @@ I did some research and [proposed a solution](https://lists.w3.org/Archives/Publ
 >
 > http://philip.html5.org/data/script-open-in-escape.txt has 622 pages.
 >
-> http://philip.html5.org/data/script-close-in-escape-without-script-open-2.txt
->
-> has 708 pages.
+> http://philip.html5.org/data/script-close-in-escape-without-script-open-2.txt has 708 pages.
 >
 > Most of these look like they would break with what's currently specced.
 >
@@ -1161,7 +1159,7 @@ In the "before html" insertion mode, we handle the next token, the "`\n`" charac
 
 OK, so whitespace after the doctype is ignored. Moving on.
 
-The div start tag token is handled by the "before html" insertion mode as follows:
+The `div` start tag token is handled by the "before html" insertion mode as follows:
 
 > Anything else
 >
@@ -1187,7 +1185,7 @@ At this point the DOM looks like this:
     └── body
 ```
 
-The "in body" insertion mode is the mode that handles most of the tags in a typical document. Let's see what it does with the div start tag token:
+The "in body" insertion mode is the mode that handles most of the tags in a typical document. Let's see what it does with the `div` start tag token:
 
 > A start tag whose tag name is one of: "address", "article", "aside", "blockquote", "center", "details", "dialog", "dir", "div", "dl", "fieldset", "figcaption", "figure", "footer", "header", "hgroup", "main", "menu", "nav", "ol", "p", "section", "summary", "ul"
 >
@@ -1297,27 +1295,27 @@ The following cases result in the document using quirks mode:
 
 * A list of 61 comparisons of the public identifier and sometimes the system identifier, compared case-insensitively. Here is a subset of the list:
 
-    * The public identifier is set to: "`-//W3O//DTD W3 HTML Strict 3.0//EN//`"
+  * The public identifier is set to: "`-//W3O//DTD W3 HTML Strict 3.0//EN//`"
 
-    * The public identifier is set to: "`-/W3C/DTD HTML 4.0 Transitional/EN`"
+  * The public identifier is set to: "`-/W3C/DTD HTML 4.0 Transitional/EN`"
 
-    * The public identifier is set to: "`HTML`"
+  * The public identifier is set to: "`HTML`"
 
-    * The system identifier is set to: "`http://www.ibm.com/data/dtd/v11/ibmxhtml1-transitional.dtd`"
+  * The system identifier is set to: "`http://www.ibm.com/data/dtd/v11/ibmxhtml1-transitional.dtd`"
 
-    * The public identifier starts with: "`+//Silmaril//dtd html Pro v0r11 19970101//`"
+  * The public identifier starts with: "`+//Silmaril//dtd html Pro v0r11 19970101//`"
 
-    * The public identifier starts with: "`-//AS//DTD HTML 3.0 asWedit + extensions//`"
+  * The public identifier starts with: "`-//AS//DTD HTML 3.0 asWedit + extensions//`"
 
-    * The public identifier starts with: "`-//AdvaSoft Ltd//DTD HTML 3.0 asWedit + extensions//`"
+  * The public identifier starts with: "`-//AdvaSoft Ltd//DTD HTML 3.0 asWedit + extensions//`"
 
-    * The public identifier starts with: "`-//IETF//DTD HTML 2.0 Level 1//`"
+  * The public identifier starts with: "`-//IETF//DTD HTML 2.0 Level 1//`"
 
-    * The public identifier starts with: "`-//IETF//DTD HTML 2.0 Level 2//`"
+  * The public identifier starts with: "`-//IETF//DTD HTML 2.0 Level 2//`"
 
-    * The public identifier starts with: "`-//IETF//DTD HTML 2.0 Strict Level 1//`"
+  * The public identifier starts with: "`-//IETF//DTD HTML 2.0 Strict Level 1//`"
 
-    * ...
+  * ...
 
 The following cases trigger limited quirks mode:
 
@@ -1862,19 +1860,19 @@ In 2009, Henri Sivonen found that the HTML parser needed to retain a quirk for w
 >
 > July 2001
 >
-> : A bug is filed saying that Mozilla is wrong in not making table close a paragraph implicitly and that Mozilla should start closing paragraphs in thstandards mode.
+> : A bug is filed saying that Mozilla is wrong in not making table close a paragraph implicitly and that Mozilla should start closing paragraphs in the standards mode.
 >
 > October 2001
 >
-> : IE6 is released. It is the first version of IE for Windows that has a quirks mode and a standards mode. A table doesn't close a paragraph in eier mode.
+> : IE6 is released. It is the first version of IE for Windows that has a quirks mode and a standards mode. A table doesn't close a paragraph in either mode.
 >
 > June 2003
 >
-> : The Mozilla bug is fixed making Mozilla close paragraphs upon tables in the standards mode. The quirks-mode behavior is left to not closing a pagraph upon a table.
+> : The Mozilla bug is fixed making Mozilla close paragraphs upon tables in the standards mode. The quirks-mode behavior is left to not closing a paragraph upon a table.
 >
 > April 2005
 >
-> : The Web Standards Project publishes the Acid2 test made by Ian Hickson and Håkon Lie. To pass the test, a user agent must close a paragraph upon tae (in the standards mode).
+> : The Web Standards Project publishes the Acid2 test made by Ian Hickson and Håkon Lie. To pass the test, a user agent must close a paragraph upon table (in the standards mode).
 >
 > April 2005
 >
@@ -1890,7 +1888,7 @@ In 2009, Henri Sivonen found that the HTML parser needed to retain a quirk for w
 >
 > February 2006
 >
-> : Ian Hickson publishes the first draft of the HTML5 parsing algorithm. It makes a table close a paragraph but the source code of the spec contains a mment saying "XXX quirks: don't do this".
+> : Ian Hickson publishes the first draft of the HTML5 parsing algorithm. It makes a table close a paragraph but the source code of the spec contains a comment saying "XXX quirks: don't do this".
 >
 > November 2006
 >
@@ -1906,7 +1904,7 @@ In 2009, Henri Sivonen found that the HTML parser needed to retain a quirk for w
 >
 > March 2009
 >
-> : IE8 is released. It has four layout modes. To pass Acid2, the new ones make a table close a paragraph. The parser behavior of `<p><table>` is now thonly HTML parsing difference between the quirks and standards modes that is interoperably implemented in all of the top 4 browser engines.
+> : IE8 is released. It has four layout modes. To pass Acid2, the new ones make a table close a paragraph. The parser behavior of `<p><table>` is now the only HTML parsing difference between the quirks and standards modes that is interoperably implemented in all of the top 4 browser engines.
 >
 > March 31st 2009
 >
@@ -1918,11 +1916,11 @@ In 2009, Henri Sivonen found that the HTML parser needed to retain a quirk for w
 >
 > April 1st 2009
 >
-> : Philip Taylor uses the Validator.nu HTML Parser to compile a list of dmoz-listed pages where closing paragraph vs. not closing would lead to dierent parse trees.
+> : Philip Taylor uses the Validator.nu HTML Parser to compile a list of dmoz-listed pages where closing paragraph vs. not closing would lead to different parse trees.
 >
 > April 21st 2009
 >
-> : Simon Pieters analyzes 50 sites from Philip's list concluding that "our options regarding `<p><table>` parsing are (1) having the quirk, and (2) chging Acid2".
+> : Simon Pieters analyzes 50 sites from Philip's list concluding that "our options regarding `<p><table>` parsing are (1) having the quirk, and (2) changing Acid2".
 >
 > April 22nd 2009
 >
@@ -2356,7 +2354,7 @@ Other elements are slightly more complicated, such as the `b`, `i`, and `a` elem
 
 #### Active formatting elements & Noah's Ark
 
-The *formatting elements* are are:
+The *formatting elements* are:
 
 * `a`
 * `b`
@@ -2542,8 +2540,6 @@ TODO loop limits, marker.
 
 ### Hoisting attributes
 
-(https://twitter.com/RReverser/status/734689240739680256)
-
 > [\#HTMLQuiz](https://twitter.com/RReverser/status/734689240739680256) (don't cheat! :) ). What attributes will `document.body` have?
 >
 > ```html
@@ -2598,9 +2594,9 @@ Support for parsing inline SVG and MathML in HTML was [added](https://lists.w3.o
 
 * HTML (or nested SVG/MathML) can be used in SVG and MathML at certain integration points:
 
-    * SVG `foreignObject`, `desc`, `title`.
+  * SVG `foreignObject`, `desc`, `title`.
 
-    * MathML `mi`, `mo`, `mn`, `ms`, `mtext`, `annotation-xml` (if it has `encoding="text/html"` or `encoding="application/xhtml+xml"`).
+  * MathML `mi`, `mo`, `mn`, `ms`, `mtext`, `annotation-xml` (if it has `encoding="text/html"` or `encoding="application/xhtml+xml"`).
 
 * Certain HTML tags in foreign content (not at an integration point) will break out of foreign content back to an integration point or to an HTML element, and create a sibling HTML element for the token.
 
