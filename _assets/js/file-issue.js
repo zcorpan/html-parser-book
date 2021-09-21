@@ -63,7 +63,7 @@
   function getBody(url, selectionText) {
     let quotedText = selectionText;
     if (quotedText.length > 1000) {
-      quotedText = quotedText.substring(0, 997) + '...';
+      quotedText = quotedText.substring(0, 997) + '…';
     }
 
     quotedText = escapeGFM(quotedText).replace(/\r/g, '').replace(/\n/g, '\n> ');

@@ -53,7 +53,7 @@ For example, the following document:
 </html>
 ```
 
-...is parsed into the following DOM tree:
+…is parsed into the following DOM tree:
 
 ```dom-tree
 #document
@@ -110,7 +110,7 @@ SGML has some convenience markup features that browsers did not implement for HT
 </html>
 ```
 
-...which is, per SGML rules, equivalent to:
+…which is, per SGML rules, equivalent to:
 
 ```html
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
@@ -157,13 +157,13 @@ SGML is incompatible with HTML in other ways as well. For example, enumerated at
 <input checkbox>
 ```
 
-...is per SGML rules equivalent to:
+…is per SGML rules equivalent to:
 
 ```html
 <input type="checkbox">
 ```
 
-...but HTML parsers treat it as:
+…but HTML parsers treat it as:
 
 ```html
 <input checkbox="">
@@ -257,7 +257,7 @@ In early 2006, Firefox was at version 1.5. Its HTML parser had its own interesti
 >             └── #text: Y
 > ```
 >
-> ...which basically means that malformed invalid markup gets handled differently than well-formed invalid markup.
+> …which basically means that malformed invalid markup gets handled differently than well-formed invalid markup.
 >
 > In the past, I would have stopped here, made some wry comment about the insanity that is the Web, and called it a day.
 >
@@ -394,7 +394,7 @@ In early 2006, Firefox was at version 1.5. Its HTML parser had its own interesti
 > </p>
 > ```
 >
-> ...we find:
+> …we find:
 >
 > ```dom-tree
 > #document
@@ -406,15 +406,15 @@ In early 2006, Firefox was at version 1.5. Its HTML parser had its own interesti
 >             ├── em
 >             │   ├── #text:  X
 >             │   ├── script
->             │   │   └── #text:  var p = document.getElementsByTagName('p')[0]; p.setAttribute('a', p.parentN...
+>             │   │   └── #text:  var p = document.getElementsByTagName('p')[0]; p.setAttribute('a', p.parentN…
 >             │   └── #text:
 >             ├── #text:  Y
 >             ├── script
->             │   └── #text:  var p = document.getElementsByTagName('p')[0]; p.setAttribute('b', p.parentN...
+>             │   └── #text:  var p = document.getElementsByTagName('p')[0]; p.setAttribute('b', p.parentN…
 >             └── #text:
 > ```
 >
-> ...which is to say, the parent changes half way through! (Compare the a and b attributes.)
+> …which is to say, the parent changes half way through! (Compare the a and b attributes.)
 >
 > What actually happens is that Safari notices that something bad has happened, and moves the element around in the DOM. After the fact. (If you remove the p element from the DOM in that first script block, then [Safari crashes](http://bugs.webkit.org/show_bug.cgi?id=6778).)
 >
@@ -430,11 +430,11 @@ In early 2006, Firefox was at version 1.5. Its HTML parser had its own interesti
 >             ├── em
 >             │   ├── #text:  X
 >             │   ├── script
->             │   │   └── #text:  var p = document.getElementsByTagName('p')[0]; p.setAttribute('a', p.parentN...
+>             │   │   └── #text:  var p = document.getElementsByTagName('p')[0]; p.setAttribute('a', p.parentN…
 >             │   └── #text:
 >             ├── #text:  Y
 >             ├── script
->             │   └── #text:  var p = document.getElementsByTagName('p')[0]; p.setAttribute('b', p.parentN...
+>             │   └── #text:  var p = document.getElementsByTagName('p')[0]; p.setAttribute('b', p.parentN…
 >             └── #text:
 > ```
 >

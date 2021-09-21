@@ -191,7 +191,7 @@ If the ampersand was unescaped in this example, like this:
 <a href="?title=Lone+Surrogates&reg">
 ```
 
-...then `&reg` would be interpreted as a named character reference, which expands to "®", i.e., it's equivalent to:
+…then `&reg` would be interpreted as a named character reference, which expands to "®", i.e., it's equivalent to:
 
 ```html
 <a href="?title=Lone+Surrogates®">
@@ -302,7 +302,7 @@ CDATA sections can only be used in foreign content, and have this format:
 `<![CDATA[` (case-sensitive), text not containing `]]>`, then `]]>`.
 
 ```html
-<svg><title><![CDATA[ The <html>, <head>, & <title> elements ]]></title> ... </svg>
+<svg><title><![CDATA[ The <html>, <head>, & <title> elements ]]></title> … </svg>
 ```
 
 ## Comments

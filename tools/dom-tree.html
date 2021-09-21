@@ -37,7 +37,7 @@ var tree = (function(){
     } else if (e.nodeType===3) {
       var data = e.data.replace(/\s+/g, ' ');
       if (data.length > 80) {
-        data = data.substring(0, 77) + '...';
+        data = data.substring(0, 77) + '…';
       }
       return `#text: ${data}`;
     }

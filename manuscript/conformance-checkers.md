@@ -47,7 +47,7 @@ I asked Mike Smith, who contributes to the Validator.nu code base and maintains 
 | 0.53%   | Bad character "X" after "`<`". Probable cause: Unescaped "`<`". Try escaping it as "`&lt;`". | `2<5` | `2&lt;5`
 | 0.41%   | Bogus comment. | `<!x>` | `<!--x-->`
 | 0.33%   | "X" start tag in table body. | `<table><td>` | `<table><tbody><tr><td>`
-| 0.31%   | Heading cannot be a child of another heading. | `<div><h2>Introduction<h2><p>...</p></div>` | `<div><h2>Introduction</h2><h2><p>...</p></h2></div>`
+| 0.31%   | Heading cannot be a child of another heading. | `<div><h2>Introduction<h2><p>…</p></div>` | `<div><h2>Introduction</h2><h2><p>…</p></h2></div>`
 | 0.23%   | End of file seen and there were open elements. | `<div>(EOF)` | `<div></div>(EOF)`
 | 0.23%   | Character reference was not terminated by a semicolon. | `&#xD` | `&#xD;`
 | 0.23%   | End tag had attributes. | `</div class=main>` | `</div>`

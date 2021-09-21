@@ -676,7 +676,7 @@ Reparsing is something that was carefully avoided in the standard. Apart from be
 
 Browsers also did reparsing in some other situations, such as an unclosed `title` element and, in particular, an unclosed `<!--` in a script element (which looks like a comment but is actually text). More on this in the {% ref "parser", "Script states" %} section. Switching to not doing reparsing was not without facing web compatibility problems. In March 2008, I sent the following [email](https://lists.w3.org/Archives/Public/public-html/2008Mar/0249.html) to the public-html mailing list:
 
-> We were fixing our bugs regarding reparsing, but were a bit scared to fix reparsing of comments and escaped text spans, so I asked in #whatwg if someone could be kind enough to provide some data on the matter...
+> We were fixing our bugs regarding reparsing, but were a bit scared to fix reparsing of comments and escaped text spans, so I asked in #whatwg if someone could be kind enough to provide some data on the matter…
 >
 > Philip\` found 128 pages with open `<!--` out of 130K pages, listed in http://philip.html5.org/data/pages-with-unclosed-comments.txt . I looked through the first 82 pages. 40 of those would work better if we reparse, 1 would work slightly worse, and the rest would be unaffected. This means that about 0.05% of pages would break if we didn't reparse.
 >
@@ -929,7 +929,7 @@ I did some research and [proposed a solution](https://lists.w3.org/Archives/Publ
 > ```html
 > <script><!--
 >
-> ...
+> …
 >
 > //--></script>
 > ```
@@ -943,7 +943,7 @@ I did some research and [proposed a solution](https://lists.w3.org/Archives/Publ
 > ```html
 > <script><!--
 >
-> ...
+> …
 >
 > </script>
 > ```
@@ -953,7 +953,7 @@ I did some research and [proposed a solution](https://lists.w3.org/Archives/Publ
 > ```html
 > <script><!--
 >
-> ...
+> …
 >
 > //-->
 >
@@ -965,7 +965,7 @@ I did some research and [proposed a solution](https://lists.w3.org/Archives/Publ
 > ```html
 > <script><!--
 >
-> ...
+> …
 >
 > //-- ></script>
 > ```
@@ -975,7 +975,7 @@ I did some research and [proposed a solution](https://lists.w3.org/Archives/Publ
 > ```html
 > <script><!--
 >
-> ...
+> …
 >
 > //- -></script>
 > ```
@@ -985,7 +985,7 @@ I did some research and [proposed a solution](https://lists.w3.org/Archives/Publ
 > ```html
 > <script><!--
 >
-> ...
+> …
 >
 > //- - ></script>
 > ```
@@ -995,14 +995,14 @@ I did some research and [proposed a solution](https://lists.w3.org/Archives/Publ
 > ```html
 > <script><!--
 >
-> ...
+> …
 >
 > //-></script>
 > ```
 >
 > etc.
 >
-> where ... can be
+> where … can be
 >
 >    1. `document.write('<script></script>');`
 >
@@ -1044,7 +1044,7 @@ In March 2010, in response to someone being confused about the script states, He
 >
 > The problem is basically this:
 >
-> 1) Some pages assume they can use the string "`</script>`" inside a script if they enclose the script content in `<!-- ... -->`
+> 1) Some pages assume they can use the string "`</script>`" inside a script if they enclose the script content in `<!-- … -->`
 >
 > 2) Other pages Have `<!--` at the start of the script but forget `-->` from the end.
 >
@@ -1317,7 +1317,7 @@ The following cases result in the document using quirks mode:
 
     * The public identifier starts with: "`-//IETF//DTD HTML 2.0 Strict Level 1//`"
 
-    * ...
+    * …
 
 The following cases trigger limited quirks mode:
 
@@ -1759,7 +1759,7 @@ Aha, this says something about foster parenting! The rules in "in body" for a no
 
 > If foster parenting is enabled and target is a `table`, `tbody`, `tfoot`, `thead`, or `tr` element
 >
-> : [...]
+> : […]
 >
 >   If last table has a parent node, then let adjusted insertion location be inside last table's parent node, immediately before last table, and abort these substeps.
 
@@ -2041,7 +2041,7 @@ If you have unexpected content between the table row and the table cell, it woul
 <template><tr>orphan<td>X
 ```
 
-...results in the following *template contents*:
+…results in the following *template contents*:
 
 ```dom-tree
 #document
@@ -2210,7 +2210,7 @@ When the steps below require the UA to generate implied end tags, then, while th
 For example, one can omit tags in a `ruby` element (this is the Japanese text 漢字, annotated with its reading in hiragana, with parentheses in `rp` elements for browsers that do not support ruby):
 
 ```html
-...<ruby>漢<rp>（<rt>かん<rp>）</rp>字<rp>（<rt>じ<rp>）</ruby>...
+…<ruby>漢<rp>（<rt>かん<rp>）</rp>字<rp>（<rt>じ<rp>）</ruby>…
 ```
 
 ```dom-tree
@@ -2218,7 +2218,7 @@ For example, one can omit tags in a `ruby` element (this is the Japanese text �
 └── html
     ├── head
     └── body
-        ├── #text: ...
+        ├── #text: …
         ├── ruby
         │   ├── #text: 漢
         │   ├── rp
@@ -2234,7 +2234,7 @@ For example, one can omit tags in a `ruby` element (this is the Japanese text �
         │   │   └── #text: じ
         │   └── rp
         │       └── #text: ）
-        └── #text: ...
+        └── #text: …
 ```
 
 This would render as follows:
@@ -2691,14 +2691,14 @@ The [first draft of HTML 4.0 marked `isindex` as deprecated](https://www.w3.org/
 When the HTML parser was specified in 2006 (already part of [the initial commit](https://github.com/whatwg/html/commit/c3550d90867392905edbd91c94fec8c89fbfe648)), `isindex` was defined as a parser macro, expanding into:
 
 ```html
-<form><hr><p><label>...text...<input name="isindex" ...attributes...>...text...</label></p></form>
+<form><hr><p><label>…text…<input name="isindex" …attributes…>…text…</label></p></form>
 ```
 
-The "...text..." depended on the user's preferred language, per spec:
+The "…text…" depended on the user's preferred language, per spec:
 
 > The two streams of character tokens together should, together with the `input` element, express the equivalent of "This is a searchable index. Insert your search keywords here: (input field)" in the user's preferred language.
 
-The "...attributes..." part was all the attributes from the "isindex" token, except with the "name" attribute set to the value "isindex" (ignoring any explicit "name" attribute).
+The "…attributes…" part was all the attributes from the "isindex" token, except with the "name" attribute set to the value "isindex" (ignoring any explicit "name" attribute).
 
 Internet Explorer and Opera implemented `isindex` as a parser macro already, while Firefox and Safari treated it more like its own element, like a widget. One practical difference is that `document.createElement('isindex')` created an unknown element in Internet Explorer and Opera (and per spec), but worked in Firefox and Safari (before their HTML parser rewrites).
 
@@ -2713,7 +2713,7 @@ The motivation for the removal is for security -- the [blink-dev thread](https:/
 > ```
 > Because IE treats the isindex element (a very old html element) as a input tag you can specify the same attributes and execute javascript.
 
-Similarly, you could use `<isindex action="javascript:...">` or `<isindex formaction="javascript:...">` or other variants. Today, now that `isindex` parses as an unknown element, the `isindex`-specific XSS variants don't work.
+Similarly, you could use `<isindex action="javascript:…">` or `<isindex formaction="javascript:…">` or other variants. Today, now that `isindex` parses as an unknown element, the `isindex`-specific XSS variants don't work.
 
 ### The `menuitem` element
 

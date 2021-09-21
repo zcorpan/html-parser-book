@@ -35,7 +35,7 @@ Range createContextualFragment
 
 ### `innerHTML` and friends
 
-TODO some introduction before getting into the weeds...
+TODO some introduction before getting into the weeds…
 
 > [\#htmlpubquiz](https://twitter.com/zcorpan/status/207345250744803328) How do you get a Siamese twins document (i.e. two `<head>`s and two `<body>`s) using only `innerHTML`/`outerHTML`?
 
@@ -66,7 +66,7 @@ The fragment parsing algorithm then calls the [HTML fragment parsing algorithm](
 
 > 10. Reset the parser's insertion mode appropriately.
 
-...which [says](https://html.spec.whatwg.org/multipage/parsing.html#reset-the-insertion-mode-appropriately):
+…which [says](https://html.spec.whatwg.org/multipage/parsing.html#reset-the-insertion-mode-appropriately):
 
 > 15. If *node* is an `html` element, run these substeps:
 >
@@ -140,7 +140,7 @@ The resulting DOM is:
     └── head
 ```
 
-At least it didn't lose its head...
+At least it didn't lose its head…
 
 Note that the text "Oops.", which the parser processed *after* running the script, is not in the DOM. It was inserted into the `body` element, that the script had removed.
 
