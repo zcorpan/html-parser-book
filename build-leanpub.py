@@ -24,6 +24,7 @@ conversions = [
   ['/_assets/img/', 'images/'],  # .travis/push.sh moves these files - also see https://leanpub.com/markua/read#leanpub-auto-local-resources
   [r'\{% ref "[^"]+", "([^"]+)" %\}', rewrite_ref],
   [r'^#+ (.+)$', add_heading_id],
+  ['...', '…'],  # same transform in .eleventy.js
 ]
 
 def replace_inline(filename):
