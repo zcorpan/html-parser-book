@@ -80,7 +80,7 @@ A tool that is handy for quickly trying what DOM tree is produced for a piece of
 
 ## History of HTML parsers
 
-### SGML & early HTML
+### SGML and early HTML
 
 The earliest documentation on HTML, as far as I know, is [HyperText Mark-up Language](http://info.cern.ch/hypertext/WWW/MarkUp/MarkUp.html), from CERN, 1992 ([also hosted on w3.org](https://www.w3.org/History/19921103-hypertext/hypertext/WWW/MarkUp/MarkUp.html)). The first paragraph reads:
 
@@ -181,7 +181,7 @@ The HTML standard has the following note about the relationship to SGML:
 
 In 2000, before Netscape 6 was released, [Gecko had a parser mode](https://bugzilla.mozilla.org/show_bug.cgi?id=40190) called "Strict DTD" that enforced stricter rules for HTML for documents with certain doctypes. This was quickly found to be incompatible with existing web content, and was [removed](https://bugzilla.mozilla.org/show_bug.cgi?id=50070) only two months after the parser mode was turned on in beta.
 
-### XML & XHTML
+### XML and XHTML
 
 XML is, like SGML, a syntax framework for defining markup languages, and is a simplification of SGML. Unlike SGML, XML defined error handling – a syntax error must halt normal processing. It omitted many features of SGML, such as SHORTTAG and optional tags. This allowed for parsing documents without reading the DTD. DTDs were retained in XML to allow for validation, although better schema languages were developed later. In hindsight it would have been a good opportunity to drop DTD support from XML, as it complicates the parser quite a bit.
 
@@ -191,7 +191,7 @@ XHTML 1.0 is a reformulation of HTML 4.01 in XML. It has all the same features a
 
 Indeed, the HTML standard now specifies that `</br>` is to be parsed as `<br>`. The space before the slash was for compatibility with Netscape 4, which would parse `<br/>` as an element `br/` which is not a known HTML element.
 
-### Internet Explorer, Firefox, Safari & Opera
+### Internet Explorer, Firefox, Safari and Opera
 
 When the HTML parser was first specified [in 2006](http://ln.hixie.ch/?start=1137740632&count=1), Internet Explorer was at version 6.
 

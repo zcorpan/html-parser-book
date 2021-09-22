@@ -136,7 +136,7 @@ The possible tokens are: doctype, start tag, end tag, comment, character, and en
 
 * End-of-file has no properties.
 
-### Tags & text
+### Tags and text
 
 Let's walk through a simple example to see how the tokenizer works: how it switches states and what tokens are produced.
 
@@ -1676,7 +1676,7 @@ There's a nested `form`! And the "`D`" `Text` node is where we’d expect (child
 
 In `template`s, `form`s are parsed more like `div`s, and aren't using the form element pointer.
 
-### Tables & foster parenting
+### Tables and foster parenting
 
 > [\#HTMLQuiz](https://twitter.com/RReverser/status/736219152709472256) In which order will the numbers appear for such bad HTML?
 >
@@ -2263,7 +2263,7 @@ If you have something between the head end tag and the body start tag (where onl
         └── noscript
 ```
 
-When seeing an `a` start tag if there's an `a` element in the *list of active formatting elements* (see the {% ref "parser", "Active formatting elements & Noah's Ark" %} section), then it implies an `a` end tag before it, but this is a parse error; the `a` end tag is *not* optional. The following example has two a start tags (end tag is mistyped as a start tag):
+When seeing an `a` start tag if there's an `a` element in the *list of active formatting elements* (see the {% ref "parser", "Active formatting elements and Noah's Ark" %} section), then it implies an `a` end tag before it, but this is a parse error; the `a` end tag is *not* optional. The following example has two a start tags (end tag is mistyped as a start tag):
 
 ```html
 <p><a href="1108470371">Anchor Bar reportedly opening Las Vegas location<a>.
@@ -2354,7 +2354,7 @@ The "default" handling of misnested markup, which is used for unknown elements, 
 
 Other elements are slightly more complicated, such as the `b`, `i`, and `a` elements, which are so-called *formatting elements*.
 
-#### Active formatting elements & Noah's Ark
+#### Active formatting elements and Noah's Ark
 
 The *formatting elements* are are:
 
