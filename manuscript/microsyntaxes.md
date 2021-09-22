@@ -151,7 +151,7 @@ In January 2016, I changed the specification for parsing lists of floating-point
 
 *At the same time, support parsing of floating point numbers, as suggested by Travis Leithead in the bug below.*
 
-*Fixes https://www.w3.org/Bugs/Public/show_bug.cgi?id=28148.*
+*Fixes <https://www.w3.org/Bugs/Public/show_bug.cgi?id=28148>.*
 
 Before the change, only integers were allowed, and using a fraction in a number caused that value to be ignored, which was not particularly useful. The handling of bogus values was also especially strange, sometimes dropping all subsequent values.
 

@@ -20,4 +20,4 @@ TODO
 
 ### Sanitizing HTML
 
-TODO [https://github.com/cure53/DOMPurify](https://github.com/cure53/DOMPurify)
+TODO <https://github.com/cure53/DOMPurify>
