@@ -31,6 +31,10 @@ module.exports = function(eleventyConfig) {
 
   eleventyConfig.addPlugin(pluginTOC);
 
+  eleventyConfig.addTransform("ellipsis", async function(content, outputPath) {
+    return content.replace(/\.\.\./g, "…");
+  });
+
   eleventyConfig.addLinter("naked-url", async function(content, inputPath, outputPath) {
     if (!(inputPath.endsWith(".md"))) {
       return;
@@ -45,7 +49,7 @@ module.exports = function(eleventyConfig) {
       console.warn(chalk.yellow(`Naked URL Linter (${inputPath}):`));
       console.warn("    " + found.join("\n" + "    "));
     }
-  })
+  });
 
   return {
     passthroughFileCopy: true,
