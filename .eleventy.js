@@ -1,3 +1,5 @@
+const chalk = require("chalk");
+
 module.exports = function(eleventyConfig) {
   let markdownIt = require("markdown-it");
   let markdownItDeflist = require("markdown-it-deflist");
@@ -28,6 +30,26 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPassthroughCopy("_assets");
 
   eleventyConfig.addPlugin(pluginTOC);
+
+  eleventyConfig.addTransform("ellipsis", async function(content, outputPath) {
+    return content.replace(/\.\.\./g, "…");
+  });
+
+  eleventyConfig.addLinter("naked-url", async function(content, inputPath, outputPath) {
+    if (!(inputPath.endsWith(".md"))) {
+      return;
+    }
+    const nakedUrlRegexp = /(?:[^<>";]|^)(https?:(?:[^<\s]+))/g
+    const matches = content.matchAll(nakedUrlRegexp);
+    const found = [];
+    for (const match of matches) {
+      found.push(match[1]);
+    }
+    if (found.length) {
+      console.warn(chalk.yellow(`Naked URL Linter (${inputPath}):`));
+      console.warn("    " + found.join("\n" + "    "));
+    }
+  });
 
   return {
     passthroughFileCopy: true,

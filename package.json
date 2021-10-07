@@ -4,8 +4,8 @@
   "description": "The book 'Idiosyncrasies of the HTML parser'",
   "main": "index.js",
   "scripts": {
-    "build": "npx @11ty/eleventy",
-    "serve": "npx @11ty/eleventy --serve",
+    "build": "npx @11ty/eleventy --quiet",
+    "serve": "npx @11ty/eleventy --serve --quiet",
     "debug": "DEBUG=* npx @11ty/eleventy"
   },
   "repository": {
@@ -20,6 +20,7 @@
   "homepage": "https://htmlparser.info/",
   "devDependencies": {
     "@11ty/eleventy": "^0.12.1",
+    "chalk": "^4.1.2",
     "eleventy-plugin-toc": "^1.0.1",
     "markdown-it-anchor": "^5.3.0",
     "markdown-it-deflist": "^2.0.3",

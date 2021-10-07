@@ -136,7 +136,7 @@ The possible tokens are: doctype, start tag, end tag, comment, character, and en
 
 * End-of-file has no properties.
 
-### Tags & text
+### Tags and text
 
 Let's walk through a simple example to see how the tokenizer works: how it switches states and what tokens are produced.
 
@@ -520,7 +520,7 @@ This matched what IE did, but this was not interoperable back in 2006. One aspec
 >
 > Data:
 >
-> http://philip.html5.org/data/entities-without-semicolon-followed-by-equals.txt
+> <http://philip.html5.org/data/entities-without-semicolon-followed-by-equals.txt>
 >
 > The ones below are those that would be affected by this change. This is 50 occurrences out of 425K pages.
 >
@@ -610,7 +610,7 @@ Well, not quite. Both SGML and web browsers had different aspects of complexity 
 >
 > February 2005. Håkon and I write the first draft of the Acid2 test.
 >
-> March 2005. While giving a workshop on how to create test cases at Opera, I find that http://www.wassada.com/ renders correctly in Mozilla and fails to render in Opera precisely because Mozilla renders comments according to the SGML way and Opera doesn't. Over Håkon's objections, I insist on including a test for the SGML comment syntax in Acid2, citing the Wassada site as proof that we need to get interoperability on the matter. Acid2 is announced.
+> March 2005. While giving a workshop on how to create test cases at Opera, I find that <http://www.wassada.com/> renders correctly in Mozilla and fails to render in Opera precisely because Mozilla renders comments according to the SGML way and Opera doesn't. Over Håkon's objections, I insist on including a test for the SGML comment syntax in Acid2, citing the Wassada site as proof that we need to get interoperability on the matter. Acid2 is announced.
 >
 > April 2005. Safari fixes SGML comment parsing as part of their Acid2 work. Hyatt confesses bemusement regarding this feature, joining Håkon in thinking I was wrong to insist we include this part of the test.
 >
@@ -678,7 +678,7 @@ Browsers also did reparsing in some other situations, such as an unclosed `title
 
 > We were fixing our bugs regarding reparsing, but were a bit scared to fix reparsing of comments and escaped text spans, so I asked in #whatwg if someone could be kind enough to provide some data on the matter...
 >
-> Philip\` found 128 pages with open `<!--` out of 130K pages, listed in http://philip.html5.org/data/pages-with-unclosed-comments.txt . I looked through the first 82 pages. 40 of those would work better if we reparse, 1 would work slightly worse, and the rest would be unaffected. This means that about 0.05% of pages would break if we didn't reparse.
+> Philip\` found 128 pages with open `<!--` out of 130K pages, listed in <http://philip.html5.org/data/pages-with-unclosed-comments.txt> . I looked through the first 82 pages. 40 of those would work better if we reparse, 1 would work slightly worse, and the rest would be unaffected. This means that about 0.05% of pages would break if we didn't reparse.
 >
 > Opera currently doesn't reparse comments in limited/no quirks mode, but a few pages below break in Opera because of that. (We still reparse open escaped text spans even in no quirks mode.)
 >
@@ -883,14 +883,14 @@ In August 2009, Henri Sivonen sent an [email](https://lists.w3.org/Archives/Publ
 >
 > However, there are three Web compat issues that don't have trivial fixes. They all are related to the HTML5 parsing algorithm not recovering from errors by rewinding the stream and reparsing with different rules. As such, if these are treated as bugs, they are spec bugs.
 >
-> 1) When the string `<!--` occurs inside a string literal in JavaScript, it starts and escape that hides `</script>` and the rest of the page is eaten into the script. https://bugzilla.mozilla.org/show_bug.cgi?id=503632
+> 1) When the string `<!--` occurs inside a string literal in JavaScript, it starts and escape that hides `</script>` and the rest of the page is eaten into the script. <https://bugzilla.mozilla.org/show_bug.cgi?id=503632>
 >
-> 2) When a script starts with `<script><!--` but doesn't end with `--></script>` (ends with only `</script>`), the rest of the page is eaten into the script. https://bugzilla.mozilla.org/show_bug.cgi?id=504941
+> 2) When a script starts with `<script><!--` but doesn't end with `--></script>` (ends with only `</script>`), the rest of the page is eaten into the script. <https://bugzilla.mozilla.org/show_bug.cgi?id=504941>
 >
-> 3) When there's no `</title>` end tag, the page gets eaten into the title. https://bugzilla.mozilla.org/show_bug.cgi?id=508075
+> 3) When there's no `</title>` end tag, the page gets eaten into the title. <https://bugzilla.mozilla.org/show_bug.cgi?id=508075>
 > see also
-> https://bugs.webkit.org/show_bug.cgi?id=3905
-> https://bugzilla.mozilla.org/show_bug.cgi?id=42945
+> <https://bugs.webkit.org/show_bug.cgi?id=3905>
+> <https://bugzilla.mozilla.org/show_bug.cgi?id=42945>
 >
 > Personally, I'd like to avoid reparsing if at all possible, because it's a security risk and because it complicates the parser.
 
@@ -906,15 +906,15 @@ I did some research and [proposed a solution](https://lists.w3.org/Archives/Publ
 > >>>
 > >>>> I think I'll create a wiki page with requirements and a proposed delta spec first, though, because others on #whatwg were interested in pondering alternative solutions given a set of requirements.
 > >>>
-> >>> Wiki page created: http://wiki.whatwg.org/wiki/CDATA_Escapes
+> >>> Wiki page created: <http://wiki.whatwg.org/wiki/CDATA_Escapes>
 > >>
 > >> Wow. Please can we stick to just the current magic escapes and not add even more magic?
 > >
 > > The current magic without all the magic that current browsers implement lead to some incompatibilities with existing content. I don't know how often a user would hit these issues, but when the problems do occur, they wreck the whole page. Therefore, I think we should seriously try to improve the magic so that it substitutes the current browser magic better in practice while still not doing reparsing.
 >
-> http://philip.html5.org/data/script-open-in-escape.txt has 622 pages.
+> <http://philip.html5.org/data/script-open-in-escape.txt> has 622 pages.
 >
-> http://philip.html5.org/data/script-close-in-escape-without-script-open-2.txt has 708 pages.
+> <http://philip.html5.org/data/script-close-in-escape-without-script-open-2.txt> has 708 pages.
 >
 > Most of these look like they would break with what's currently specced.
 >
@@ -1016,7 +1016,7 @@ I did some research and [proposed a solution](https://lists.w3.org/Archives/Publ
 >
 >    7. `document.write('<script></scr'+'ipt>');`
 >
-> Proposal #3 in http://wiki.whatwg.org/wiki/CDATA_Escapes reads:
+> Proposal #3 in <http://wiki.whatwg.org/wiki/CDATA_Escapes> reads:
 >
 > For script, when in an escaped text span, set a flag after having seen "`<script`" followed by whitespace or slash or greater-than. "`</script`" followed by whitespace or slash or greater-than only closes the element if the flag is not set, and otherwise emits the text and resets the flag. Exiting an escaped text span also resets the flag.
 >
@@ -1674,7 +1674,7 @@ There's a nested `form`! And the "`D`" `Text` node is where we’d expect (child
 
 In `template`s, `form`s are parsed more like `div`s, and aren't using the form element pointer.
 
-### Tables & foster parenting
+### Tables and foster parenting
 
 > [\#HTMLQuiz](https://twitter.com/RReverser/status/736219152709472256) In which order will the numbers appear for such bad HTML?
 >
@@ -2261,7 +2261,7 @@ If you have something between the head end tag and the body start tag (where onl
         └── noscript
 ```
 
-When seeing an `a` start tag if there's an `a` element in the *list of active formatting elements* (see the {% ref "parser", "Active formatting elements & Noah's Ark" %} section), then it implies an `a` end tag before it, but this is a parse error; the `a` end tag is *not* optional. The following example has two a start tags (end tag is mistyped as a start tag):
+When seeing an `a` start tag if there's an `a` element in the *list of active formatting elements* (see the {% ref "parser", "Active formatting elements and Noah's Ark" %} section), then it implies an `a` end tag before it, but this is a parse error; the `a` end tag is *not* optional. The following example has two a start tags (end tag is mistyped as a start tag):
 
 ```html
 <p><a href="1108470371">Anchor Bar reportedly opening Las Vegas location<a>.
@@ -2352,7 +2352,7 @@ The "default" handling of misnested markup, which is used for unknown elements, 
 
 Other elements are slightly more complicated, such as the `b`, `i`, and `a` elements, which are so-called *formatting elements*.
 
-#### Active formatting elements & Noah's Ark
+#### Active formatting elements and Noah's Ark
 
 The *formatting elements* are:
 

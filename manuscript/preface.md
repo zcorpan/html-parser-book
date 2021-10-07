@@ -78,6 +78,8 @@ Thanks to Mike Smith for providing a raw log from a validator instance for the {
 
 Thanks to Marcos Caceres, Sam Sneddon, Taylor Hunt, Mike Smith, Anne van Kesteren, Marie Staver, Ian Hickson, Mathias Bynens, Henri Sivonen, and Philip Jägenstedt for reviewing this book.
 
+Thanks to Jens Oliver Meiert for contributing fixes for this book.
+
 ## Contribute
 
 The source code for this book is [available on GitHub](https://github.com/zcorpan/html-parser-book/). This book and the source code is [licensed under CC-BY-4.0](https://github.com/zcorpan/html-parser-book/blob/main/LICENSE). Feel free to report issues, submit pull requests, fork, etc.! If you wish to make a translation or otherwise reuse the work, you are welcome to do so (as allowed by the license). Please report an issue, to avoid duplicate work and so I can help get you set up.
