@@ -67,7 +67,7 @@ You can [buy the eBook](https://leanpub.com/html-parser-book/) on Leanpub. 50% o
 
 — [Climate and the Amazon](https://amazonwatch.org/work/climate-and-the-amazon)
 
-If you're a [Web Monetization](https://webmonetization.org/) fan, you can support the author by reading the web version of this book (i.e., this site) with a Web Monetization-enabled browser or browser extension. (Confused? See [Web Monetization like I'm 5](https://dev.to/hacksultan/web-monetization-like-i-m-5-1418).) Thank you!
+<a role=button href=https://leanpub.com/html-parser-book/>Buy the eBook</a>
 
 ## Table of Contents
 

@@ -21,6 +21,10 @@ th, td { border: 1px solid gray; padding: 0 0.5em; vertical-align: baseline; tex
 .book-cover h1 { font: inherit; margin: 0; }
 .book-cover svg { display: block; margin: 0 auto; max-height: 100vh; }
 
+.book-cover-small { box-shadow: 0 0 8px gray; }
+
+a[role=button], button { background-color: #244fd3; color: white; text-decoration: none; font-weight: bold; border: none; border-radius: 0.25em; padding: 1em 1.5em; line-height: 3; }
+
 ul.toc { padding: 0; }
 ul.toc > li { list-style-type: none; display: flex; margin-bottom: 1em; border-bottom: 2px silver solid; }
 ul.toc > li span { flex-grow: 1; text-align: right; font-variant-numeric: tabular-nums; }
@@ -41,7 +45,7 @@ details[open] > summary ~ * {
 
 nav { border-bottom: 0.25em solid darkseagreen; }
 nav.next { margin-top: 3em; border-top: 0.25em solid darkseagreen; text-align: right; }
-footer { font-size: small; text-align: center; }
+footer { text-align: center; }
 
 blockquote { border-left: 0.25em solid darkseagreen; padding: 0.25em 1.25em 0.25em 1em; margin-left: 1em; margin-right: 1em; background-color: whitesmoke; }
 blockquote blockquote { margin-left: 0; margin-right: 0; }
@@ -65,10 +69,12 @@ blockquote blockquote { margin-left: 0; margin-right: 0; }
   summary { color: darkseagreen; }
   summary, nav, nav.next, blockquote { border-color: #578057; }
   :link { color: gold; }
+  a[role=button], button { background-color: gold; color: black; }
   :visited { color: #dfa920; }
   :any-link { text-decoration-color: gray; }
   :any-link:active { color: pink; }
   .selected-text-file-an-issue { background: #333; box-shadow: 0 0 8px #000;}
   #book-cover-shadow feDropShadow { flood-opacity: 1; }
+  .book-cover-small { box-shadow: 0 0 8px #000; }
   img[src$="/sample-ruby-ja.png"] { mix-blend-mode: color-dodge; filter: invert(); }
 }
