@@ -77,5 +77,5 @@ You can [buy the eBook](https://leanpub.com/html-parser-book/) on Leanpub. 50% o
  <li><a href=/security/>Security implications</a> <span>6</span>
  <li><a href=/implementations/>Implementations</a> <span>A</span>
  <li><a href=/conformance-checkers/>Conformance checkers</a> <span>B</span>
- <li><a href=/microsyntaxes/>Microsyntaxes</a> <span>4</span>
+ <li><a href=/microsyntaxes/>Microsyntaxes</a> <span>C</span>
 </ul>
