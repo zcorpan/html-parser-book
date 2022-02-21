@@ -2,30 +2,31 @@ name: Build Leanpub version and push to 'leanpub' branch
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
   pull_request:
-    branches: [ fix-leanpub-ci ]
+    branches:
+      - fix-leanpub-ci
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
   build:
-    # The type of runner that the job will run on
     runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
-      # Runs a single command using the runners shell
       - name: Build
         run: ./build-leanpub.py
 
-      # Runs a set of commands using the runners shell
-      - name: Push
-        run: .travis/push.sh
-
+      - name: Move images, commit and push
+        run: |
+          git config --global user.email "zcorpan@users.noreply.github.com" || exit 1
+          git config --global user.name "Simon Pieters" || exit 1
+          git mv -k _assets/img manuscript/resources/images || exit 1  # build-leanpub.py rewrites these references
+          git add manuscript/* || exit 1
+          git commit --message "Build: ${{ github.run_number }}" || exit 1
+          git tag "v${{ github.run_number }}" || exit 1
+          git remote add zcorpan https://${{ secrets.GITHUB_TOKEN }}@github.com/zcorpan/html-parser-book.git > /dev/null 2>&1 || exit 1
+          git push -f --atomic zcorpan HEAD:leanpub "v${{ github.run_number }}" || exit 1
