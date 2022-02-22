@@ -1,0 +1,33 @@
+name: Build Leanpub version and push to 'leanpub' branch
+
+on:
+  push:
+    branches:
+      - main
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Build
+        run: ./build-leanpub.py
+
+      - name: Move images, commit and push
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BUILD_NUMBER: ${{ github.run_number }}
+        run: |
+          git config --global user.email "zcorpan@users.noreply.github.com" || exit 1
+          git config --global user.name "Simon Pieters" || exit 1
+          git mv -k _assets/img manuscript/resources/images || exit 1  # build-leanpub.py rewrites these references
+          git add manuscript/* || exit 1
+          git commit --message "Build: $BUILD_NUMBER" || exit 1
+          git tag "v${{ github.run_number }}" || exit 1
+          git remote add zcorpan https://$GH_TOKEN@github.com/zcorpan/html-parser-book.git > /dev/null 2>&1 || exit 1
+          git push -f --atomic zcorpan HEAD:leanpub "v$BUILD_NUMBER" || exit 1
