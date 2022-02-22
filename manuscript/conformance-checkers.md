@@ -4,16 +4,20 @@ title: Conformance checkers
 next: microsyntaxes
 nextTitle: Microsyntaxes
 ---
+{#appendix-b-conformance-checkers}
 # Appendix B. Conformance checkers
 
+{#dtd-based-validators}
 ## DTD-based validators
 
 TODO
 
+{#validatornu}
 ## Validator.nu
 
 TODO
 
+{#most-common-errors}
 ### Most common errors
 
 I asked Mike Smith, who contributes to the Validator.nu code base and maintains validator.w3.org and checker.html5.org, about error logs from the validator. He kindly gave me raw logs for one of the instances. I filtered for the messages that come from the Validator.nu HTML parser and normalized the error messages by replacing variable parts with "X", then counted a particular error for a given URL only once. The distribution of these errors are given in the table below.
@@ -47,7 +51,7 @@ I asked Mike Smith, who contributes to the Validator.nu code base and maintains 
 | 0.53%   | Bad character "X" after "`<`". Probable cause: Unescaped "`<`". Try escaping it as "`&lt;`". | `2<5` | `2&lt;5`
 | 0.41%   | Bogus comment. | `<!x>` | `<!--x-->`
 | 0.33%   | "X" start tag in table body. | `<table><td>` | `<table><tbody><tr><td>`
-| 0.31%   | Heading cannot be a child of another heading. | `<div><h2>Introduction<h2><p>...</p></div>` | `<div><h2>Introduction</h2><h2><p>...</p></h2></div>`
+| 0.31%   | Heading cannot be a child of another heading. | `<div><h2>Introduction<h2><p>…</p></div>` | `<div><h2>Introduction</h2><h2><p>…</p></h2></div>`
 | 0.23%   | End of file seen and there were open elements. | `<div>(EOF)` | `<div></div>(EOF)`
 | 0.23%   | Character reference was not terminated by a semicolon. | `&#xD` | `&#xD;`
 | 0.23%   | End tag had attributes. | `</div class=main>` | `</div>`
