@@ -4,10 +4,6 @@ on:
   push:
     branches:
       - main
-      - fix-leanpub-ci
-  pull_request:
-    branches:
-      - fix-leanpub-ci
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
