@@ -3,6 +3,7 @@ layout: chapter.njk
 title: Scripting complications
 next: serializing
 nextTitle: Serializing
+toc: true
 ---
 # Chapter 4. Scripting complications
 

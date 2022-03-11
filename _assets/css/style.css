@@ -21,9 +21,9 @@ th, td { border: 1px solid gray; padding: 0 0.5em; vertical-align: baseline; tex
 .book-cover h1 { font: inherit; margin: 0; }
 .book-cover svg { display: block; margin: 0 auto; max-height: 100vh; }
 
-.book-cover-small { box-shadow: 0 0 8px gray; }
+.book-cover-small { box-shadow: 0 0 8px gray; vertical-align: middle }
 
-a[role=button], button { background-color: #244fd3; color: white; text-decoration: none; font-weight: bold; border: none; border-radius: 0.25em; padding: 1em 1.5em; line-height: 3; }
+a[role=button], button { background-color: #244fd3; color: white; text-decoration: none; font-weight: bold; border: none; border-radius: 0.25em; padding: 1em 1.5em; line-height: 3; outline-offset: 2px; }
 
 ul.toc { padding: 0; }
 ul.toc > li { list-style-type: none; display: flex; margin-bottom: 1em; border-bottom: 2px silver solid; }

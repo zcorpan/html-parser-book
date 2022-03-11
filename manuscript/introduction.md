@@ -3,6 +3,7 @@ layout: chapter.njk
 title: Introduction
 next: syntax
 nextTitle: The HTML syntax
+toc: true
 ---
 # Chapter 1. Introduction
 

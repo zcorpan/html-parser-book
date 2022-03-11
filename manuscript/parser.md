@@ -3,6 +3,7 @@ layout: chapter.njk
 title: The HTML parser
 next: scripting
 nextTitle: Scripting complications
+toc: true
 ---
 # Chapter 3. The HTML parser
 

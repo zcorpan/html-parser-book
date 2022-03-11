@@ -3,6 +3,7 @@ layout: chapter.njk
 title: Preface
 next: introduction
 nextTitle: Introduction
+toc: true
 ---
 # Preface
 

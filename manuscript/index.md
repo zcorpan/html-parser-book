@@ -1,6 +1,7 @@
 ---
 layout: chapter.njk
 title: Idiosyncrasies of the HTML parser - The HTML Parser Book
+toc: false
 ---
 <link rel=preload as=font crossorigin href=/_assets/fonts/Archistico_Bold.woff>
 <header class=book-cover>
@@ -78,4 +79,5 @@ You can [buy the eBook](https://leanpub.com/html-parser-book/) on Leanpub. 50% o
  <li><a href=/implementations/>Implementations</a> <span>A</span>
  <li><a href=/conformance-checkers/>Conformance checkers</a> <span>B</span>
  <li><a href=/microsyntaxes/>Microsyntaxes</a> <span>C</span>
+ <li><a href=/bibliography/>Bibliography</a> <span>D</span>
 </ul>
