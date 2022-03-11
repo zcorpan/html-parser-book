@@ -3,6 +3,7 @@ layout: chapter.njk
 title: The HTML syntax
 next: parser
 nextTitle: The HTML parser
+toc: true
 ---
 # Chapter 2. The HTML syntax
 

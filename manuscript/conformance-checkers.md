@@ -3,6 +3,7 @@ layout: chapter.njk
 title: Conformance checkers
 next: microsyntaxes
 nextTitle: Microsyntaxes
+toc: true
 ---
 # Appendix B. Conformance checkers
 

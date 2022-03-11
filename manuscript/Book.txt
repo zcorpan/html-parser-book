@@ -8,3 +8,4 @@ security.md
 implementations.md
 conformance-checkers.md
 microsyntaxes.md
+bibliography.md

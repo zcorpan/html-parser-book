@@ -1,7 +1,9 @@
 ---
 layout: chapter.njk
 title: Microsyntaxes
-next: end
+next: bibliography
+nextTitle: Bibliography
+toc: true
 ---
 # Appendix C. Microsyntaxes
 
