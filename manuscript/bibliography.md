@@ -4,6 +4,7 @@ title: Bibliography
 next: end
 toc: false
 ---
+{#appendix-d-bibliography}
 # Appendix D. Bibliography
 
 [Web Browser Engineering](https://browser.engineering/)
