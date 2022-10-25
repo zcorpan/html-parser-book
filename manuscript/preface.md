@@ -69,6 +69,8 @@ Some images in this book were generated using OpenAI's [DALL·E 2](https://opena
 
 * [“drawing of a person intensely reading a book”](https://labs.openai.com/s/rEpQ8qYHWJa9g6QwgKXOXfub)
 * [“upside down tree drawing”](https://labs.openai.com/s/6bDmR9YDNkmM3FJ2kbTOIXcn)
+* [“drawing of tags and attributes”](https://labs.openai.com/s/s11mnHudAtQ3BDIpzHUwxcoY)
+* [“very complex state machine drawing”](https://labs.openai.com/s/rkjUZ0vZ6Asi8ycg7ybQ7wKE)
 
 The font used on the front cover is [Archistico](https://www.fontsquirrel.com/fonts/archistico), by [Archistico](https://www.archistico.com/), and has the following license:
 
