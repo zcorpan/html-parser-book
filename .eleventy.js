@@ -4,6 +4,7 @@ module.exports = function(eleventyConfig) {
   let markdownIt = require("markdown-it");
   let markdownItDeflist = require("markdown-it-deflist");
   let markdownItAnchor = require("markdown-it-anchor");
+  let { markdownItImageSize } = require("markdown-it-image-size");
   let pluginTOC = require('eleventy-plugin-toc')
   let slugify = function (s) {
     let newStr = String(s).trim().toLowerCase()
@@ -25,6 +26,7 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.setLibrary("md", markdownIt(options)
     .use(markdownItAnchor, markdownItAnchorOpts)
     .use(markdownItDeflist)
+    .use(markdownItImageSize)
   );
 
   eleventyConfig.addPassthroughCopy("_assets");

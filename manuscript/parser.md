@@ -7,6 +7,8 @@ toc: true
 ---
 # Chapter 3. The HTML parser
 
+![A diagram of an imaginary complex state machine.](/_assets/img/dall-e-very-complex-state-machine-drawing.jpg)
+
 ## Overview of the HTML parser
 
 The HTML parser consists of two major components, the tokenizer and the tree builder, which are both state machines.
