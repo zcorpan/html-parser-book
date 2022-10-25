@@ -24,6 +24,7 @@
     "eleventy-plugin-toc": "^1.0.1",
     "markdown-it-anchor": "^5.3.0",
     "markdown-it-deflist": "^2.0.3",
+    "markdown-it-image-size": "^13.0.1",
     "parse-json": "^5.2.0"
   }
 }

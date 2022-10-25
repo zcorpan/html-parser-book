@@ -2,7 +2,7 @@ html { font-family: system-ui, sans-serif; line-height: 1.5; font-weight: 300; m
 html.home { background: linear-gradient(to bottom, #eee, #fff) repeat-x; background-size: auto 100vh }
 body { max-width: 50em; margin: 0 auto; padding: 2em 0 4em; }
 html.home body { padding-top: 0; }
-img { max-width: 100%; }
+img { max-width: 100%; height: auto; }
 h1 { margin-top: 1.5em; margin-bottom: 1.5em; font-size: 3em; line-height: 1.1; color: #333; font-weight: 800; }
 h2, h3 { margin-top: 3em; }
 .book-cover + h2 { margin-top: 1.5em; }
