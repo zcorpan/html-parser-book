@@ -7,6 +7,8 @@ toc: true
 ---
 # Preface
 
+![A drawing of a person sitting on the floor reading a book.](/_assets/img/dall-e-drawing-of-a-person-intensely-reading-a-book.jpg)
+
 ## Intended audience
 
 This is not an HTML beginner's book. The intended audience is web developers who want to gain a deeper understanding of how the HTML parser works, or the history and rationale behind certain behaviors. Some prior knowledge of HTML and the DOM is assumed. If you are going to implement your own HTML parser (awesome!), then this book will hopefully be helpful, but please implement from the [HTML standard](https://html.spec.whatwg.org/multipage/). If you contribute to a browser engine or to web standards (awesome!), then this book will hopefully be helpful. If nothing else, I hope it will at least be an interesting read.
@@ -62,6 +64,11 @@ The [platypus sketch](https://en.wikipedia.org/wiki/File:Platypus_sketch_by_Hmic
 > GNU Free Documentation License
 >
 > Creative Commons Attribution-ShareAlike 3.0
+
+Some images in this book were generated using OpenAI's [DALL·E 2](https://openai.com/dall-e-2/), as allowed by their [terms of use](https://labs.openai.com/policies/terms).
+
+* [“drawing of a person intensely reading a book”](https://labs.openai.com/s/rEpQ8qYHWJa9g6QwgKXOXfub)
+* [“upside down tree drawing”](https://labs.openai.com/s/6bDmR9YDNkmM3FJ2kbTOIXcn)
 
 The font used on the front cover is [Archistico](https://www.fontsquirrel.com/fonts/archistico), by [Archistico](https://www.archistico.com/), and has the following license:
 

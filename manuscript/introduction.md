@@ -7,6 +7,8 @@ toc: true
 ---
 # Chapter 1. Introduction
 
+![A drawing of an upside-down tree, mostly black and white but with a little bit of green.](/_assets/img/dall-e-upside-down-tree-drawing.jpg)
+
 ## The DOM, parsing, and serialization
 
 The Document Object Model (DOM) is a representation of a document as a tree of nodes. Some kinds of nodes can have child nodes (thus forming a tree).
