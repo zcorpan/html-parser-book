@@ -38,7 +38,7 @@ Range createContextualFragment
 
 TODO some introduction before getting into the weeds...
 
-> [\#htmlpubquiz](https://twitter.com/zcorpan/status/207345250744803328) How do you get a Siamese twins document (i.e. two `<head>`s and two `<body>`s) using only `innerHTML`/`outerHTML`?
+> [\#htmlpubquiz](https://x.com/zcorpan/status/207345250744803328) How do you get a Siamese twins document (i.e. two `<head>`s and two `<body>`s) using only `innerHTML`/`outerHTML`?
 
 Correct answer:
 
@@ -145,7 +145,7 @@ At least it didn't lose its head...
 
 Note that the text "Oops.", which the parser processed *after* running the script, is not in the DOM. It was inserted into the `body` element, that the script had removed.
 
-> [\#HTMLQuiz](https://twitter.com/zcorpan/status/775616491379187712) what happens?
+> [\#HTMLQuiz](https://x.com/zcorpan/status/775616491379187712) what happens?
 > ```html
 > <iframe id=x></iframe>
 > <script>

@@ -259,9 +259,9 @@ Finally, the end of the input stream is said to be an "EOF" character, which emi
 
 Start tag (p), character (H), character (e), character (l), character (l), character (o), end tag (p), end-of-file.
 
-This book contains a number of quizzes, which you should be able to answer with the information in this book. These quizzes originally took place on Twitter. Here is the first quiz in this book:
+This book contains a number of quizzes, which you should be able to answer with the information in this book. These quizzes originally took place on X. Here is the first quiz in this book:
 
-> [\#HTMLQuiz](https://twitter.com/RReverser/status/727927455315599360) (don't cheat!): What kind of node will be inserted into the body for such contents?
+> [\#HTMLQuiz](https://x.com/RReverser/status/727927455315599360) (don't cheat!): What kind of node will be inserted into the body for such contents?
 >
 > ```html
 > <body></хелоу></body>
@@ -287,7 +287,7 @@ Note that the *start tag open* state handles non-ASCII alpha differently; it wil
 
 ### Attributes
 
-> [\#HTMLQuiz](https://twitter.com/RReverser/status/732527451973267456) (don't cheat :) ). What class will the `<div class="a" class="b">` have?
+> [\#HTMLQuiz](https://x.com/RReverser/status/732527451973267456) (don't cheat :) ). What class will the `<div class="a" class="b">` have?
 >
 > * "a"
 >
@@ -337,7 +337,7 @@ The *attribute name state* says:
 
 The correct answer to the quiz is thus "a". Here's another quiz about attributes:
 
-> Let's try another one. What attributes will `<img>` contain in the following case? [\#HTMLQuiz](https://twitter.com/RReverser/status/729640234892283904)
+> Let's try another one. What attributes will `<img>` contain in the following case? [\#HTMLQuiz](https://x.com/RReverser/status/729640234892283904)
 >
 > ```html
 > <img src=1.png /re/>
@@ -431,7 +431,7 @@ To avoid this, the HTML standard [made \` in unquoted attribute values a parse e
 
 ### Character references
 
-> Let's do a simpler one this time. How many named entities (`&quot;`, `&amp;` and so on) are there in HTML? [\#HTMLQuiz](https://twitter.com/RReverser/status/730336128360980480)
+> Let's do a simpler one this time. How many named entities (`&quot;`, `&amp;` and so on) are there in HTML? [\#HTMLQuiz](https://x.com/RReverser/status/730336128360980480)
 >
 > * 0..50
 >
@@ -818,7 +818,7 @@ Effectively, the rest of the document is unconditionally treated as plain text.
 
 ### Script states
 
-> Another [\#HTMLQuiz](https://twitter.com/RReverser/status/737992318146510849) (don't cheat :) ). What will be alerted here?
+> Another [\#HTMLQuiz](https://x.com/RReverser/status/737992318146510849) (don't cheat :) ). What will be alerted here?
 >
 > ```html
 > <script>alert('<!--<script>x</script>-->')</script>
@@ -1277,7 +1277,7 @@ And now we're done.
 
 ### Determining rendering mode
 
-> [\#HTMLQuiz](https://twitter.com/zcorpan/status/729710046716682244) (don't cheat :)) Which doctype does not trigger quirks mode? +@RReverser
+> [\#HTMLQuiz](https://x.com/zcorpan/status/729710046716682244) (don't cheat :)) Which doctype does not trigger quirks mode? +@RReverser
 > `<!DOCTYPE …`
 >
 > * `YOLO>`
@@ -1342,7 +1342,7 @@ What about `<!DOCTYPE HTML PUBLIC "" "" ROFL>`? The empty string is different fr
 
 ### Noscript
 
-> [\#HTMLQuiz](https://twitter.com/zcorpan/status/744896721017257984) Which tag is implied where when scripting is *disabled*?
+> [\#HTMLQuiz](https://x.com/zcorpan/status/744896721017257984) Which tag is implied where when scripting is *disabled*?
 > `<head><noscript><basefont><noscript><base>`
 >
 > * `<body>` before `<noscript>`
@@ -1679,7 +1679,7 @@ In `template`s, `form`s are parsed more like `div`s, and aren't using the form e
 
 ### Tables and foster parenting
 
-> [\#HTMLQuiz](https://twitter.com/RReverser/status/736219152709472256) In which order will the numbers appear for such bad HTML?
+> [\#HTMLQuiz](https://x.com/RReverser/status/736219152709472256) In which order will the numbers appear for such bad HTML?
 >
 > ```html
 > <table><tr><td>1</td></tr>2<br/><tr>3</tr>
@@ -1815,7 +1815,7 @@ Table-related tags (except for `table` itself) are ignored outside tables (excep
 
 ### The last of the parsing quirks
 
-> [\#HTMLQuiz](https://twitter.com/zcorpan/status/740653950899216384) the HTML parser has a single difference in quirks mode compared to no-quirks. What is it?
+> [\#HTMLQuiz](https://x.com/zcorpan/status/740653950899216384) the HTML parser has a single difference in quirks mode compared to no-quirks. What is it?
 >
 > * `<p>` can contain `<table>`
 >
@@ -2093,7 +2093,7 @@ Some JavaScript is needed to create a definition of custom elements, so that the
 
 ### The `select` element
 
-> [\#HTMLQuiz](https://twitter.com/zcorpan/status/1035816155267645440) how many select elements in the DOM?
+> [\#HTMLQuiz](https://x.com/zcorpan/status/1035816155267645440) how many select elements in the DOM?
 >
 > ```html
 > <select><select><select><select>
@@ -2170,7 +2170,7 @@ The `select` start tag is treated just like the `select` *end* tag. Therefore, t
 
 ### Implied tags
 
-> [\#HTMLQuiz](https://twitter.com/zcorpan/status/730891209019822084) (don't cheat :)) Which elements will be children of body for this?
+> [\#HTMLQuiz](https://x.com/zcorpan/status/730891209019822084) (don't cheat :)) Which elements will be children of body for this?
 >
 > ```html
 > <!doctype html></p><br></br></p>
@@ -2304,7 +2304,7 @@ When in foreign content (SVG or MathML), certain start tags imply closure of ope
 
 ### Misnested tags
 
-> [\#HTMLQuiz](https://twitter.com/zcorpan/status/732922814941007872) HTML allows you to nest `p` in `a`. It also generally allows you to omit `</p>`. Can you do both?
+> [\#HTMLQuiz](https://x.com/zcorpan/status/732922814941007872) HTML allows you to nest `p` in `a`. It also generally allows you to omit `</p>`. Can you do both?
 >
 > ```html
 > <a><p></a>
@@ -2543,7 +2543,7 @@ TODO loop limits, marker.
 
 ### Hoisting attributes
 
-> [\#HTMLQuiz](https://twitter.com/RReverser/status/734689240739680256) (don't cheat! :) ). What attributes will `document.body` have?
+> [\#HTMLQuiz](https://x.com/RReverser/status/734689240739680256) (don't cheat! :) ). What attributes will `document.body` have?
 >
 > ```html
 > <body a="1" b="2">Hello!<body b="3" c="4">
@@ -2565,7 +2565,7 @@ Using `html` or `body` tags where they are not expected is, of course, a parse e
 
 ### The foreign lands: SVG and MathML
 
-> [\#HTMLQuiz](https://twitter.com/zcorpan/status/749976380247605248) how many children will the `<svg>` element have in the DOM?
+> [\#HTMLQuiz](https://x.com/zcorpan/status/749976380247605248) how many children will the `<svg>` element have in the DOM?
 >
 > ```html
 > <!doctype html><svg><font/><font face/></svg>
@@ -2629,13 +2629,13 @@ A parser macro in HTML is like a macro in a text editor: a shorthand that expand
 >
 > : Parse error. Change the token's tag name to "img" and reprocess it. (Don't ask.)
 
-It says "Don't ask", and so [evelynn was apparently obliged to ask on Twitter](https://twitter.com/gentlevoid/status/1431014223245549570):
+It says "Don't ask", and so [evelynn was apparently obliged to ask on X](https://x.com/gentlevoid/status/1431014223245549570):
 
 > I know the MDN literally says "don't ask" but I simply HAVE TO know more about what makes the `<image>` tag so vile
 >
 > [https://developer.mozilla.org/en-US/docs/Web/HTML/Element/image](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/image)
 
-[According to Sam Sneddon](https://twitter.com/gsnedders/status/1431018142210330625), this parser macro dates back to (at least) Mosiac:
+[According to Sam Sneddon](https://x.com/gsnedders/status/1431018142210330625), this parser macro dates back to (at least) Mosiac:
 
 > As far as I'm aware, it's not even that. It was "img" from Mosaic's first implementation in 1993. "image" I believe existed as an alias due to developers getting confused why "image" didn't work.
 
