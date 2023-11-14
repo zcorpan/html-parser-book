@@ -53,11 +53,11 @@ The following is a non-exhaustive list of things that would be good for most web
 
 ## About the author
 
-Simon started contributing to the WHATWG in 2005, worked at Opera Software on Quality Assurance and web standards between 2007 and 2017, and currently works with web standards and web platform testing at [Bocoup](https://bocoup.com/). He contributed to the design of some aspects of the HTML parser specification, such as how SVG in HTML works and finding a web-compatible way to tokenize `script` elements. He edited the specification for the `picture` element from 2014 onwards and is currently an editor of the WHATWG [HTML standard](https://html.spec.whatwg.org/) and the WHATWG [Quirks Mode standard](https://quirks.spec.whatwg.org/). His Twitter handle is [@zcorpan](https://twitter.com/zcorpan).
+Simon started contributing to the WHATWG in 2005, worked at Opera Software between 2007 and 2017, then at Bocoup between 2017 and 2022, and is currently working at Mozilla as a Web Standards Engineer. He contributed to the design of some aspects of the HTML parser specification, such as how SVG in HTML works and finding a web-compatible way to tokenize `script` elements. He edited the specification for the `picture` element from 2014 onwards and is currently an editor of the WHATWG [HTML standard](https://html.spec.whatwg.org/) and the WHATWG [Quirks Mode standard](https://quirks.spec.whatwg.org/). He is [@zcorpan](https://x.com/zcorpan) on X and [@zcorpan@mastodon.social](https://mastodon.social/@zcorpan) in the fediverse.
 
 ## Acknowledgements
 
-Thanks to Mathias Bynens for suggesting the platypus for the front cover (I asked on Twitter "If the HTML parser were an animal, what would it be?").
+Thanks to Mathias Bynens for suggesting the platypus for the front cover (I asked on X "If the HTML parser were an animal, what would it be?").
 
 The [platypus sketch](https://en.wikipedia.org/wiki/File:Platypus_sketch_by_Hmich176.gif) on the front cover is from Wikipedia, by Hmich176, with the following licenses:
 
@@ -82,7 +82,7 @@ This book contains quotes from the [WHATWG HTML Standard](https://html.spec.what
 
 Thanks to Ian Hickson and Henri Sivonen for letting me quote their emails, blog posts, etc. in this book.
 
-Thanks to Ingvar Stepanyan for letting me use some of his Twitter quizzes in this book.
+Thanks to Ingvar Stepanyan for letting me use some of his X quizzes in this book.
 
 Thanks to Mike Smith for providing a raw log from a validator instance for the {% ref "conformance-checkers", "Most common errors" %} section in {% ref "conformance-checkers", "Appendix B. Conformance checkers" %}.
 
@@ -96,4 +96,4 @@ The source code for this book is [available on GitHub](https://github.com/zcorpa
 
 In the [web version of this book](https://htmlparser.info/), there is a feedback link in the bottom-right corner. You can select some text and click the feedback link to create a new issue about the selected text in the GitHub repository. The link has `accesskey="1"` so it can be activated with the keyboard — how to activate it depends on the browser and OS, see [documentation on MDN about `accesskey`](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/accesskey).
 
-If you use Twitter, you can provide feedback or ask questions there at [@htmlparserbook](https://twitter.com/htmlparserbook). You can follow this account if you want to be notified about new commits.
+If you use X, you can provide feedback or ask questions there at [@htmlparserbook](https://x.com/htmlparserbook). You can follow this account if you want to be notified about new commits.
