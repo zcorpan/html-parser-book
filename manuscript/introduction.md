@@ -5,10 +5,12 @@ next: syntax
 nextTitle: The HTML syntax
 toc: true
 ---
+{#chapter-1-introduction}
 # Chapter 1. Introduction
 
-![A drawing of an upside-down tree, mostly black and white but with a little bit of green.](/_assets/img/dall-e-upside-down-tree-drawing.jpg)
+![A drawing of an upside-down tree, mostly black and white but with a little bit of green.](images/dall-e-upside-down-tree-drawing.jpg)
 
+{#the-dom-parsing-and-serialization}
 ## The DOM, parsing, and serialization
 
 The Document Object Model (DOM) is a representation of a document as a tree of nodes. Some kinds of nodes can have child nodes (thus forming a tree).
@@ -25,7 +27,7 @@ These are the different kinds of nodes that the HTML parser can produce, and whi
 : An element (e.g., `<p>Hello</p>`). Allowed children: `Element`, `Text`, `Comment`.
 
 `DocumentFragment`
-: Used when parsing {% ref "parser", "`template`s" %}. Allowed children: `Element`, `Text`, `Comment`.
+: Used when parsing [`template`s](#templates). Allowed children: `Element`, `Text`, `Comment`.
 
 `Text`
 : A text node (e.g., `Hello`). No children.
@@ -38,7 +40,7 @@ Nodes can also have certain properties; for example:
 * `Element` nodes have a `namespaceURI` and `localName` which together represent the element type (e.g., "an HTML `p` element"), and a list of attributes (e.g., `<html lang="en">` has one attribute).
 * `Text` and `Comment` nodes have `data` which holds the node's text contents.
 
-The DOM also includes APIs to traverse and mutate the tree with script. For example, the `divElement.remove()` method removes a node from its parent, `footerElement.append(div)` inserts `divElement` into `footerElement` as the last child. This is discussed in {% ref "scripting", "Chapter 4. Scripting complications" %}.
+The DOM also includes APIs to traverse and mutate the tree with script. For example, the `divElement.remove()` method removes a node from its parent, `footerElement.append(div)` inserts `divElement` into `footerElement` as the last child. This is discussed in [Chapter 4. Scripting complications](#chapter-4-scripting-complications).
 
 Parsing HTML means to turn a string of characters (the markup) into a DOM tree.
 
@@ -56,9 +58,9 @@ For example, the following document:
 </html>
 ```
 
-...is parsed into the following DOM tree:
+…is parsed into the following DOM tree:
 
-```dom-tree
+```
 #document
 ├── DOCTYPE: html
 └── html lang="en"
@@ -75,14 +77,16 @@ For example, the following document:
         └── #text:
 ```
 
-How this works is discussed in {% ref "parser", "Chapter 3. The HTML parser" %}.
+How this works is discussed in [Chapter 3. The HTML parser](#chapter-3-the-html-parser).
 
-Serializing HTML means to do the opposite of parsing, i.e., start with a DOM representation of a document, and turning it to a string. This is discussed in {% ref "serializing", "Chapter 5. Serializing" %}.
+Serializing HTML means to do the opposite of parsing, i.e., start with a DOM representation of a document, and turning it to a string. This is discussed in [Chapter 5. Serializing](#chapter-5-serializing).
 
 A tool that is handy for quickly trying what DOM tree is produced for a piece of HTML markup is the [*Live DOM Viewer*](http://software.hixie.ch/utilities/js/live-dom-viewer/), which Ian Hickson created when he was writing the HTML parser specification. Give it a try!
 
+{#history-of-html-parsers}
 ## History of HTML parsers
 
+{#sgml-and-early-html}
 ### SGML and early HTML
 
 The earliest documentation on HTML, as far as I know, is [HyperText Mark-up Language](http://info.cern.ch/hypertext/WWW/MarkUp/MarkUp.html), from CERN, 1992 ([also hosted on w3.org](https://www.w3.org/History/19921103-hypertext/hypertext/WWW/MarkUp/MarkUp.html)). The first paragraph reads:
@@ -113,7 +117,7 @@ SGML has some convenience markup features that browsers did not implement for HT
 </html>
 ```
 
-...which is, per SGML rules, equivalent to:
+…which is, per SGML rules, equivalent to:
 
 ```html
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
@@ -125,7 +129,7 @@ SGML has some convenience markup features that browsers did not implement for HT
 
 But browsers parse it as a `title` start tag with a bunch of attributes, until they find a `>`:
 
-```dom-tree
+```
 #document
 ├── DOCTYPE: html
 └── html
@@ -160,13 +164,13 @@ SGML is incompatible with HTML in other ways as well. For example, enumerated at
 <input checkbox>
 ```
 
-...is per SGML rules equivalent to:
+…is per SGML rules equivalent to:
 
 ```html
 <input type="checkbox">
 ```
 
-...but HTML parsers treat it as:
+…but HTML parsers treat it as:
 
 ```html
 <input checkbox="">
@@ -184,6 +188,7 @@ The HTML standard has the following note about the relationship to SGML:
 
 In 2000, before Netscape 6 was released, [Gecko had a parser mode](https://bugzilla.mozilla.org/show_bug.cgi?id=40190) called "Strict DTD" that enforced stricter rules for HTML for documents with certain doctypes. This was quickly found to be incompatible with existing web content, and was [removed](https://bugzilla.mozilla.org/show_bug.cgi?id=50070) only two months after the parser mode was turned on in beta.
 
+{#xml-and-xhtml}
 ### XML and XHTML
 
 XML is, like SGML, a syntax framework for defining markup languages, and is a simplification of SGML. Unlike SGML, XML defined error handling – a syntax error must halt normal processing. It omitted many features of SGML, such as SHORTTAG and optional tags. This allowed for parsing documents without reading the DTD. DTDs were retained in XML to allow for validation, although better schema languages were developed later. In hindsight it would have been a good opportunity to drop DTD support from XML, as it complicates the parser quite a bit.
@@ -194,6 +199,7 @@ XHTML 1.0 is a reformulation of HTML 4.01 in XML. It has all the same features a
 
 Indeed, the HTML standard now specifies that `</br>` is to be parsed as `<br>`. The space before the slash was for compatibility with Netscape 4, which would parse `<br/>` as an element `br/` which is not a known HTML element.
 
+{#internet-explorer-firefox-safari-and-opera}
 ### Internet Explorer, Firefox, Safari and Opera
 
 When the HTML parser was first specified [in 2006](http://ln.hixie.ch/?start=1137740632&count=1), Internet Explorer was at version 6.
@@ -210,7 +216,7 @@ In early 2006, Firefox was at version 1.5. Its HTML parser had its own interesti
 >
 > What should the DOM look like? The general consensus is that the DOM should look like this:
 >
-> ```dom-tree
+> ```
 > #document
 > ├── DOCTYPE: html
 > └── html
@@ -247,7 +253,7 @@ In early 2006, Firefox was at version 1.5. Its HTML parser had its own interesti
 >
 > The DOM looks like this:
 >
-> ```dom-tree
+> ```
 > #document
 > ├── DOCTYPE: html
 > └── html
@@ -260,7 +266,7 @@ In early 2006, Firefox was at version 1.5. Its HTML parser had its own interesti
 >             └── #text: Y
 > ```
 >
-> ...which basically means that malformed invalid markup gets handled differently than well-formed invalid markup.
+> …which basically means that malformed invalid markup gets handled differently than well-formed invalid markup.
 >
 > In the past, I would have stopped here, made some wry comment about the insanity that is the Web, and called it a day.
 >
@@ -282,7 +288,7 @@ In early 2006, Firefox was at version 1.5. Its HTML parser had its own interesti
 >
 > Mozilla
 >
-> ```dom-tree
+> ```
 > #document
 > ├── DOCTYPE: html
 > └── html
@@ -296,7 +302,7 @@ In early 2006, Firefox was at version 1.5. Its HTML parser had its own interesti
 >
 > Safari
 >
-> ```dom-tree
+> ```
 > #document
 > └── html
 >     └── body
@@ -324,7 +330,7 @@ In early 2006, Firefox was at version 1.5. Its HTML parser had its own interesti
 >
 > Result:
 >
-> ```dom-tree
+> ```
 > #document
 > └── html
 >     └── body
@@ -358,7 +364,7 @@ In early 2006, Firefox was at version 1.5. Its HTML parser had its own interesti
 >
 > Result:
 >
-> ```dom-tree
+> ```
 > #document
 > └── html
 >     └── body
@@ -397,9 +403,9 @@ In early 2006, Firefox was at version 1.5. Its HTML parser had its own interesti
 > </p>
 > ```
 >
-> ...we find:
+> …we find:
 >
-> ```dom-tree
+> ```
 > #document
 > └── html
 >     └── body
@@ -409,21 +415,21 @@ In early 2006, Firefox was at version 1.5. Its HTML parser had its own interesti
 >             ├── em
 >             │   ├── #text:  X
 >             │   ├── script
->             │   │   └── #text:  var p = document.getElementsByTagName('p')[0]; p.setAttribute('a', p.parentN...
+>             │   │   └── #text:  var p = document.getElementsByTagName('p')[0]; p.setAttribute('a', p.parentN…
 >             │   └── #text:
 >             ├── #text:  Y
 >             ├── script
->             │   └── #text:  var p = document.getElementsByTagName('p')[0]; p.setAttribute('b', p.parentN...
+>             │   └── #text:  var p = document.getElementsByTagName('p')[0]; p.setAttribute('b', p.parentN…
 >             └── #text:
 > ```
 >
-> ...which is to say, the parent changes half way through! (Compare the a and b attributes.)
+> …which is to say, the parent changes half way through! (Compare the a and b attributes.)
 >
 > What actually happens is that Safari notices that something bad has happened, and moves the element around in the DOM. After the fact. (If you remove the p element from the DOM in that first script block, then [Safari crashes](http://bugs.webkit.org/show_bug.cgi?id=6778).)
 >
 > How about Mozilla? Let's try the same trick. The result:
 >
-> ```dom-tree
+> ```
 > #document
 > └── html
 >     └── body
@@ -433,11 +439,11 @@ In early 2006, Firefox was at version 1.5. Its HTML parser had its own interesti
 >             ├── em
 >             │   ├── #text:  X
 >             │   ├── script
->             │   │   └── #text:  var p = document.getElementsByTagName('p')[0]; p.setAttribute('a', p.parentN...
+>             │   │   └── #text:  var p = document.getElementsByTagName('p')[0]; p.setAttribute('a', p.parentN…
 >             │   └── #text:
 >             ├── #text:  Y
 >             ├── script
->             │   └── #text:  var p = document.getElementsByTagName('p')[0]; p.setAttribute('b', p.parentN...
+>             │   └── #text:  var p = document.getElementsByTagName('p')[0]; p.setAttribute('b', p.parentN…
 >             └── #text:
 > ```
 >
@@ -461,6 +467,7 @@ In early 2006, Firefox was at version 1.5. Its HTML parser had its own interesti
 
 Well, it appeared that there wasn't a fifth option, as the Safari approach was what was adopted. This is called the Adoption Agency Algorithm in the HTML standard.
 
+{#the-html-parser-is-specified}
 ## The HTML parser is specified
 
 A couple of years prior to the HTML parser being specified, in June 2004, the W3C decided to discontinue work on HTML at a workshop on [Web Applications and Compound Documents](https://www.w3.org/2004/04/webapps-cdf-ws/). In response, Opera, Mozilla, and Apple set up the Web Hypertext Application Technology Working Group (WHATWG), an initiative, open for anyone to contribute, to extend HTML in a backwards-compatible manner (in contrast with the W3C XForms and XHTML 2.0 specifications, which were [by design not backwards compatible](https://wiki.whatwg.org/wiki/W3C#History)). One of the grounding principles of the WHATWG was well-defined error handling, which had not been addressed for HTML previously.
