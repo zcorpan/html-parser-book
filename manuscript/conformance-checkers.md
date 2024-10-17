@@ -57,7 +57,7 @@ I asked Mike Smith, who contributes to the Validator.nu code base and maintains 
 
 The table is truncated at 0.1%.
 
-About 73% of the errors are about mismatched tags (e.g., the first 4 errors, "Bad start tag in "X" in "head".", "Stray start tag "X".", and so on).
+About 73% of the errors are about mismatched tags (e.g., the first 4 errors, 'Bad start tag in "X" in "head".', 'Stray start tag "X".', and so on).
 
 The error "No space between attributes." is pretty harmless. In fact it was conforming in HTML4 to omit space between attributes (when they use single or double quotes).
 
@@ -65,4 +65,4 @@ The error "No space between attributes." is pretty harmless. In fact it was conf
 
 "Quote "X" in attribute name. Probable cause: Matching quote missing somewhere earlier." means that the author likely somehow messed up quoting around attribute values.
 
-"Self-closing syntax ("`/>`") used on a non-void HTML element. Ignoring the slash and treating as a start tag." means that "`/>`" was incorrectly used on a regular HTML element, which is not supported. It might help to avoid using "`/>`" syntax altogether in HTML (except for SVG and MathML).
+'Self-closing syntax ("`/>`") used on a non-void HTML element. Ignoring the slash and treating as a start tag.' means that "`/>`" was incorrectly used on a regular HTML element, which is not supported. It might help to avoid using "`/>`" syntax altogether in HTML (except for SVG and MathML).

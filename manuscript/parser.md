@@ -1473,7 +1473,7 @@ If the tree builder finds a `frameset` start tag token in the "after head" inser
         └── #text:
 ```
 
-How does the parser decide if the page is a "frameset" page or a "body" page? Glad you asked.
+How does the parser decide if the page is a "frameset" page or a "body" page?
 
 You may recall from the {% ref "parser", "Parsing a simple document" %} section a mention of a frameset-ok flag. This flag determines whether, upon finding a `frameset` start tag token in the "in body" insertion mode, the page should be a frameset page.
 
