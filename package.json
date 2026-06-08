@@ -1,12 +1,15 @@
 {
   "name": "html-parser-book",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "The book 'Idiosyncrasies of the HTML parser'",
-  "main": "index.js",
+  "private": true,
   "scripts": {
-    "build": "npx @11ty/eleventy --quiet",
-    "serve": "npx @11ty/eleventy --serve --quiet",
-    "debug": "DEBUG=* npx @11ty/eleventy"
+    "clean": "node -e \"require('node:fs').rmSync('_site', { recursive: true, force: true })\"",
+    "build": "npm run clean && npm run build:html && npm run build:epub",
+    "build:html": "eleventy --config=eleventy.config.mjs --quiet",
+    "build:epub": "node tools/build-epub.mjs",
+    "serve": "eleventy --config=eleventy.config.mjs --serve --quiet",
+    "debug": "DEBUG=* eleventy --config=eleventy.config.mjs"
   },
   "repository": {
     "type": "git",
@@ -18,13 +21,13 @@
     "url": "https://github.com/zcorpan/html-parser-book/issues"
   },
   "homepage": "https://htmlparser.info/",
+  "engines": {
+    "node": ">=22"
+  },
   "devDependencies": {
-    "@11ty/eleventy": "^0.12.1",
-    "chalk": "^4.1.2",
-    "eleventy-plugin-toc": "^1.0.1",
-    "markdown-it-anchor": "^5.3.0",
-    "markdown-it-deflist": "^2.0.3",
-    "markdown-it-image-size": "^13.0.1",
-    "parse-json": "^5.2.0"
+    "@11ty/eleventy": "3.1.6",
+    "markdown-it": "14.2.0",
+    "markdown-it-anchor": "9.2.0",
+    "markdown-it-deflist": "3.0.0"
   }
 }

@@ -1,5 +1,6 @@
 ---
 layout: chapter.njk
+appendix: C
 title: Microsyntaxes
 next: bibliography
 nextTitle: Bibliography

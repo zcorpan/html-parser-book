@@ -1,5 +1,6 @@
 ---
 layout: chapter.njk
+appendix: D
 title: Bibliography
 next: end
 toc: false

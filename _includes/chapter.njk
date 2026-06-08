@@ -1,39 +1,46 @@
 <!doctype html>
-<html lang=en{% if not next %} class=home{% endif %}>
-<meta charset=utf-8>
-<meta name=viewport content="width=device-width, initial-scale=1">
-<meta name=color-scheme content="light dark">
-<link rel=icon href="/_assets/img/favicon.png">
-<link rel=manifest href="/_assets/pwa/manifest.webmanifest">
-<link rel=stylesheet href="/_assets/css/style.css">
-<title>{{title}}{% if next %} - Idiosyncrasies of the HTML parser{% endif %}</title>
+<html lang="en"{% if not next %} class="home"{% endif %}>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="/_assets/img/favicon.png">
+<link rel="manifest" href="/_assets/pwa/manifest.webmanifest">
+<link rel="stylesheet" href="/_assets/css/style.css">
+<title>{{ title }}{% if next %} - {{ bookTitle }}{% endif %}</title>
 <meta name="monetization" content="$ilp.gatehub.net/286056782">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@htmlparserbook">
 <meta name="twitter:creator" content="@zcorpan">
-<meta name="twitter:title" content="Idiosyncrasies of the HTML parser">
+<meta name="twitter:title" content="{{ bookTitle }}">
 <meta name="twitter:description" content="This book will highlight the ins and outs of the HTML parser, and contains almost-impossible quizzes.">
 <meta name="twitter:image" content="https://htmlparser.info/_assets/img/card.png">
 <meta name="twitter:image:alt" content="Book cover for 'Idiosyncrasies of the HTML parser', which features a sketch of a platypus.">
+
 {% if toc %}
 <details>
   <summary>Table of Contents</summary>
-  {{ content | toc | safe }}
+  <nav class=toc>
+    {{ content | toc | safe }}
+  </nav>
 </details>
 {% endif %}
+
 {{ content | safe }}
+
 {% if next %}
-<nav class=next>
-{% if next === "end" %}
-<p>The end.</p>
+<nav class="next">
+{% if next == "end" %}
+  <p>The end.</p>
 {% else %}
-<p>Next up: <a href="/{{ next }}/">{{ nextTitle }}</a></p>
+  <p>Next up: <a href="/{{ next }}/">{{ nextTitle }}</a></p>
 {% endif %}
 </nav>
+
 <footer>
-  <p><a href="/#table-of-contents">All chapters</a> - <a href="https://x.com/intent/tweet?original_referer=https%3A%2F%2Fhtmlparser.info%2F&ref_src=twsrc%5Etfw&text=Idiosyncrasies%20of%20the%20HTML%20parser&tw_p=tweetbutton&url=https%3A%2F%2Fhtmlparser.info%2F">Share on X</a></p>
-  <p><a href="https://leanpub.com/html-parser-book/"><img class=book-cover-small src="/_assets/img/book-cover-small.png" alt="Idiosyncrasies of the HTML parser" width=255 height=330></a></p>
-  <p><a role=button href="https://leanpub.com/html-parser-book/">Buy the eBook</a></p>
+  <p><a href="/#table-of-contents">All chapters</a> - <a href="https://x.com/intent/tweet?original_referer=https%3A%2F%2Fhtmlparser.info%2F&amp;ref_src=twsrc%5Etfw&amp;text=Idiosyncrasies%20of%20the%20HTML%20parser%0Aby%20%40zcorpan&amp;tw_p=tweetbutton&amp;url=https%3A%2F%2Fhtmlparser.info%2F">Share on X</a></p>
+  <p><a href="https://leanpub.com/html-parser-book/"><img class="book-cover-small" src="/_assets/img/book-cover-small.png" alt="Idiosyncrasies of the HTML parser" width="255" height="330"></a></p>
+  <p><a role="button" href="https://leanpub.com/html-parser-book/">Buy the eBook</a></p>
 </footer>
+
 <script src="/_assets/js/file-issue.js" data-file-issue-url="https://github.com/zcorpan/html-parser-book/issues/new" async></script>
 {% endif %}
