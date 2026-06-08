@@ -1,5 +1,5 @@
 {% set chapters = collections.book %}
-<ul class=toc>
+<ul class="toc">
 {% for chapter in chapters %}
   {% set headingId = chapter.templateContent | firstHeadingId %}
   {% set chapterNum = chapter.data.appendix or loop.index - 1 %}

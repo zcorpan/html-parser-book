@@ -62,7 +62,7 @@ function setAttribute(tag, name, value) {
     return tag.replace(unquoted, `${name}="${escaped}"`);
   }
 
-  return tag.replace(/\s*\/?>$/, ` ${name}="${escaped}" />`);
+  return tag.replace(/\s*\/?>$/, ` ${name}="${escaped}"/>`);
 }
 
 function extractMain(html) {
@@ -97,7 +97,7 @@ function closeVoidElements(html) {
       if (/\/\s*>$/.test(match)) {
         return match;
       }
-      return `<${element}${attrs} />`;
+      return `<${element}${attrs}/>`;
     });
   }
 
@@ -130,7 +130,7 @@ function makeXhtml(body) {
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops" lang="${language}" xml:lang="${language}">
 <head>
   <title>${escapeXml(bookTitle)}</title>
-  <link rel="stylesheet" type="text/css" href="style.css" />
+  <link rel="stylesheet" type="text/css" href="style.css"/>
 </head>
 <body>
   <main id="book">
@@ -236,7 +236,7 @@ function createPackageOpf(images) {
       if (!mediaType) {
         throw new Error(`Unsupported EPUB image type: ${image.href}`);
       }
-      return `    <item id="image-${index + 1}" href="${escapeXml(image.href)}" media-type="${mediaType}" />`;
+      return `    <item id="image-${index + 1}" href="${escapeXml(image.href)}" media-type="${mediaType}"/>`;
     })
     .join("\n");
 
@@ -250,13 +250,13 @@ function createPackageOpf(images) {
     <meta property="dcterms:modified">${modified}</meta>
   </metadata>
   <manifest>
-    <item id="nav" href="nav.xhtml" media-type="application/xhtml+xml" properties="nav" />
-    <item id="book" href="book.xhtml" media-type="application/xhtml+xml" />
-    <item id="style" href="style.css" media-type="text/css" />
+    <item id="nav" href="nav.xhtml" media-type="application/xhtml+xml" properties="nav"/>
+    <item id="book" href="book.xhtml" media-type="application/xhtml+xml"/>
+    <item id="style" href="style.css" media-type="text/css"/>
 ${imageItems}
   </manifest>
   <spine>
-    <itemref idref="book" />
+    <itemref idref="book"/>
   </spine>
 </package>
 `;
@@ -282,17 +282,57 @@ pre {
   font-family: monospace;
 }
 
-.book-meta,
 #table-of-contents {
   margin-block: 2em;
+}
+
+ul.toc {
+  padding: 0;
+}
+
+ul.toc > li {
+  list-style-type: none;
+  margin-bottom: 1em;
+  border-bottom: 1px dotted;
+}
+
+ul.toc > li > a {
+  text-decoration: none;
+}
+
+ul.toc > li span {
+  float: right;
+  font-variant-numeric: tabular-nums;
 }
 
 .book-chapter {
   margin-block: 4em;
 }
 
+.book-chapter h1 {
+  break-before: page;
+  break-after: avoid;
+}
+
 .image-alt {
   font-style: italic;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+th, td {
+  border: 1px solid;
+  padding: 0.25em 0.5em;
+}
+
+blockquote {
+  margin-left: 0;
+  border-left: 1px solid;
+  padding-left: 1em;
+  margin-right: 0;
+  padding-right: 0;
 }
 `;
 
@@ -420,7 +460,7 @@ const files = [
     data: `<?xml version="1.0" encoding="utf-8"?>
 <container version="1.0" xmlns="urn:oasis:names:tc:opendocument:xmlns:container">
   <rootfiles>
-    <rootfile full-path="EPUB/package.opf" media-type="application/oebps-package+xml" />
+    <rootfile full-path="EPUB/package.opf" media-type="application/oebps-package+xml"/>
   </rootfiles>
 </container>
 `
