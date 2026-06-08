@@ -7,7 +7,7 @@ toc: true
 ---
 # Chapter 3. The HTML parser
 
-![A diagram of an imaginary complex state machine.](/_assets/img/dall-e-very-complex-state-machine-drawing.jpg)
+![A diagram of an imaginary complex state machine.](/_assets/img/state-machine-diagram.jpg)
 
 ## Overview of the HTML parser
 

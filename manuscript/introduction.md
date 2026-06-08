@@ -7,7 +7,7 @@ toc: true
 ---
 # Chapter 1. Introduction
 
-![A drawing of an upside-down tree, mostly black and white but with a little bit of green.](/_assets/img/dall-e-upside-down-tree-drawing.jpg)
+![A drawing of an upside-down tree.](/_assets/img/upside-down-tree.jpg)
 
 ## The DOM, parsing, and serialization
 
