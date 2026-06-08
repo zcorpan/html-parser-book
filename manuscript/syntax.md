@@ -7,7 +7,7 @@ toc: true
 ---
 # Chapter 2. The HTML syntax
 
-![Drawing of paper tags.](/_assets/img/dall-e-drawing-of-tags-and-attributes.jpg)
+![Drawing of paper tags.](/_assets/img/tags.jpg)
 
 This chapter covers the syntax of HTML, i.e. how to write HTML. This chapter is similar to the [Writing HTML documents](https://html.spec.whatwg.org/multipage/syntax.html#writing) section of the HTML standard.
 

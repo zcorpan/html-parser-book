@@ -7,7 +7,7 @@ toc: true
 ---
 # Preface
 
-![A drawing of a person sitting on the floor reading a book.](/_assets/img/dall-e-drawing-of-a-person-intensely-reading-a-book.jpg)
+![A drawing of a person reading a book.](/_assets/img/person-reading-a-book.jpg)
 
 ## Intended audience
 
@@ -65,12 +65,7 @@ The [platypus sketch](https://en.wikipedia.org/wiki/File:Platypus_sketch_by_Hmic
 >
 > Creative Commons Attribution-ShareAlike 3.0
 
-Some images in this book were generated using OpenAI's [DALL·E 2](https://openai.com/dall-e-2/), as allowed by their [terms of use](https://labs.openai.com/policies/terms).
-
-* [“drawing of a person intensely reading a book”](https://labs.openai.com/s/rEpQ8qYHWJa9g6QwgKXOXfub)
-* [“upside down tree drawing”](https://labs.openai.com/s/6bDmR9YDNkmM3FJ2kbTOIXcn)
-* [“drawing of tags and attributes”](https://labs.openai.com/s/s11mnHudAtQ3BDIpzHUwxcoY)
-* [“very complex state machine drawing”](https://labs.openai.com/s/rkjUZ0vZ6Asi8ycg7ybQ7wKE)
+The chapter images in this book were generated using OpenAI's ChatGPT, as allowed by their [terms of use](https://openai.com/policies/row-terms-of-use/).
 
 The font used on the front cover is [Archistico](https://www.fontsquirrel.com/fonts/archistico), by [Archistico](https://www.archistico.com/), and has the following license:
 
