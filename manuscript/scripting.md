@@ -5,24 +5,30 @@ next: serializing
 nextTitle: Serializing
 toc: true
 ---
+{#chapter-4-scripting-complications}
 # Chapter 4. Scripting complications
 
+{#revised-overview-of-the-html-parser}
 ## Revised overview of the HTML parser
 
 TODO
 
+{#documentwrite}
 ## `document.write()`
 
 TODO
 
+{#blocking-the-parser}
 ### Blocking the parser
 
 TODO
 
+{#speculative-parsing-aka-preload-scanner}
 ### Speculative parsing a.k.a. preload scanner
 
 TODO
 
+{#other-parser-apis}
 ## Other parser APIs
 
 TODO
@@ -34,9 +40,10 @@ Element insertAdjasentHTML
 Range createContextualFragment
 
 
+{#innerhtml-and-friends}
 ### `innerHTML` and friends
 
-TODO some introduction before getting into the weeds...
+TODO some introduction before getting into the weeds…
 
 > [\#htmlpubquiz](https://x.com/zcorpan/status/207345250744803328) How do you get a Siamese twins document (i.e. two `<head>`s and two `<body>`s) using only `innerHTML`/`outerHTML`?
 
@@ -52,7 +59,7 @@ document.body.outerHTML = '';
 
 When the parser reaches `</script>`, before running the script, the `body` element hasn't been created yet:
 
-```dom-tree
+```
 #document
 ├── DOCTYPE: html
 └── html
@@ -67,7 +74,7 @@ The fragment parsing algorithm then calls the [HTML fragment parsing algorithm](
 
 > 10. Reset the parser's insertion mode appropriately.
 
-...which [says](https://html.spec.whatwg.org/multipage/parsing.html#reset-the-insertion-mode-appropriately):
+…which [says](https://html.spec.whatwg.org/multipage/parsing.html#reset-the-insertion-mode-appropriately):
 
 > 15. If *node* is an `html` element, run these substeps:
 >
@@ -77,7 +84,7 @@ So when this parser parses the markup given (the empty string), it starts in the
 
 At this point, if we were to inspect the DOM right after the `document.head.outerHTML` assignment, it looks like this:
 
-```dom-tree
+```
 #document
 ├── DOCTYPE: html
 └── html
@@ -89,7 +96,7 @@ The parser-created `head` has been replaced by fragment parser-created `head` an
 
 Next, the `document.body.outerHTML = ''` line does basically the same thing but for the new `body` element: replace it with new `head` and `body` elements:
 
-```dom-tree
+```
 #document
 ├── DOCTYPE: html
 └── html
@@ -102,7 +109,7 @@ The first `head` didn't go away; `outerHTML` only replaces the element you call 
 
 Now the script is done, and the main parser is allowed to continue. The insertion mode is "in head", since the `script` element was in `head`. The next token is end-of-file, so the insertion mode switches to "after head", where it inserts a `body` element and switches to "in body", and then it stops parsing.
 
-```dom-tree
+```
 #document
 ├── DOCTYPE: html
 └── html
@@ -113,10 +120,12 @@ Now the script is done, and the main parser is allowed to continue. The insertio
 ```
 
 
+{#dom-manipulation}
 ## DOM manipulation
 
 TODO
 
+{#modifying-the-dom-during-parsing}
 ### Modifying the DOM during parsing
 
 Script can execute during parsing, and those scripts can modify the DOM. This can lead to some interesting effects.
@@ -134,14 +143,14 @@ Oops.
 
 The resulting DOM is:
 
-```dom-tree
+```
 #document
 ├── DOCTYPE: html
 └── html
     └── head
 ```
 
-At least it didn't lose its head...
+At least it didn't lose its head…
 
 Note that the text "Oops.", which the parser processed *after* running the script, is not in the DOM. It was inserted into the `body` element, that the script had removed.
 
