@@ -1,27 +1,36 @@
 # Idiosyncrasies of the HTML parser
 
-This book is written in [Markua](https://leanpub.com/markua/read) and is published on [Leanpub](https://leanpub.com/html-parser-book) and on https://htmlparser.info/ using [Netlify](https://www.netlify.com).
+This book is published as a multi-page web book at <https://htmlparser.info/>. The same source also builds a single-page HTML version and an EPUB.
 
-## Building the book locally
+## Building locally
 
-The Leanpub version can't be built locally. The web version of the book is generated using [Eleventy](https://www.11ty.io).
+Install dependencies:
 
-Install:
-
-```
+```sh
 npm install
 ```
 
-Build:
+Build the multi-page HTML, single-page HTML, and EPUB:
 
-```
+```sh
 npm run build
 ```
 
-Development:
-```
+Outputs:
+
+- `_site/` — deployable web site
+- `_site/book/` — single-page HTML version
+- `_site/downloads/html-parser-book.epub` — EPUB generated from the single-page HTML
+
+Development server:
+
+```sh
 npm run serve
 ```
+
+## Deployment
+
+Netlify uses `netlify.toml` and runs `npm run build`, publishing `_site`.
 
 ## Deploy status
 

@@ -1,0 +1,25 @@
+{% set chapters = collections.book %}
+<!doctype html>
+<html lang="en" class="book-single">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="/_assets/img/favicon.png">
+<link rel="stylesheet" href="/_assets/css/style.css">
+<title>{{ bookTitle }}</title>
+<main id="book">
+  <header>
+    <h1>{{ bookTitle }}</h1>
+    <nav id="table-of-contents" aria-labelledby="toc-heading">
+      <h2 id="toc-heading">Table of Contents</h2>
+      {% set singlePage = true %}
+      {% include "book-toc.njk" %}
+    </nav>
+  </header>
+
+  {% for chapter in chapters %}
+  <section class="book-chapter">
+    {{ chapter.templateContent | singlePageLinks | safe }}
+  </section>
+  {% endfor %}
+</main>

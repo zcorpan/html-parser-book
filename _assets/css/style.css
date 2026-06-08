@@ -3,8 +3,9 @@ html.home { background: linear-gradient(to bottom, #eee, #fff) repeat-x; backgro
 body { max-width: 50em; margin: 0 auto; padding: 2em 0 4em; }
 html.home body { padding-top: 0; }
 img { max-width: 100%; height: auto; }
-h1 { margin-top: 1.5em; margin-bottom: 1.5em; font-size: 3em; line-height: 1.1; color: #333; font-weight: 800; }
-h2, h3 { margin-top: 3em; }
+h1 + p > img { border-radius: 10px; }
+h1 { margin-top: 1.5em; scroll-margin-top: 1.5em; margin-bottom: 1.5em; font-size: 3em; line-height: 1.1; color: #333; font-weight: 800; }
+h2, h3 { margin-top: 3em; scroll-margin-top: 1em; }
 .book-cover + h2 { margin-top: 1.5em; }
 h2, h3, th, strong { font-weight: 600; color: #222; }
 h2 code, h3 code, th code, strong code { color: black; font-size: inherit; }
@@ -60,9 +61,13 @@ blockquote blockquote { margin-left: 0; margin-right: 0; }
 .selected-text-file-an-issue.user-selection-exists::before { content: attr(title); margin: 0 0.5em; }
 .octicon-issue-opened { fill: currentColor; vertical-align: middle; }
 
+.book-single #table-of-contents { margin-block: 2rem; border-bottom: none; }
+.book-single .book-chapter { margin-block: 4rem; }
+
 @media (prefers-color-scheme: dark) {
   html, html.home { background: #333; color: white; }
   h1, h2, h3, th, strong, html code { color: #eee; }
+  h1 + p > img { filter:opacity(0.75); }
   code.language-html { background-color: #222; color: #ddd; }
   blockquote { background-color: #3e3e3e; }
   ul.toc > li { border-bottom-color: gray; }

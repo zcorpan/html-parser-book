@@ -1,0 +1,13 @@
+{% set chapters = collections.book %}
+<ul class=toc>
+{% for chapter in chapters %}
+  {% set headingId = chapter.templateContent | firstHeadingId %}
+  {% set chapterNum = chapter.data.appendix or loop.index - 1 %}
+  {% if singlePage %}
+    {% set href = "#" + (chapter.templateContent | firstHeadingId) %}
+  {% else %}
+    {% set href = chapter.url %}
+  {% endif %}
+  <li><a href="{{ href }}">{{ chapter.data.title }}</a> <span>{{ chapterNum }}</span></li>
+{% endfor %}
+</ul>
