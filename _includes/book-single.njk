@@ -18,8 +18,8 @@
   </header>
 
   {% for chapter in chapters %}
-  <section class="book-chapter">
-    {{ chapter.templateContent | singlePageLinks | safe }}
+  <section class="book-chapter" headingoffset="1">
+    {{ chapter.templateContent | singlePageLinks(chapter.fileSlug) | safe }}
   </section>
   {% endfor %}
 </main>

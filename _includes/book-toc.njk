@@ -4,7 +4,7 @@
   {% set chapterNum = chapter.data.appendix or loop.index - 1 %}
 
   {% if singlePage %}
-    {% set href = "#" + (chapter.templateContent | firstHeadingId) %}
+    {% set href = "#" + chapter.fileSlug %}
 
     {% if chapter.data.appendix %}
       {% set linkText = "Appendix " + chapter.data.appendix + ". " + chapter.data.title %}

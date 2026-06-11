@@ -5,7 +5,11 @@ html.home body { padding-top: 0; }
 img { max-width: 100%; height: auto; }
 h1 + p > img { border-radius: 10px; }
 h1 { margin-top: 1.5em; scroll-margin-top: 1.5em; margin-bottom: 1.5em; font-size: 3em; line-height: 1.1; color: #333; font-weight: 800; }
-h2, h3 { margin-top: 3em; scroll-margin-top: 1em; }
+h2 { font-size: 1.5em; margin-block: 3em 0.83em; scroll-margin-top: 1em; }
+h3 { font-size: 1.17em; margin-block: 3em 1em; scroll-margin-top: 1em; }
+h4 { font-size: 1em; margin-block: 1.33em; scroll-margin-top: 1.33em; }
+h5 { font-size: 0.83em; margin-block: 1.67em; scroll-margin-top: 1.67em; }
+h6 { font-size: 0.67em; margin-block: 2.33em; scroll-margin-top: 2.33em; }
 .book-cover + h2 { margin-top: 1.5em; }
 h2, h3, th, strong { font-weight: 600; color: #222; }
 h2 code, h3 code, th code, strong code { color: black; font-size: inherit; }
@@ -62,7 +66,6 @@ blockquote blockquote { margin-left: 0; margin-right: 0; }
 .octicon-issue-opened { fill: currentColor; vertical-align: middle; }
 
 .book-single #table-of-contents { margin-block: 2rem; border-bottom: none; }
-.book-single .book-chapter { margin-block: 4rem; }
 .book-chapter h1 { break-before: page; break-after: avoid; }
 h2, h3, h4, h5, h6 { break-after: avoid; }
 

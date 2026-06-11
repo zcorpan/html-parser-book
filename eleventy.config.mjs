@@ -45,22 +45,42 @@ function fileNameFromInputPath(inputPath) {
   return path.basename(String(inputPath).replace(/\\/g, "/"));
 }
 
-function firstHeadingId(html) {
-  const quoted = String(html).match(/<h1\s+[^>]*id=["']([^"']+)["'][^>]*>/i);
-  if (quoted) {
-    return quoted[1];
+function prefixFragment(chapterSlug, fragment) {
+  if (!chapterSlug || !fragment) {
+    return fragment;
   }
 
-  const unquoted = String(html).match(/<h1\s+[^>]*id=([^\s>]+)[^>]*>/i);
-  return unquoted ? unquoted[1] : "";
+  const decoded = decodeURIComponent(String(fragment));
+
+  if (decoded.startsWith(`${chapterSlug}-`)) {
+    return fragment;
+  }
+
+  return `${chapterSlug}-${fragment}`;
 }
 
-function rewriteForSinglePage(html) {
-  return String(html)
-    .replace(/href="\/([^"\/?#]+)\/#([^"]+)"/g, 'href="#$2"')
-    .replace(/href='\/([^'\/?#]+)\/#([^']+)'/g, "href='#$2'");
+function rewriteHeadingIds(html, chapterSlug) {
+  if (!chapterSlug) {
+    return String(html);
+  }
+
+  return String(html).replace(
+    /<h([2-6])([^>]*?)\s+id=(['"])([^'"]+)\3([^>]*)>/gi,
+    (match, level, before, quote, id, after) => {
+      return `<h${level}${before} id=${quote}${prefixFragment(chapterSlug, id)}${quote}${after}>`;
+    }
+  );
 }
 
+function rewriteForSinglePage(html, chapterSlug = "") {
+  return rewriteHeadingIds(html, chapterSlug)
+    .replace(/href="\/([^"\/?#]+)\/#([^"]+)"/g, (match, pageSlug, fragment) => {
+      return `href="#${prefixFragment(pageSlug, fragment)}"`;
+    })
+    .replace(/href="\/([^"\/?#]+)\/"/g, (match, pageSlug) => {
+      return `href="#${pageSlug}"`;
+    });
+}
 function tableOfContents(html) {
   const headings = [...String(html).matchAll(/<h([2-6])\s+[^>]*id=["']([^"']+)["'][^>]*>([\s\S]*?)<\/h\1>/gi)];
 
@@ -88,19 +108,30 @@ export default function (eleventyConfig) {
     })
     .use(markdownItDeflist);
 
+  const defaultHeadingOpen =
+    md.renderer.rules.heading_open ||
+    ((tokens, idx, options, env, self) => self.renderToken(tokens, idx, options));
+
+  md.renderer.rules.heading_open = (tokens, idx, options, env, self) => {
+    const token = tokens[idx];
+
+    if (token.tag === "h1" && env?.page?.fileSlug) {
+      token.attrSet("id", env.page.fileSlug);
+    }
+
+    return defaultHeadingOpen(tokens, idx, options, env, self);
+  };
+
   eleventyConfig.setLibrary("md", md);
   eleventyConfig.addPassthroughCopy("_assets");
 
   eleventyConfig.addGlobalData("bookTitle", bookTitle);
 
-  eleventyConfig.addShortcode("ref", function (page, title) {
-    return `<a href="/${page}/#${slugify(title)}">${escapeHtml(title)}</a>`;
-  });
-
   eleventyConfig.addFilter("slugify", slugify);
   eleventyConfig.addFilter("toc", tableOfContents);
-  eleventyConfig.addFilter("firstHeadingId", firstHeadingId);
   eleventyConfig.addFilter("singlePageLinks", rewriteForSinglePage);
+
+  const chapterLinkTitlesBySlug = new Map();
 
   eleventyConfig.addCollection("book", function (collectionApi) {
     const byFileName = new Map();
@@ -111,9 +142,36 @@ export default function (eleventyConfig) {
       }
     }
 
-    return readBookOrder()
+    const book = readBookOrder()
       .map((fileName) => byFileName.get(fileName))
       .filter(Boolean);
+
+    chapterLinkTitlesBySlug.clear();
+
+    for (const [index, chapter] of book.entries()) {
+      const chapterNum = chapter.data.appendix ?? index;
+      const titles = new Set([chapter.data.title]);
+
+      if (chapter.data.appendix) {
+        titles.add(`Appendix ${chapter.data.appendix}. ${chapter.data.title}`);
+      } else if (chapterNum !== 0) {
+        titles.add(`Chapter ${chapterNum}. ${chapter.data.title}`);
+      }
+
+      chapterLinkTitlesBySlug.set(chapter.fileSlug, titles);
+    }
+
+    return book;
+  });
+
+  eleventyConfig.addShortcode("ref", function (page, title) {
+    const escapedTitle = escapeHtml(title);
+
+    if (chapterLinkTitlesBySlug.get(page)?.has(title)) {
+      return `<a href="/${page}/">${escapedTitle}</a>`;
+    }
+
+    return `<a href="/${page}/#${slugify(title)}">${escapedTitle}</a>`;
   });
 
   eleventyConfig.addTransform("ellipsis", function (content) {
