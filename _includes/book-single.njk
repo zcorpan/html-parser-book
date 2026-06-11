@@ -19,7 +19,7 @@
 
   {% for chapter in chapters %}
   <section class="book-chapter">
-    {{ chapter.templateContent | singlePageLinks | safe }}
+    {{ chapter.templateContent | singlePageLinks(chapter.fileSlug) | safe }}
   </section>
   {% endfor %}
 </main>
