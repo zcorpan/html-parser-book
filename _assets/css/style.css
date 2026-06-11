@@ -64,6 +64,7 @@ blockquote blockquote { margin-left: 0; margin-right: 0; }
 .book-single #table-of-contents { margin-block: 2rem; border-bottom: none; }
 .book-single .book-chapter { margin-block: 4rem; }
 .book-chapter h1 { break-before: page; break-after: avoid; }
+h2, h3, h4, h5, h6 { break-after: avoid; }
 
 @media (prefers-color-scheme: dark) {
   html, html.home { background: #333; color: white; }

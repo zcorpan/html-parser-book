@@ -211,7 +211,6 @@ function createNav(tocItems) {
     .join("\n");
 
   return `<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops" lang="${language}" xml:lang="${language}">
 <head>
   <title>${escapeXml(bookTitle)}</title>
@@ -274,6 +273,7 @@ img {
 
 pre {
   white-space: pre-wrap;
+  word-wrap: break-word;
   overflow-wrap: anywhere;
 }
 
@@ -282,16 +282,12 @@ pre {
   font-family: monospace;
 }
 
-#table-of-contents {
-  margin-block: 2em;
-}
-
-.book-chapter {
-  margin-block: 4em;
-}
-
 .book-chapter h1 {
   break-before: page;
+  break-after: avoid;
+}
+
+h2, h3, h4, h5, h6 {
   break-after: avoid;
 }
 
