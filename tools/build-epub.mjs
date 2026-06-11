@@ -286,25 +286,6 @@ pre {
   margin-block: 2em;
 }
 
-ul.toc {
-  padding: 0;
-}
-
-ul.toc > li {
-  list-style-type: none;
-  margin-bottom: 1em;
-  border-bottom: 1px dotted;
-}
-
-ul.toc > li > a {
-  text-decoration: none;
-}
-
-ul.toc > li span {
-  float: right;
-  font-variant-numeric: tabular-nums;
-}
-
 .book-chapter {
   margin-block: 4em;
 }
