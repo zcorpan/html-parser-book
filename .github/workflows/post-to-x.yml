@@ -5,10 +5,6 @@ on:
     branches:
       - main
 
-permissions:
-  actions: write
-  contents: read
-
 jobs:
   post:
     runs-on: ubuntu-latest
@@ -17,7 +13,7 @@ jobs:
       - name: Refresh X OAuth token
         id: x
         env:
-          GH_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ secrets.GH_VARIABLES_TOKEN }}
         run: |
           RESPONSE=$(curl -s -X POST "https://api.twitter.com/2/oauth2/token" \
             -H "Content-Type: application/x-www-form-urlencoded" \
