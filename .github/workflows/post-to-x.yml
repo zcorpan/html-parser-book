@@ -35,7 +35,9 @@ jobs:
 
           if [ -n "$NEW_REFRESH_TOKEN" ]; then
             echo "::add-mask::$NEW_REFRESH_TOKEN"
-            gh variable set X_REFRESH_TOKEN --body "$NEW_REFRESH_TOKEN"
+            gh variable set X_REFRESH_TOKEN \
+              --repo "${{ github.repository }}" \
+              --body "$NEW_REFRESH_TOKEN"
           fi
 
           echo "::add-mask::$ACCESS_TOKEN"
