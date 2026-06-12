@@ -100,6 +100,43 @@ function tableOfContents(html) {
   return `<ol class="table-of-contents">\n${items}\n</ol>`;
 }
 
+function imageSize(filePath) {
+  const buffer = fs.readFileSync(filePath);
+
+  // PNG
+  if (buffer.subarray(0, 8).equals(Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]))) {
+    return {
+      width: buffer.readUInt32BE(16),
+      height: buffer.readUInt32BE(20),
+    };
+  }
+
+  // JPEG
+  if (buffer[0] === 0xff && buffer[1] === 0xd8) {
+    let offset = 2;
+
+    while (offset < buffer.length) {
+      if (buffer[offset] !== 0xff) {
+        break;
+      }
+
+      const marker = buffer[offset + 1];
+      const length = buffer.readUInt16BE(offset + 2);
+
+      if (marker >= 0xc0 && marker <= 0xc3) {
+        return {
+          height: buffer.readUInt16BE(offset + 5),
+          width: buffer.readUInt16BE(offset + 7),
+        };
+      }
+
+      offset += 2 + length;
+    }
+  }
+
+  return null;
+}
+
 export default function (eleventyConfig) {
   const md = new MarkdownIt({ html: true })
     .use(markdownItAnchor, {
@@ -107,6 +144,40 @@ export default function (eleventyConfig) {
       tabIndex: false
     })
     .use(markdownItDeflist);
+
+  const defaultImageRenderer =
+    md.renderer.rules.image ||
+    ((tokens, idx, options, env, self) => self.renderToken(tokens, idx, options));
+
+  md.renderer.rules.image = (tokens, idx, options, env, self) => {
+    const token = tokens[idx];
+    const src = token.attrGet("src");
+
+    if (
+      src &&
+      !token.attrGet("width") &&
+      !token.attrGet("height") &&
+      !/^[a-z][a-z0-9+.-]*:/i.test(src) &&
+      !src.startsWith("#")
+    ) {
+      const srcPath = src.startsWith("/")
+        ? path.join(process.cwd(), src.slice(1))
+        : path.join(process.cwd(), path.dirname(env.page.inputPath), src);
+
+      try {
+        const size = imageSize(srcPath);
+
+        if (size) {
+          token.attrSet("width", String(size.width));
+          token.attrSet("height", String(size.height));
+        }
+      } catch {
+        // Ignore missing/unsupported images.
+      }
+    }
+
+    return defaultImageRenderer(tokens, idx, options, env, self);
+  };
 
   const defaultHeadingOpen =
     md.renderer.rules.heading_open ||
