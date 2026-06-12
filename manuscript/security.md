@@ -1,6 +1,6 @@
 ---
 layout: chapter.njk
-title: Scripting complications
+title: Security implications
 next: implementations
 nextTitle: Implementations
 toc: true

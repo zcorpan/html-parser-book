@@ -110,6 +110,10 @@ function rewriteAttributeEntities(html) {
   });
 }
 
+function removeHeadingoffset(html) {
+  return html.replace(/ headingoffset="1"/g, "");
+}
+
 function makeXhtml(body) {
   body = body
     .replace(/<script\b[\s\S]*?<\/script>/gi, "")
@@ -124,6 +128,7 @@ function makeXhtml(body) {
 
   body = closeVoidElements(body);
   body = rewriteAttributeEntities(body);
+  body = removeHeadingoffset(body);
 
   return `<?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE html>

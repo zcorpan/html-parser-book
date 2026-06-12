@@ -1941,7 +1941,7 @@ When seeing a `script` start tag, the tree builder switches the tokenizer's stat
 
 When seeing the `script` end tag, the tree builder executes the script. The details of how this works is… complicated. See the {% ref "scripting", "`document.write()`" %} section of {% ref "scripting", "Chapter 4. Scripting complications" %}.
 
-The parser will not continue parsing until the script has been downloaded (if applicable) and executed, and also until pending stylesheets have been loaded. See the {% ref "parser", "Blocking the parser" %} section.
+The parser will not continue parsing until the script has been downloaded (if applicable) and executed, and also until pending stylesheets have been loaded. See the {% ref "scripting", "Blocking the parser" %} section.
 
 But, if we ignore those things, then handling of the `script` end tag is easy. The `script` element is popped off the stack of open elements, and the insertion mode is switched back to what it was before entering the "text" insertion mode.
 
@@ -2184,7 +2184,7 @@ The `select` start tag is treated just like the `select` *end* tag. Therefore, t
 >
 > * `p`, `br`, `br`, `p`
 
-Tags can in various situations be implied by other tags, or by text content. In the {% ref "parser", "Tables" %} section we discussed table-specific implied tags, e.g., that the `tr` start tag is implied by a `td` or `th` start tag when "in table". The `html`, `head` and `body` start and end tags are optional. (See the {% ref "syntax", "Optional tags" %} section in {% ref "syntax", "Chapter 2. The HTML syntax" %} for the full list of optional tags.)
+Tags can in various situations be implied by other tags, or by text content. In the {% ref "parser", "Tables and foster parenting" %} section we discussed table-specific implied tags, e.g., that the `tr` start tag is implied by a `td` or `th` start tag when "in table". The `html`, `head` and `body` start and end tags are optional. (See the {% ref "syntax", "Optional tags" %} section in {% ref "syntax", "Chapter 2. The HTML syntax" %} for the full list of optional tags.)
 
 The `br` end tag is treated as a `br` start tag. This is handled from the "before html" insertion mode through to "in body".
 
@@ -2701,7 +2701,7 @@ The "...attributes..." part was all the attributes from the "isindex" token, exc
 
 Internet Explorer and Opera implemented `isindex` as a parser macro already, while Firefox and Safari treated it more like its own element, like a widget. One practical difference is that `document.createElement('isindex')` created an unknown element in Internet Explorer and Opera (and per spec), but worked in Firefox and Safari (before their HTML parser rewrites).
 
-The standard was then tweaked a few times to [support the `action` and `prompt` attributes](https://github.com/whatwg/html/commit/6b777fcdfda3412b4eb54dced551df732f962bb7), [remove the `<p>` from the macro](493eabd4d012e4269f0cb991b645ced97deecab0), [change the default label text](https://github.com/whatwg/html/commit/2ddd75fbb1430b1584bab38c0a8fe03d31790f0e), until ultimately in 2016, [`isindex` support was removed altogether](https://github.com/whatwg/html/commit/5c44abc734eb483f9a7ec79da5844d2fe63d9c3b).
+The standard was then tweaked a few times to [support the `action` and `prompt` attributes](https://github.com/whatwg/html/commit/6b777fcdfda3412b4eb54dced551df732f962bb7), [remove the `<p>` from the macro](https://github.com/whatwg/html/commit/493eabd4d012e4269f0cb991b645ced97deecab0), [change the default label text](https://github.com/whatwg/html/commit/2ddd75fbb1430b1584bab38c0a8fe03d31790f0e), until ultimately in 2016, [`isindex` support was removed altogether](https://github.com/whatwg/html/commit/5c44abc734eb483f9a7ec79da5844d2fe63d9c3b).
 
 [Chromium removed `isindex` in 2014](https://groups.google.com/a/chromium.org/g/blink-dev/c/14q_I06gwg8/m/0a3JI0kjbC0J), and [EdgeHTML had also removed it before the spec change](https://github.com/whatwg/html/issues/1088). [WebKit removed it in 2016](https://bugs.webkit.org/show_bug.cgi?id=7139#c12), and [Gecko in 2017](https://bugzilla.mozilla.org/show_bug.cgi?id=1266495#c24).
 
