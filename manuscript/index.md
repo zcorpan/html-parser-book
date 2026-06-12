@@ -64,7 +64,7 @@ HTML is not only used by basically all of the web, but it is also part of many m
 
 This book is also available as [single-page HTML](/book/) and [in EPUB format](/downloads/html-parser-book.epub).
 
-You can [buy the eBook](https://leanpub.com/html-parser-book/) on Leanpub. 50% of royalties go to [Amazon Watch](https://amazonwatch.org/).
+You can [buy the eBook](https://leanpub.com/html-parser-book/) on Leanpub.
 
 ## Table of Contents
 
