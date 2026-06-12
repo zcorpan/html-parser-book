@@ -15,24 +15,23 @@
 <meta name="twitter:image" content="https://htmlparser.info/_assets/img/card.png">
 <meta name="twitter:image:alt" content="The book 'Idiosyncrasies of the HTML parser' by Simon Pieters.">
 
-{% if toc %}
+{%- if toc %}
 <details>
   <summary>Table of Contents</summary>
   <nav class=toc>
-    {{ content | toc | safe }}
+{{ content | toc | safe }}
   </nav>
 </details>
-{% endif %}
-
+{%- endif %}
 {{ content | safe }}
 
-{% if next %}
+{%- if next %}
 <nav class="next">
-{% if next == "end" %}
+{%- if next == "end" %}
   <p>The end.</p>
-{% else %}
+{%- else %}
   <p>Next up: <a href="/{{ next }}/">{{ nextTitle }}</a></p>
-{% endif %}
+{%- endif %}
 </nav>
 
 <footer>
@@ -42,4 +41,4 @@
 </footer>
 
 <script src="/_assets/js/file-issue.js" data-file-issue-url="https://github.com/zcorpan/html-parser-book/issues/new" async></script>
-{% endif %}
+{%- endif %}

@@ -1,28 +1,24 @@
-{% set chapters = collections.book %}
+{%- set chapters = collections.book %}
 <ol class="toc">
-{% for chapter in chapters %}
-  {% set chapterNum = chapter.data.appendix or loop.index - 1 %}
-
-  {% if singlePage %}
-    {% set href = "#" + chapter.fileSlug %}
-
-    {% if chapter.data.appendix %}
-      {% set linkText = "Appendix " + chapter.data.appendix + ". " + chapter.data.title %}
-    {% elif chapterNum == 0 %}
-      {% set linkText = chapter.data.title %}
-    {% else %}
-      {% set linkText = "Chapter " + chapterNum + ". " + chapter.data.title %}
-    {% endif %}
-  {% else %}
-    {% set href = chapter.url %}
-    {% set linkText = chapter.data.title %}
-  {% endif %}
-
-  {% if singlePage %}
+{%- for chapter in chapters %}
+{%-   set chapterNum = chapter.data.appendix or loop.index - 1 %}
+{%-   if singlePage %}
+{%-     set href = "#" + chapter.fileSlug %}
+{%-     if chapter.data.appendix %}
+{%-       set linkText = "Appendix " + chapter.data.appendix + ". " + chapter.data.title %}
+{%-     elif chapterNum == 0 %}
+{%-       set linkText = chapter.data.title %}
+{%-     else %}
+{%-       set linkText = "Chapter " + chapterNum + ". " + chapter.data.title %}
+{%-     endif %}
+{%-   else %}
+{%-     set href = chapter.url %}
+{%-     set linkText = chapter.data.title %}
+{%-   endif %}
+{%-   if singlePage %}
   <li><a href="{{ href }}">{{ linkText }}</a></li>
-  {% else %}
+{%-   else %}
   <li><a href="{{ href }}">{{ linkText }}</a> <span>{{ chapterNum }}</span></li>
-  {% endif %}
-
-{% endfor %}
+{%-   endif %}
+{%- endfor %}
 </ol>
