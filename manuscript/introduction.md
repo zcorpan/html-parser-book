@@ -38,7 +38,7 @@ Nodes can also have certain properties; for example:
 * `Element` nodes have a `namespaceURI` and `localName` which together represent the element type (e.g., "an HTML `p` element"), and a list of attributes (e.g., `<html lang="en">` has one attribute).
 * `Text` and `Comment` nodes have `data` which holds the node's text contents.
 
-The DOM also includes APIs to traverse and mutate the tree with script. For example, the `divElement.remove()` method removes a node from its parent, `footerElement.append(div)` inserts `divElement` into `footerElement` as the last child. This is discussed in {% ref "scripting", "Chapter 4. Scripting complications" %}.
+The DOM also includes APIs to traverse and mutate the tree with script. For example, the `divElement.remove()` method removes a node from its parent, `footerElement.append(divElement)` inserts `divElement` into `footerElement` as the last child. This is discussed in {% ref "scripting", "Chapter 4. Scripting complications" %}.
 
 Parsing HTML means to turn a string of characters (the markup) into a DOM tree.
 

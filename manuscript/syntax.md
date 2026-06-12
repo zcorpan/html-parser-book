@@ -39,7 +39,7 @@ Also case-insensitive, except for the "about:legacy-compat" part.
 
 The purpose of the longer doctype is for compatibility with markup generators that are unable to produce the short doctype. If you don't find yourself in such a situation, just use the short doctype.
 
-Prior versions of HTML had other doctypes that are now defined to trigger one of the different rendering modes. For example, this HTML 4.01 doctype trigger no-quirks mode:
+Prior versions of HTML had other doctypes that are now defined to trigger one of the different rendering modes. For example, this HTML 4.01 doctype triggers no-quirks mode:
 
 ```html
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"

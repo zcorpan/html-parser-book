@@ -11,7 +11,7 @@ toc: false
 
 : Web browsers are ubiquitous, but how do they work? This book explains, building a basic but complete web browser, from networking to JavaScript, in a thousand lines of Python. By Pavel Panchekha & Chris Harrelson.
 
-[Web Platform Contrbution Guide](https://wpc.guide)
+[Web Platform Contribution Guide](https://wpc.guide)
 
 : Getting started with a history, skill guide and how-to of web standards. By Boaz Sender, Jory Burson, Leo Balter, Mike Pennisi, Simon Pieters, Valerie Young.
 

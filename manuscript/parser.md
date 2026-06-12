@@ -249,7 +249,7 @@ The `</p>` goes through similar states as the start tag, but obviously creates a
 >
 > EOF
 >
-> : This is an eof-before-tag-name parse error. Emit a U+003C LESS-THAN SIGN character token, a U+002F SOLIDUS character token and an end-of-file ton.
+> : This is an eof-before-tag-name parse error. Emit a U+003C LESS-THAN SIGN character token, a U+002F SOLIDUS character token and an end-of-file token.
 >
 > Anything else
 >
@@ -1635,7 +1635,7 @@ Next, we find the `div` end tag. Since the current node is a `div`, this will ju
 
 At this point, the current node is the `body`, which is where the "`D`" ends up being inserted.
 
-This special handling is, as you might suspect, necessary for web compatibility. The specification [used to](https://lists.w3.org/Archives/Public/public-html/2008Mar/0025.html) handle `form` end tags like `div` end tags, but [it was found](https://lists.w3.org/Archives/Public/public-whatwg-archive/2008Dec/0042.html) to break websites, so it was [changed](https://html5.org/r/2505) in December 2008 to what it says now.
+This special handling is, as you might suspect, necessary for web compatibility. The specification [used to](https://lists.w3.org/Archives/Public/public-html/2008Mar/0025.html) handle `form` end tags like `div` end tags, but [it was found](https://lists.w3.org/Archives/Public/public-whatwg-archive/2008Dec/0042.html) to break web sites, so it was [changed](https://github.com/whatwg/html/commit/37a74d9ab40fd8814b5e726560b466a32f49e1dc) in December 2008 to what it says now.
 
 Did you notice that the handling of the `form` end tag had a check for a `template` element? What happens inside `template`s?
 
@@ -1879,11 +1879,11 @@ In 2009, Henri Sivonen found that the HTML parser needed to retain a quirk for w
 >
 > April 2005
 >
-> : In order to pass Acid2, Safari is changed to make a table close a paragraph in the standards mode. The quirks-mode behavior is left to not cling a paragraph upon a table.
+> : In order to pass Acid2, Safari is changed to make a table close a paragraph in the standards mode. The quirks-mode behavior is left to not closing a paragraph upon a table.
 >
 > May 2005
 >
-> : In order to pass Acid2, Opera is changed to make a table close a paragraph in the standards mode. The quirks-mode behavior is left to not closing a ragraph upon a table.
+> : In order to pass Acid2, Opera is changed to make a table close a paragraph in the standards mode. The quirks-mode behavior is left to not closing a paragraph upon a table.
 >
 > January 2006
 >

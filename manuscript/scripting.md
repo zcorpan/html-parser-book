@@ -30,7 +30,7 @@ TODO
 Window DOMParser
 Element,ShadowRoot innerHTML
 Element outerHTML
-Element insertAdjasentHTML
+Element insertAdjacentHTML
 Range createContextualFragment
 
 

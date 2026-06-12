@@ -87,8 +87,8 @@ Thanks to Jens Oliver Meiert for contributing fixes for this book.
 
 ## Contribute
 
-The source code for this book is [available on GitHub](https://github.com/zcorpan/html-parser-book/). This book and the source code is [licensed under CC-BY-4.0](https://github.com/zcorpan/html-parser-book/blob/main/LICENSE). Feel free to report issues, submit pull requests, fork, etc.! If you wish to make a translation or otherwise reuse the work, you are welcome to do so (as allowed by the license). Please report an issue, to avoid duplicate work and so I can help get you set up.
+The source code for this book is [available on GitHub](https://github.com/zcorpan/html-parser-book/). This book and the source code are [licensed under CC-BY-4.0](https://github.com/zcorpan/html-parser-book/blob/main/LICENSE). Feel free to report issues, submit pull requests, fork, etc.!
 
 In the [web version of this book](https://htmlparser.info/), there is a feedback link in the bottom-right corner. You can select some text and click the feedback link to create a new issue about the selected text in the GitHub repository. The link has `accesskey="1"` so it can be activated with the keyboard — how to activate it depends on the browser and OS, see [documentation on MDN about `accesskey`](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/accesskey).
 
-If you use X, you can provide feedback or ask questions there at [@htmlparserbook](https://x.com/htmlparserbook). You can follow this account if you want to be notified about new commits.
+If you use X, you can follow [@htmlparserbook](https://x.com/htmlparserbook) if you want to be notified about new commits.
