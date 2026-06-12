@@ -167,5 +167,5 @@ When an `iframe` is removed from a document, its [browsing context](https://html
 
 > When an iframe element is removed from a document, the user agent must discard the element's nested browsing context, if it is not null, and then set the element's nested browsing context to null.
 
-If the script had [saved a reference](http://software.hixie.ch/utilities/js/live-dom-viewer/saved/4461) to the `iframe`'s `window`, the script would still be able to access it, its document, and the moved `iframe` element, after the move.
+If the script had [saved a reference](https://software.hixie.ch/utilities/js/live-dom-viewer/saved/4461) to the `iframe`'s `window`, the script would still be able to access it, its document, and the moved `iframe` element, after the move.
 

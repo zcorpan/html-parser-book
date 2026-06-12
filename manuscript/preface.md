@@ -49,7 +49,7 @@ The following is a non-exhaustive list of things that would be good for most web
 
 * **Security.** For example, cross-site scripting (XSS) attacks sometimes target holes in sanitizers. Such attacks may be prevented by using an HTML parser-based sanitizer. See {% ref "security", "Chapter 6. Security implications" %}.
 
-* **Web compatibility.** The HTML parser specification is known to be compatible with HTML as it is used on the web. When Opera implemented the specified HTML parser, it eliminated [20% of its web compatibility bugs](https://dev.opera.com/blog/opera-mini-server-upgrade/) (of any kind).
+* **Web compatibility.** The HTML parser specification is known to be compatible with HTML as it is used on the web. When Opera implemented the specified HTML parser, it eliminated [20% of its web compatibility bugs](https://web.archive.org/web/20150428053817/https://dev.opera.com/blog/opera-mini-server-upgrade/) (of any kind).
 
 ## About the author
 

@@ -89,7 +89,7 @@ If the document is encoded in a UTF-16 encoding, then any inline encoding declar
 
 However, if the document is not UTF-16 and an encoding declaration is found that claims UTF-16, it will be interpreted as saying UTF-8. The declaration is incorrect, but assuming UTF-8 is apparently better than ignoring it.
 
-Another rewrite is the `x-user-defined` encoding label, which is changed to `windows-1252`, but only when found in a `meta` element, not anywhere else. The reason for this is that web sites used this encoding label together with a custom font to get visual rendering of their language's non-ASCII characters, instead of using Unicode and a proper font. Meanwhile, x-user-defined is [an actual encoding](https://encoding.spec.whatwg.org/#x-user-defined) that web pages use for [binary data using the XMLHttpRequest API](https://www.html5rocks.com/en/tutorials/file/xhr2/). The solution that Chrome invented and that [Firefox copied](https://bugzilla.mozilla.org/show_bug.cgi?id=213517) was to rewrite this label but just for `meta` in HTML.
+Another rewrite is the `x-user-defined` encoding label, which is changed to `windows-1252`, but only when found in a `meta` element, not anywhere else. The reason for this is that web sites used this encoding label together with a custom font to get visual rendering of their language's non-ASCII characters, instead of using Unicode and a proper font. Meanwhile, x-user-defined is [an actual encoding](https://encoding.spec.whatwg.org/#x-user-defined) that web pages use for [binary data using the XMLHttpRequest API](https://web.dev/articles/xhr2). The solution that Chrome invented and that [Firefox copied](https://bugzilla.mozilla.org/show_bug.cgi?id=213517) was to rewrite this label but just for `meta` in HTML.
 
 If no encoding declaration is found, then the default will usually depend on the user's locale. The most common default is `windows-1252`, but there are 33 other locales with other defaults. For example, Arabic defaults to `windows-1256`, and Japanese defaults to `Shift_JIS`. Having locale-specific default encodings on a global information network is, of course, also absurd.
 
@@ -261,7 +261,7 @@ Start tag (p), character (H), character (e), character (l), character (l), chara
 
 This book contains a number of quizzes, which you should be able to answer with the information in this book. These quizzes originally took place on X. Here is the first quiz in this book:
 
-> [\#HTMLQuiz](https://x.com/RReverser/status/727927455315599360) (don't cheat!): What kind of node will be inserted into the body for such contents?
+> \#HTMLQuiz (don't cheat!): What kind of node will be inserted into the body for such contents?
 >
 > ```html
 > <body></хелоу></body>
@@ -287,7 +287,7 @@ Note that the *start tag open* state handles non-ASCII alpha differently; it wil
 
 ### Attributes
 
-> [\#HTMLQuiz](https://x.com/RReverser/status/732527451973267456) (don't cheat :) ). What class will the `<div class="a" class="b">` have?
+> \#HTMLQuiz (don't cheat :) ). What class will the `<div class="a" class="b">` have?
 >
 > * "a"
 >
@@ -337,7 +337,7 @@ The *attribute name state* says:
 
 The correct answer to the quiz is thus "a". Here's another quiz about attributes:
 
-> Let's try another one. What attributes will `<img>` contain in the following case? [\#HTMLQuiz](https://x.com/RReverser/status/729640234892283904)
+> Let's try another one. What attributes will `<img>` contain in the following case? \#HTMLQuiz
 >
 > ```html
 > <img src=1.png /re/>
@@ -431,7 +431,7 @@ To avoid this, the HTML standard [made \` in unquoted attribute values a parse e
 
 ### Character references
 
-> Let's do a simpler one this time. How many named entities (`&quot;`, `&amp;` and so on) are there in HTML? [\#HTMLQuiz](https://x.com/RReverser/status/730336128360980480)
+> Let's do a simpler one this time. How many named entities (`&quot;`, `&amp;` and so on) are there in HTML? \#HTMLQuiz
 >
 > * 0..50
 >
@@ -523,7 +523,7 @@ This matched what IE did, but this was not interoperable back in 2006. One aspec
 >
 > Data:
 >
-> <http://philip.html5.org/data/entities-without-semicolon-followed-by-equals.txt>
+> <https://philip.html5.org/data/entities-without-semicolon-followed-by-equals.txt>
 >
 > The ones below are those that would be affected by this change. This is 50 occurrences out of 425K pages.
 >
@@ -586,7 +586,7 @@ One final character reference that is a parse error is `&#xD;` which maps to U+0
 
 Comments ought to be pretty simple; they start with `<!--` and end with `-->`, and that's that. Right?
 
-Well, not quite. Both SGML and web browsers had different aspects of complexity for comments. Let's tackle the SGML story first. Ian Hickson wrote the following in [a blog post](http://ln.hixie.ch/?start=1137799947&count=1) in January 2006:
+Well, not quite. Both SGML and web browsers had different aspects of complexity for comments. Let's tackle the SGML story first. Ian Hickson wrote the following in [a blog post](https://ln.hixie.ch/?start=1137799947&count=1) in January 2006:
 
 > January 1999. I'm nineteen, in my first year studying Physics at Bath University. I read an SGML tutorial ([maybe this one](http://www.flightlab.com/~joe/sgml/comments.html) from 1995). I wrote a testcase. I filed a bug, in which I wrote:
 >
@@ -613,7 +613,7 @@ Well, not quite. Both SGML and web browsers had different aspects of complexity 
 >
 > February 2005. Håkon and I write the first draft of the Acid2 test.
 >
-> March 2005. While giving a workshop on how to create test cases at Opera, I find that <http://www.wassada.com/> renders correctly in Mozilla and fails to render in Opera precisely because Mozilla renders comments according to the SGML way and Opera doesn't. Over Håkon's objections, I insist on including a test for the SGML comment syntax in Acid2, citing the Wassada site as proof that we need to get interoperability on the matter. Acid2 is announced.
+> March 2005. While giving a workshop on how to create test cases at Opera, I find that <https://www.wassada.com/> renders correctly in Mozilla and fails to render in Opera precisely because Mozilla renders comments according to the SGML way and Opera doesn't. Over Håkon's objections, I insist on including a test for the SGML comment syntax in Acid2, citing the Wassada site as proof that we need to get interoperability on the matter. Acid2 is announced.
 >
 > April 2005. Safari fixes SGML comment parsing as part of their Acid2 work. Hyatt confesses bemusement regarding this feature, joining Håkon in thinking I was wrong to insist we include this part of the test.
 >
@@ -681,7 +681,7 @@ Browsers also did reparsing in some other situations, such as an unclosed `title
 
 > We were fixing our bugs regarding reparsing, but were a bit scared to fix reparsing of comments and escaped text spans, so I asked in #whatwg if someone could be kind enough to provide some data on the matter...
 >
-> Philip\` found 128 pages with open `<!--` out of 130K pages, listed in <http://philip.html5.org/data/pages-with-unclosed-comments.txt> . I looked through the first 82 pages. 40 of those would work better if we reparse, 1 would work slightly worse, and the rest would be unaffected. This means that about 0.05% of pages would break if we didn't reparse.
+> Philip\` found 128 pages with open `<!--` out of 130K pages, listed in <https://philip.html5.org/data/pages-with-unclosed-comments.txt> . I looked through the first 82 pages. 40 of those would work better if we reparse, 1 would work slightly worse, and the rest would be unaffected. This means that about 0.05% of pages would break if we didn't reparse.
 >
 > Opera currently doesn't reparse comments in limited/no quirks mode, but a few pages below break in Opera because of that. (We still reparse open escaped text spans even in no quirks mode.)
 >
@@ -818,7 +818,7 @@ Effectively, the rest of the document is unconditionally treated as plain text.
 
 ### Script states
 
-> Another [\#HTMLQuiz](https://x.com/RReverser/status/737992318146510849) (don't cheat :) ). What will be alerted here?
+> Another \#HTMLQuiz (don't cheat :) ). What will be alerted here?
 >
 > ```html
 > <script>alert('<!--<script>x</script>-->')</script>
@@ -909,15 +909,15 @@ I did some research and [proposed a solution](https://lists.w3.org/Archives/Publ
 > >>>
 > >>>> I think I'll create a wiki page with requirements and a proposed delta spec first, though, because others on #whatwg were interested in pondering alternative solutions given a set of requirements.
 > >>>
-> >>> Wiki page created: <http://wiki.whatwg.org/wiki/CDATA_Escapes>
+> >>> Wiki page created: <https://wiki.whatwg.org/wiki/CDATA_Escapes>
 > >>
 > >> Wow. Please can we stick to just the current magic escapes and not add even more magic?
 > >
 > > The current magic without all the magic that current browsers implement lead to some incompatibilities with existing content. I don't know how often a user would hit these issues, but when the problems do occur, they wreck the whole page. Therefore, I think we should seriously try to improve the magic so that it substitutes the current browser magic better in practice while still not doing reparsing.
 >
-> <http://philip.html5.org/data/script-open-in-escape.txt> has 622 pages.
+> <https://philip.html5.org/data/script-open-in-escape.txt> has 622 pages.
 >
-> <http://philip.html5.org/data/script-close-in-escape-without-script-open-2.txt> has 708 pages.
+> <https://philip.html5.org/data/script-close-in-escape-without-script-open-2.txt> has 708 pages.
 >
 > Most of these look like they would break with what's currently specced.
 >
@@ -1019,7 +1019,7 @@ I did some research and [proposed a solution](https://lists.w3.org/Archives/Publ
 >
 >    7. `document.write('<script></scr'+'ipt>');`
 >
-> Proposal #3 in <http://wiki.whatwg.org/wiki/CDATA_Escapes> reads:
+> Proposal #3 in <https://wiki.whatwg.org/wiki/CDATA_Escapes> reads:
 >
 > For script, when in an escaped text span, set a flag after having seen "`<script`" followed by whitespace or slash or greater-than. "`</script`" followed by whitespace or slash or greater-than only closes the element if the flag is not set, and otherwise emits the text and resets the flag. Exiting an escaped text span also resets the flag.
 >
@@ -1679,7 +1679,7 @@ In `template`s, `form`s are parsed more like `div`s, and aren't using the form e
 
 ### Tables and foster parenting
 
-> [\#HTMLQuiz](https://x.com/RReverser/status/736219152709472256) In which order will the numbers appear for such bad HTML?
+> \#HTMLQuiz In which order will the numbers appear for such bad HTML?
 >
 > ```html
 > <table><tr><td>1</td></tr>2<br/><tr>3</tr>
@@ -2543,7 +2543,7 @@ TODO loop limits, marker.
 
 ### Hoisting attributes
 
-> [\#HTMLQuiz](https://x.com/RReverser/status/734689240739680256) (don't cheat! :) ). What attributes will `document.body` have?
+> \#HTMLQuiz (don't cheat! :) ). What attributes will `document.body` have?
 >
 > ```html
 > <body a="1" b="2">Hello!<body b="3" c="4">
@@ -2629,7 +2629,7 @@ A parser macro in HTML is like a macro in a text editor: a shorthand that expand
 >
 > : Parse error. Change the token's tag name to "img" and reprocess it. (Don't ask.)
 
-It says "Don't ask", and so [evelynn was apparently obliged to ask on X](https://x.com/gentlevoid/status/1431014223245549570):
+It says "Don't ask", and so evelynn was apparently obliged to ask on X:
 
 > I know the MDN literally says "don't ask" but I simply HAVE TO know more about what makes the `<image>` tag so vile
 >
@@ -2679,7 +2679,7 @@ The vast majority of idiosyncrasies in HTML parsing survive, but not all. This s
 
 ### The `isindex` parser macro
 
-The [very first draft for HTML included an `isindex` tag](http://info.cern.ch/hypertext/WWW/MarkUp/Tags.html#18).
+The [very first draft for HTML included an `isindex` tag](https://info.cern.ch/hypertext/WWW/MarkUp/Tags.html#18).
 
 > This tag informs the reader that the document is an index document. As well as reading it, the reader may use a keyword search.
 
@@ -2705,7 +2705,7 @@ The standard was then tweaked a few times to [support the `action` and `prompt` 
 
 [Chromium removed `isindex` in 2014](https://groups.google.com/a/chromium.org/g/blink-dev/c/14q_I06gwg8/m/0a3JI0kjbC0J), and [EdgeHTML had also removed it before the spec change](https://github.com/whatwg/html/issues/1088). [WebKit removed it in 2016](https://bugs.webkit.org/show_bug.cgi?id=7139#c12), and [Gecko in 2017](https://bugzilla.mozilla.org/show_bug.cgi?id=1266495#c24).
 
-The motivation for the removal is for security -- the [blink-dev thread](https://groups.google.com/a/chromium.org/g/blink-dev/c/14q_I06gwg8/m/0a3JI0kjbC0J) points to [this XSS vector](http://www.thespanner.co.uk/2008/08/26/new-xss-vector/).
+The motivation for the removal is for security -- the [blink-dev thread](https://groups.google.com/a/chromium.org/g/blink-dev/c/14q_I06gwg8/m/0a3JI0kjbC0J) points to [this XSS vector](https://www.thespanner.co.uk/2008/08/26/new-xss-vector/).
 
 > ```html
 > <isindex type=image src=1 onerror=alert(1)>

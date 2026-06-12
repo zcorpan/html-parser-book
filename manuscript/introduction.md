@@ -79,13 +79,13 @@ How this works is discussed in {% ref "parser", "Chapter 3. The HTML parser" %}.
 
 Serializing HTML means to do the opposite of parsing, i.e., start with a DOM representation of a document, and turning it to a string. This is discussed in {% ref "serializing", "Chapter 5. Serializing" %}.
 
-A tool that is handy for quickly trying what DOM tree is produced for a piece of HTML markup is the [*Live DOM Viewer*](http://software.hixie.ch/utilities/js/live-dom-viewer/), which Ian Hickson created when he was writing the HTML parser specification. Give it a try!
+A tool that is handy for quickly trying what DOM tree is produced for a piece of HTML markup is the [*Live DOM Viewer*](https://software.hixie.ch/utilities/js/live-dom-viewer/), which Ian Hickson created when he was writing the HTML parser specification. Give it a try!
 
 ## History of HTML parsers
 
 ### SGML and early HTML
 
-The earliest documentation on HTML, as far as I know, is [HyperText Mark-up Language](http://info.cern.ch/hypertext/WWW/MarkUp/MarkUp.html), from CERN, 1992 ([also hosted on w3.org](https://www.w3.org/History/19921103-hypertext/hypertext/WWW/MarkUp/MarkUp.html)). The first paragraph reads:
+The earliest documentation on HTML, as far as I know, is [HyperText Mark-up Language](https://info.cern.ch/hypertext/WWW/MarkUp/MarkUp.html), from CERN, 1992 ([also hosted on w3.org](https://www.w3.org/History/19921103-hypertext/hypertext/WWW/MarkUp/MarkUp.html)). The first paragraph reads:
 
 > The WWW system uses marked-up text to represent a hypertext document for transmision over the network. The hypertext mark-up language is an SGML format. WWW parsers should ignore tags which they do not understand, and ignore attributes which they do not understand of tags which they do understand.
 
@@ -196,11 +196,11 @@ Indeed, the HTML standard now specifies that `</br>` is to be parsed as `<br>`. 
 
 ### Internet Explorer, Firefox, Safari and Opera
 
-When the HTML parser was first specified [in 2006](http://ln.hixie.ch/?start=1137740632&count=1), Internet Explorer was at version 6.
+When the HTML parser was first specified [in 2006](https://ln.hixie.ch/?start=1137740632&count=1), Internet Explorer was at version 6.
 
 IE6 had an interesting HTML parser. It did not necessarily produce a tree; rather it would produce a graph, to more faithfully preserve author intent. Ill-formed markup, e.g., `<em><p></em></p>`, would result in an ill-formed DOM. This could cause scripts to go into infinite loops by just trying to iterate over the DOM.
 
-In early 2006, Firefox was at version 1.5. Its HTML parser had its own interesting effects, but unlike IE it would always produce a strict DOM tree. Safari was similar to Mozilla, but had a different approach to handling misnested blocks in inlines. Opera also had its own approach, which involved styling nodes in ways that could not be explained by looking at the DOM tree alone. To understand what was going on, let's go back and read what Ian Hickson, then the editor of the HTML standard, [found when he was specifying the HTML parser](http://ln.hixie.ch/?start=1138169545&count=1).
+In early 2006, Firefox was at version 1.5. Its HTML parser had its own interesting effects, but unlike IE it would always produce a strict DOM tree. Safari was similar to Mozilla, but had a different approach to handling misnested blocks in inlines. Opera also had its own approach, which involved styling nodes in ways that could not be explained by looking at the DOM tree alone. To understand what was going on, let's go back and read what Ian Hickson, then the editor of the HTML standard, [found when he was specifying the HTML parser](https://ln.hixie.ch/?start=1138169545&count=1).
 
 > Imagine the following (invalid) markup:
 >
@@ -233,7 +233,7 @@ In early 2006, Firefox was at version 1.5. Its HTML parser had its own interesti
 >
 > What should the DOM look like?
 >
-> This is where things start getting hairy. I've covered [a similar case](http://ln.hixie.ch/?start=1037910467&count=1) before, so I'll just summarise the results:
+> This is where things start getting hairy. I've covered [a similar case](https://ln.hixie.ch/?start=1037910467&count=1) before, so I'll just summarise the results:
 >
 > Windows Internet Explorer
 >
@@ -419,7 +419,7 @@ In early 2006, Firefox was at version 1.5. Its HTML parser had its own interesti
 >
 > ...which is to say, the parent changes half way through! (Compare the a and b attributes.)
 >
-> What actually happens is that Safari notices that something bad has happened, and moves the element around in the DOM. After the fact. (If you remove the p element from the DOM in that first script block, then [Safari crashes](http://bugs.webkit.org/show_bug.cgi?id=6778).)
+> What actually happens is that Safari notices that something bad has happened, and moves the element around in the DOM. After the fact. (If you remove the p element from the DOM in that first script block, then [Safari crashes](https://bugs.webkit.org/show_bug.cgi?id=6778).)
 >
 > How about Mozilla? Let's try the same trick. The result:
 >
