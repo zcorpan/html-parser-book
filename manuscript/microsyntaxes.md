@@ -202,7 +202,7 @@ The processing is as follows:
 
   * A state machine is used to tokenize descriptors. This is to handle whitespace and commas inside parentheses. For example, `size(50, 50, 30)` is tokenized to a single descriptor. A top-level comma ends the tokenizer.
 
-* The tokenized descriptors are parsed into *density*, *width*, and *future-compat-h*. The last one is for gracefully handling future web content that uses not-yet-specified *height* descriptors in addition to *width* descriptors. If any of the descriptors are invalid, the entire candidate is dropped.
+* The tokenized descriptors are parsed into |density|, |width|, and |future-compat-h|. The last one is for gracefully handling future web content that uses not-yet-specified *height* descriptors in addition to *width* descriptors. If any of the descriptors are invalid, the entire candidate is dropped.
 
 * Run the above steps in a loop.
 
