@@ -256,8 +256,18 @@ export default function (eleventyConfig) {
       return;
     }
 
-    const nakedUrlRegexp = /(?:[^<>";]|^)(https?:(?:[^<\s]+))/g;
-    const found = [...content.matchAll(nakedUrlRegexp)].map((match) => match[1]);
+    // The linter sees rendered HTML. Drop the constructs where a URL is
+    // expected, so that what is left is text where a URL means a missing link:
+    // code samples, already-linked URLs, and attribute values (in particular
+    // URLs nested in a URL, like the ones on web.archive.org).
+    const text = content
+      .replace(/<pre\b[\s\S]*?<\/pre>/gi, "")
+      .replace(/<code\b[\s\S]*?<\/code>/gi, "")
+      .replace(/<a\b[\s\S]*?<\/a>/gi, "")
+      .replace(/<[^>]*>/g, "");
+
+    const nakedUrlRegexp = /https?:[^\s<>"']+/g;
+    const found = [...new Set(text.match(nakedUrlRegexp) ?? [])];
 
     if (found.length) {
       console.warn(`Naked URL Linter (${file}):`);
