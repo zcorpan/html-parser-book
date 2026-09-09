@@ -114,6 +114,8 @@ Single-page chapters are wrapped in `<section class="book-chapter" headingoffset
 
 Subject line, then at most one short paragraph. No multi-section bodies, no bullet list restating the diff: say what was wrong and why the change is right, and leave the rest to the diff. Roughly half the commits in this repo have no body at all, which is the right call for a typo or a link fix.
 
+When fixing a reported issue, skip the description and just say "Fixes #123.".
+
 A commit that touches `manuscript/` has its subject line posted to [@htmlparserbook](https://x.com/htmlparserbook), so subjects are public and should read on their own. Backticked code in a message is safe (it used to break the workflow, see `post-to-x.yml`).
 
 ## Other
