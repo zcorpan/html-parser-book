@@ -17,7 +17,7 @@ npm run serve        # dev server with watch
 npm run debug        # Eleventy with DEBUG=*
 ```
 
-Node >= 22 (`.nvmrc` pins 24). There is no test suite and no lint script; the only automated check is the `naked-url` linter inside `eleventy.config.mjs`, which prints warnings during the build but never fails it. `build:epub` reads `_site/book/index.html`, so `build:html` must run first.
+Node >= 22 (`.nvmrc` pins 24). There is no test suite and no lint script; the automated checks are the `naked-url` and `curly-quote` linters inside `eleventy.config.mjs`, which print warnings during the build but never fail it. `build:epub` reads `_site/book/index.html`, so `build:html` must run first.
 
 Netlify runs `npm run build` and publishes `_site` (`netlify.toml`).
 
@@ -54,7 +54,7 @@ Mechanics:
 - Spec quotes are block quotes. A spec switch clause is quoted as a definition list — term line, `>`, then `> : consequence` — which `markdown-it-deflist` renders. Nested quotes use `> >`. Mark errors in quoted material with `[sic]` rather than fixing them silently.
 - DOM trees go in `dom-tree` code fences with `#document`, `├──`, `│`, `└──`, `DOCTYPE: html`, `#text: `, and `elem attr="value"`. Generate them with `tools/dom-tree.html`. A whitespace-only text node shows as `#text: ` with the trailing space.
 - Prose that continues a sentence across a code fence resumes with a leading `...` or `…`: "...is parsed into the following DOM tree:".
-- ASCII `'` and `"`. There are no curly double quotes in the book at all, and straight apostrophes outnumber curly ones roughly 190 to 14; the curly ones are scattered through `parser.md`, sometimes in the same sentence as a straight one, so treat them as inconsistencies rather than house style. Em dashes are rare (7 in the whole book).
+- ASCII `'` and `"` throughout; the `curly-quote` linter flags a curly one, except in a block quote (quoted material is verbatim) or in a row of the windows-1252 code point table, where the character is the specimen for its code point. Em dashes are rare (7 in the whole book).
 - `e.g.,` and `i.e.,` with the comma. "Note that ..." is used freely.
 - en-US spelling. `-ise` endings are mistakes to fix, except inside quoted material, which is reproduced verbatim (Hixie's "realise", Wikipedia's "analysing", and so on stay as written).
 - `*` bullets with a blank line between items. Definition-style bullets take a bold lead-in: "**Void elements.** The list of conforming elements is: ...".
