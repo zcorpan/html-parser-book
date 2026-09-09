@@ -146,15 +146,15 @@ The processing is as follows:
 
   * Whitespace, comma, or semicolon separates one value from the next.
 
-In January 2016, I changed the specification for parsing lists of floating-point numbers (TODO link ead6cfe392d338b66ed85fa84855061fd0990431). The commit message is as follows:
+In January 2016, I [changed](https://github.com/whatwg/html/commit/ead6cfe392d338b66ed85fa84855061fd0990431) the specification for parsing lists of floating-point numbers. The commit message is as follows:
 
-* Revamp coords parsing to be more compatible and less insane*
-
-* The old parser tried to mimic IE as close as possible. Now Edge is instead interested in aligning with Gecko/WebKit. This new algorithm was designed by studying implementations as well as invalid Web content.*
-
-* At the same time, support parsing of floating point numbers, as suggested by Travis Leithead in the bug below.*
-
-* Fixes https://www.w3.org/Bugs/Public/show_bug.cgi?id=28148.*
+> Revamp coords parsing to be more compatible and less insane
+>
+> The old parser tried to mimic IE as close as possible. Now Edge is instead interested in aligning with Gecko/WebKit. This new algorithm was designed by studying implementations as well as invalid Web content.
+>
+> At the same time, support parsing of floating point numbers, as suggested by Travis Leithead in the bug below.
+>
+> Fixes [https://www.w3.org/Bugs/Public/show_bug.cgi?id=28148](https://www.w3.org/Bugs/Public/show_bug.cgi?id=28148).
 
 Before the change, only integers were allowed, and using a fraction in a number caused that value to be ignored, which was not particularly useful. The handling of bogus values was also especially strange, sometimes dropping all subsequent values.
 

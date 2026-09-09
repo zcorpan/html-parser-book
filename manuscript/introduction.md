@@ -87,7 +87,7 @@ A tool that is handy for quickly trying what DOM tree is produced for a piece of
 
 The earliest documentation on HTML, as far as I know, is [HyperText Mark-up Language](https://info.cern.ch/hypertext/WWW/MarkUp/MarkUp.html), from CERN, 1992 ([also hosted on w3.org](https://www.w3.org/History/19921103-hypertext/hypertext/WWW/MarkUp/MarkUp.html)). The first paragraph reads:
 
-> The WWW system uses marked-up text to represent a hypertext document for transmision over the network. The hypertext mark-up language is an SGML format. WWW parsers should ignore tags which they do not understand, and ignore attributes which they do not understand of tags which they do understand.
+> The WWW system uses marked-up text to represent a hypertext document for transmision [sic] over the network. The hypertext mark-up language is an SGML format. WWW parsers should ignore tags which they do not understand, and ignore attributes which they do not understand of tags which they do understand.
 
 Already here, it is established that HTML is an SGML format, but that parsers should ignore tags and attributes they don't understand.
 
