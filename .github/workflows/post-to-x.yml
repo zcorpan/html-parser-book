@@ -5,34 +5,47 @@ on:
     branches:
       - main
 
+# Refreshing rotates X_REFRESH_TOKEN, so two runs at once would leave a stale
+# token behind and break every later run.
+concurrency:
+  group: post-to-x
+  cancel-in-progress: false
+
+permissions: {}
+
 jobs:
   post:
     runs-on: ubuntu-latest
+    if: github.event.head_commit != null
 
     steps:
       - name: Refresh X OAuth token
         id: x
         env:
           GH_TOKEN: ${{ secrets.GH_VARIABLES_TOKEN }}
+          CLIENT_ID: ${{ secrets.X_CLIENT_ID }}
+          CLIENT_SECRET: ${{ secrets.X_CLIENT_SECRET }}
+          REFRESH_TOKEN: ${{ vars.X_REFRESH_TOKEN }}
+          REPOSITORY: ${{ github.repository }}
         run: |
           RESPONSE=$(curl -s -X POST "https://api.twitter.com/2/oauth2/token" \
             -H "Content-Type: application/x-www-form-urlencoded" \
-            -u "${{ secrets.X_CLIENT_ID }}:${{ secrets.X_CLIENT_SECRET }}" \
+            -u "$CLIENT_ID:$CLIENT_SECRET" \
             --data-urlencode "grant_type=refresh_token" \
-            --data-urlencode "refresh_token=${{ vars.X_REFRESH_TOKEN }}")
+            --data-urlencode "refresh_token=$REFRESH_TOKEN")
 
           ACCESS_TOKEN=$(echo "$RESPONSE" | jq -r '.access_token')
           NEW_REFRESH_TOKEN=$(echo "$RESPONSE" | jq -r '.refresh_token // empty')
 
           if [ "$ACCESS_TOKEN" = "null" ] || [ -z "$ACCESS_TOKEN" ]; then
-            echo "$RESPONSE"
+            echo "$RESPONSE" | jq 'del(.access_token, .refresh_token)'
             exit 1
           fi
 
           if [ -n "$NEW_REFRESH_TOKEN" ]; then
             echo "::add-mask::$NEW_REFRESH_TOKEN"
             gh variable set X_REFRESH_TOKEN \
-              --repo "${{ github.repository }}" \
+              --repo "$REPOSITORY" \
               --body "$NEW_REFRESH_TOKEN"
           fi
 
@@ -40,12 +53,20 @@ jobs:
           echo "access_token=$ACCESS_TOKEN" >> "$GITHUB_OUTPUT"
 
       - name: Post to X
+        env:
+          # Never interpolate these into the script: a commit message is
+          # attacker-controlled text, and backticks in one would otherwise run
+          # as shell command substitution.
+          ACCESS_TOKEN: ${{ steps.x.outputs.access_token }}
+          MESSAGE: ${{ github.event.head_commit.message }}
+          URL: ${{ github.event.head_commit.url }}
         run: |
-          TEXT="New commit: ${{ github.event.head_commit.message }} ${{ github.event.head_commit.url }}"
+          # Subject line only; the body would blow past X's 280 characters.
+          SUBJECT=${MESSAGE%%$'\n'*}
 
-          jq -n --arg text "$TEXT" '{text: $text}' > body.json
+          jq -n --arg text "New commit: $SUBJECT $URL" '{text: $text}' > body.json
 
           curl -s -f -X POST "https://api.twitter.com/2/tweets" \
-            -H "Authorization: Bearer ${{ steps.x.outputs.access_token }}" \
+            -H "Authorization: Bearer $ACCESS_TOKEN" \
             -H "Content-Type: application/json" \
             -d @body.json | jq .
