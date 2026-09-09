@@ -220,7 +220,7 @@ Note that in the HTML syntax, it's optional to declare the namespace.
 
 ## Optional tags
 
-Certain tags can be omitted if the resulting DOM doesn't change if they are so omitted, including "minor" changes such as where whitespace ends up or where a comment ends up. The rules for when they can be omitted are slightly convoluted, but they assume that the DOM is not allowed to change by omitting a tag. It is however conforming to intentionally move a tag such that omitting it no longer changes the DOM.
+Certain tags can be omitted if the resulting DOM doesn't change if they are so omitted, including "minor" changes such as where whitespace ends up or where a comment ends up. The rules for when they can be omitted are slightly convoluted, but they all follow from that principle.
 
 For example, consider this snippet:
 
@@ -237,6 +237,17 @@ Because there is a line feed between the paragraphs, there will be a `Text` node
 ```
 
 However, in most cases this makes no difference at all. (It can make a difference if you style the paragraphs as `display: inline-block`, for example.)
+
+Note that both of the above are conforming; the omission rules don't make either of them invalid. What the rules tell you is when omitting a tag keeps the same DOM. The rule for `p` is that the end tag may be omitted if the `p` element is "immediately followed by" one of a list of elements that includes `p`, and with a line feed between "`</p>`" and "`<p>`" the first paragraph is followed by a `Text` node rather than immediately by the second `p`. So if you want to leave out the end tag and keep the line feed where it is, write it inside the paragraph to begin with:
+
+```html
+<p>Can a paragraph be one word long?
+</p><p>Yes.</p>
+```
+
+The HTML standard makes the same point about the `html` start tag, which can only be omitted if it is not followed by a comment:
+
+> This is why the tag can only be removed if it is not followed by a comment: removing the tag when there is a comment there changes the document's resulting parse tree. Of course, if the position of the comment does not matter, then the tag can be omitted, as if the comment had been moved to before the start tag in the first place.
 
 For the exact rules on when tags can be omitted, please consult the HTML standard.
 
