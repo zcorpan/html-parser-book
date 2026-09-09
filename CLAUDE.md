@@ -110,6 +110,10 @@ Single-page chapters are wrapped in `<section class="book-chapter" headingoffset
 - EPUB images must live under `/_assets/` and have a known media type (`.gif .jpg .jpeg .png .svg .webp`); an unknown extension throws, and a missing file degrades to an `[Image: alt]` paragraph.
 - The nav/TOC is built from `h1` ids, i.e. one entry per chapter.
 
+## Fixing an issue
+
+One branch per issue, starting from a fresh `main`: `git switch main && git pull`, branch, research what the issue actually needs, fix it, commit. Don't stack a second issue onto the same branch, and don't branch from whatever happens to be checked out. `TODO.md` lists the open issues grouped by where the work lands.
+
 ## Commits
 
 Subject line, then at most one short paragraph. No multi-section bodies, no bullet list restating the diff: say what was wrong and why the change is right, and leave the rest to the diff. Roughly half the commits in this repo have no body at all, which is the right call for a typo or a link fix.
