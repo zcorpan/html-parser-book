@@ -275,6 +275,39 @@ export default function (eleventyConfig) {
     }
   });
 
+  eleventyConfig.addLinter("curly-quote", function (content, inputPath) {
+    const file = this.inputPath ?? inputPath ?? "";
+
+    if (!file.endsWith(".md")) {
+      return;
+    }
+
+    // The book writes apostrophes and quotes as ASCII, so a curly one is a
+    // mistake, except in the two places it is data rather than typography: the
+    // specimen column of the windows-1252 code point table, and quoted
+    // material, which is reproduced verbatim. Read the source rather than the
+    // rendered HTML, both to see those constructs and to report line numbers.
+    const found = [];
+
+    fs.readFileSync(file, "utf8")
+      .split("\n")
+      .forEach((line, index) => {
+        if (/^\s*>/.test(line) || /^\s*\|\s*0x[0-9a-f]+\s*\|/i.test(line)) {
+          return;
+        }
+
+        for (const match of line.matchAll(/[\u2018\u2019\u201c\u201d]/g)) {
+          const start = Math.max(0, match.index - 30);
+          found.push(`${index + 1}: \u2026${line.slice(start, match.index + 30)}\u2026`);
+        }
+      });
+
+    if (found.length) {
+      console.warn(`Curly Quote Linter (${file}):`);
+      console.warn(` ${found.join("\n ")}`);
+    }
+  });
+
   return {
     markdownTemplateEngine: "njk",
     htmlTemplateEngine: "njk",
