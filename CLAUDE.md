@@ -116,7 +116,7 @@ One branch per issue, starting from a fresh `main`: `git switch main && git pull
 
 ## Commits
 
-Subject line, then at most one short paragraph. No multi-section bodies, no bullet list restating the diff: say what was wrong and why the change is right, and leave the rest to the diff. Roughly half the commits in this repo have no body at all, which is the right call for a typo or a link fix.
+Subject line and nothing else. Don't describe the change; the diff shows it. Add a body only for something the diff can't hold, such as a measurement, a constraint, or an option that was rejected and why, and keep it to a sentence or two.
 
 When fixing a reported issue, skip the description and just say "Fixes #123.".
 
