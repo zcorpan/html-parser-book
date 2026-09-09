@@ -1587,7 +1587,7 @@ Let's see.
 >
 >   6. Remove node from the stack of open elements.
 
-We clear the form element pointer, step 3 doesn't apply (*node* is the form), and we don't have any implied end tags to generate. Step 5 applies since the current node is a `div`. The stack of open elements is:
+We clear the form element pointer, step 3 doesn't apply (|node| is the form), and we don't have any implied end tags to generate. Step 5 applies since the current node is a `div`. The stack of open elements is:
 
 * `html`
 
@@ -2537,7 +2537,7 @@ It is exactly the same as the `<em><p></em>` case above, that is, it also trigge
             └── a
 ```
 
-In July 2013, there was [a change to the AAA](https://github.com/whatwg/html/commit/22ce3c31d8054c154042fd07150318a99ecc3e1b). Before the change, content could sometimes end up in the "wrong" order (not matching source order). The change removed the cap of three on the inner loop, and added a step that removes *node* from the *list of active formatting elements* once the inner loop has run more than three times. Bugs were filed on all three engines. Gecko [fixed it in 2014](https://bugzilla.mozilla.org/show_bug.cgi?id=901319), WebKit [took until 2022](https://bugs.webkit.org/show_bug.cgi?id=119478), and Chromium finally [fixed it in 2026](https://chromium-review.googlesource.com/c/chromium/src/+/7535115).
+In July 2013, there was [a change to the AAA](https://github.com/whatwg/html/commit/22ce3c31d8054c154042fd07150318a99ecc3e1b). Before the change, content could sometimes end up in the "wrong" order (not matching source order). The change removed the cap of three on the inner loop, and added a step that removes |node| from the *list of active formatting elements* once the inner loop has run more than three times. Bugs were filed on all three engines. Gecko [fixed it in 2014](https://bugzilla.mozilla.org/show_bug.cgi?id=901319), WebKit [took until 2022](https://bugs.webkit.org/show_bug.cgi?id=119478), and Chromium finally [fixed it in 2026](https://chromium-review.googlesource.com/c/chromium/src/+/7535115).
 
 TODO loop limits, marker.
 

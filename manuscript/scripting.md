@@ -63,13 +63,13 @@ When the parser reaches `</script>`, before running the script, the `body` eleme
 
 The first line in the script sets `document.head.outerHTML` to the empty string. `outerHTML` is like `innerHTML` but it replaces the element with the parsed nodes. The spec for [`outerHTML`](https://w3c.github.io/DOM-Parsing/#dom-element-outerhtml) will invoke the [fragment parsing algorithm](https://w3c.github.io/DOM-Parsing/#dfn-fragment-parsing-algorithm) on the given value, and then call the DOM [replace](https://dom.spec.whatwg.org/#concept-node-replace) algorithm on the [context object](https://dom.spec.whatwg.org/#context-object) with the parsed result.
 
-The fragment parsing algorithm then calls the [HTML fragment parsing algorithm](https://html.spec.whatwg.org/multipage/parsing.html#html-fragment-parsing-algorithm), with *context* being the `html` element (the parent of the `head` element). This will set up a new instance of the HTML parser, with the state of the HTML parser as appropriate for *context*. In particular, this step:
+The fragment parsing algorithm then calls the [HTML fragment parsing algorithm](https://html.spec.whatwg.org/multipage/parsing.html#html-fragment-parsing-algorithm), with |context| being the `html` element (the parent of the `head` element). This will set up a new instance of the HTML parser, with the state of the HTML parser as appropriate for |context|. In particular, this step:
 
 > 10. Reset the parser's insertion mode appropriately.
 
 ...which [says](https://html.spec.whatwg.org/multipage/parsing.html#reset-the-insertion-mode-appropriately):
 
-> 15. If *node* is an `html` element, run these substeps:
+> 15. If |node| is an `html` element, run these substeps:
 >
 >     1. If the head element pointer is null, switch the insertion mode to "before head" and return. (fragment case)
 

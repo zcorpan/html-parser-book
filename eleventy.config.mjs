@@ -193,6 +193,64 @@ export default function (eleventyConfig) {
     return defaultHeadingOpen(tokens, idx, options, env, self);
   };
 
+  // `|foo|` is a variable, rendered as <var>foo</var>, the way Bikeshed spells
+  // one. This has to run as a core rule over the parsed text tokens, because
+  // markdown-it's inline text rule does not stop at "|", so an inline rule
+  // would never be reached. Working on text tokens also leaves code spans
+  // alone. The pipes must hug the content, like emphasis markers do, so prose
+  // such as "HTML 6 | Rubber Duck Engineering | Episode #89" is untouched.
+  const varRegexp = /\|(\S(?:[^|\n]*\S)?)\|/g;
+
+  md.core.ruler.before("anchor", "var", (state) => {
+    for (const blockToken of state.tokens) {
+      if (blockToken.type !== "inline") {
+        continue;
+      }
+
+      const children = [];
+
+      for (const token of blockToken.children) {
+        if (token.type !== "text" || !token.content.includes("|")) {
+          children.push(token);
+          continue;
+        }
+
+        let last = 0;
+        let match;
+
+        varRegexp.lastIndex = 0;
+
+        while ((match = varRegexp.exec(token.content)) !== null) {
+          if (match.index > last) {
+            const before = new state.Token("text", "", 0);
+            before.content = token.content.slice(last, match.index);
+            children.push(before);
+          }
+
+          children.push(new state.Token("var_open", "var", 1));
+
+          const content = new state.Token("text", "", 0);
+          content.content = match[1];
+          children.push(content);
+
+          children.push(new state.Token("var_close", "var", -1));
+
+          last = varRegexp.lastIndex;
+        }
+
+        if (last === 0) {
+          children.push(token);
+        } else if (last < token.content.length) {
+          const after = new state.Token("text", "", 0);
+          after.content = token.content.slice(last);
+          children.push(after);
+        }
+      }
+
+      blockToken.children = children;
+    }
+  });
+
   eleventyConfig.setLibrary("md", md);
   eleventyConfig.addPassthroughCopy("_assets");
 

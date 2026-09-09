@@ -49,7 +49,7 @@ Quizzes: block quote the original X post verbatim, `#` escaped as `\#`, options 
 Mechanics:
 
 - One paragraph per line, no hard wrapping — lines run past 700 characters.
-- Spec algorithm, state, and variable names in *italics*: *data state*, *before attribute name state*, *form element pointer*, *image candidate string*.
+- Spec algorithm and state names in *italics*: *data state*, *before attribute name state*. Variables use `|foo|`, which renders as `<var>foo</var>`; the older prose still italicizes variables too, so converting those is fair game when touching a passage.
 - Code spans distinguish tag from element on purpose: `<img>` and `</script>` for the tag, `p` element and `template` for the element. Single characters get both quotes and a code span: "`<`", "`/>`".
 - Spec quotes are block quotes. A spec switch clause is quoted as a definition list — term line, `>`, then `> : consequence` — which `markdown-it-deflist` renders. Nested quotes use `> >`. Mark errors in quoted material with `[sic]` rather than fixing them silently.
 - DOM trees go in `dom-tree` code fences with `#document`, `├──`, `│`, `└──`, `DOCTYPE: html`, `#text: `, and `elem attr="value"`. Generate them with `tools/dom-tree.html`. A whitespace-only text node shows as `#text: ` with the trailing space.
@@ -99,6 +99,7 @@ Single-page chapters are wrapped in `<section class="book-chapter" headingoffset
 - `html: true`, plus `markdown-it-deflist` (the bibliography and the DOM node-type list in the introduction use definition lists).
 - Images without explicit dimensions get `width`/`height` injected by parsing PNG/JPEG headers directly in `eleventy.config.mjs`. Only those two formats are handled.
 - An `ellipsis` transform replaces every literal `...` with `…` across all output, including code blocks.
+- A `var` core rule turns `|foo|` into `<var>foo</var>`. The pipes have to hug the content, so the pipes in "HTML 6 | Rubber Duck Engineering" are left alone; code spans are skipped, and so are table cells, since the table rule splits them before this runs. There is no escape for a hugging literal pipe: put it in a code span.
 - Quiz blocks are block quotes of the original X posts; `#` is escaped as `\#`.
 
 ## EPUB generation
