@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main
+    paths:
+      - manuscript/**
 
 # Refreshing rotates X_REFRESH_TOKEN, so two runs at once would leave a stale
 # token behind and break every later run.
@@ -16,7 +18,16 @@ permissions: {}
 jobs:
   post:
     runs-on: ubuntu-latest
-    if: github.event.head_commit != null
+    # The paths filter above only says that the push touched manuscript/,
+    # which can be true of a push whose head commit is an infra change. Check
+    # the commit that actually gets posted. Every path is preceded by a "|" so
+    # that the match can be anchored at the start of a path.
+    if: >-
+      github.event.head_commit != null &&
+      contains(format('|{0}|{1}|{2}|',
+        join(github.event.head_commit.added, '|'),
+        join(github.event.head_commit.modified, '|'),
+        join(github.event.head_commit.removed, '|')), '|manuscript/')
 
     steps:
       - name: Refresh X OAuth token

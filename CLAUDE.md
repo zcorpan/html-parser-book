@@ -112,5 +112,5 @@ Single-page chapters are wrapped in `<section class="book-chapter" headingoffset
 
 ## Other
 
-- `.github/workflows/post-to-x.yml` posts every commit message pushed to `main` to [@htmlparserbook](https://x.com/htmlparserbook), so commit messages are public-facing.
+- `.github/workflows/post-to-x.yml` posts the subject line of a commit pushed to `main` to [@htmlparserbook](https://x.com/htmlparserbook), so subject lines are public-facing. It only fires when the pushed commit itself touches `manuscript/`, to keep infra changes and dependabot bumps off the timeline.
 - `tools/dom-tree.html` is a standalone DOM-tree serializer used while writing examples; it is not part of the build.
