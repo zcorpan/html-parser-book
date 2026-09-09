@@ -77,7 +77,7 @@ The HTML standard took the opportunity to make the shorter syntax conforming (th
 
 Originally, `<meta http-equiv>` was a feature intended for web servers, not for clients. The idea was that servers could scan for the http-equiv in an HTML file, and set the corresponding HTTP headers when serving it. Servers didn't do that. Instead, web browsers picked it up.
 
-Also note the absurdity of encoding the character encoding in the character encoding of the document that you're trying to decode, especially when it’s not the very first thing in the file (like in, e.g., CSS and XML).
+Also note the absurdity of encoding the character encoding in the character encoding of the document that you're trying to decode, especially when it's not the very first thing in the file (like in, e.g., CSS and XML).
 
 Before the HTML parser starts, a prescan of the byte stream can take place in an attempt to find a character encoding declaration. This prescan is essentially a simplified HTML parser. The prescan is usually done on the first 1024 bytes, and there is a conformance requirement for documents to include the encoding declaration within the first 1024 bytes.
 
@@ -544,7 +544,7 @@ Apart from named character references, there are also numeric character referenc
 &#x41;
 ```
 
-The first one is a decimal character reference, the second one is hexadecimal. They both map to the character "A". The hexadecimal form is case-insensitive, including the "x". The semicolon is required for authors, but the parser will infer it if it's missing. If the number is 0, or outside Unicode’s range (greater than 0x10FFFF), or if it’s in the surrogate range (0xD800 to 0xDFFF), then it will expand to the replacement character (U+FFFD), and it will also be a parse error.
+The first one is a decimal character reference, the second one is hexadecimal. They both map to the character "A". The hexadecimal form is case-insensitive, including the "x". The semicolon is required for authors, but the parser will infer it if it's missing. If the number is 0, or outside Unicode's range (greater than 0x10FFFF), or if it's in the surrogate range (0xD800 to 0xDFFF), then it will expand to the replacement character (U+FFFD), and it will also be a parse error.
 
 A difference from HTML 4.01, and from XML for that matter, is what some of the numerical character references map to, that would otherwise map to control characters. The HTML standard has this mapping table for numeric character references:
 
@@ -758,7 +758,7 @@ The reason is that the doctype used to have more stuff in it than just `<!doctyp
 
 There's the doctype name (`HTML`), the keyword `PUBLIC` (which could also be `SYSTEM`), the public identifier (`-//W3C//DTD HTML 4.01//EN`), and the system identifier (`http://www.w3.org/TR/html4/strict.dtd`). (In SGML, the public and system identifiers both identify a DTD. The public identifier would be used by an SGML parser to look up a local DTD in a catalog.)
 
-Since the doctype is used for {% ref "parser", "determining rendering mode" %}, and since the strings are exposed in the DOM, the tokenizer can’t just skip to the first "`>`" and then emit the token; it needs to collect the public and system identifiers.
+Since the doctype is used for {% ref "parser", "determining rendering mode" %}, and since the strings are exposed in the DOM, the tokenizer can't just skip to the first "`>`" and then emit the token; it needs to collect the public and system identifiers.
 
 What happens if you have garbage in the doctype? It depends on where that garbage is; stuff after the system identifier is silently ignored. Unexpected characters elsewhere will set the *force-quirks flag* and switch to the *bogus DOCTYPE state*, which looks for a "`>`" to end the doctype.
 
@@ -1174,7 +1174,7 @@ The `div` start tag token is handled by the "before html" insertion mode as foll
 
 Notice the reference to the *stack of open elements*. This stack is used throughout the tree builder, for example when handling an end tag token. When an element is inserted, it is also added to the stack of open elements.
 
-We'll gloss over the application cache stuff, as it’s not significant to parsing and the application cache feature is in the process of being removed anyway.
+We'll gloss over the application cache stuff, as it's not significant to parsing and the application cache feature is in the process of being removed anyway.
 
 We then switch the insertion mode to "before head" and process the same token again. That insertion mode will insert a `head` element and switch to "in head" and reprocess the token. That insertion mode will pop the `head` element off the stack of open elements, switch to "after head", and again reprocess the same div start tag token. *That* insertion mode will insert a `body` element, switch to "in body", and, you guessed it, reprocess the token.
 
@@ -1196,7 +1196,7 @@ The "in body" insertion mode is the mode that handles most of the tags in a typi
 >
 >   Insert an HTML element for the token.
 
-The stack of open elements has just html and body, so there's no p element to close. (We’ll discuss the details of this in the {% ref "parser", "Implied tags" %} section.)
+The stack of open elements has just html and body, so there's no p element to close. (We'll discuss the details of this in the {% ref "parser", "Implied tags" %} section.)
 
 "Insert an HTML element" will insert a div element, and push it to the stack of open elements. The stack is now: html, body, div. The DOM is:
 
@@ -1502,9 +1502,9 @@ console.assert(document.forms[0].elements[0] ===
 </script>
 ```
 
-That's cool, but what does it have to do with parsing? Can’t the relationship just be based on the ancestor elements in the DOM?
+That's cool, but what does it have to do with parsing? Can't the relationship just be based on the ancestor elements in the DOM?
 
-It turns out that it can't. The association needs to happen even if the form element is not an ancestor of the form control when the form control is parsed. So long as the form end tag hasn’t been seen, form controls will be associated with an "open" form, even if it is no longer on the stack of open elements.
+It turns out that it can't. The association needs to happen even if the form element is not an ancestor of the form control when the form control is parsed. So long as the form end tag hasn't been seen, form controls will be associated with an "open" form, even if it is no longer on the stack of open elements.
 
 ```html
 <!doctype html>
@@ -1556,7 +1556,7 @@ This results in this DOM:
         └── #text:  D
 ```
 
-There's only one form element in the DOM, but otherwise the DOM is as we’d expe—wait, why is the "`D`" text node a child of `body`, and not the `form`? The "`C`" is in the same text node as the "`B`", so the `form` end tag didn’t close the `div` and the `form`. What happened?
+There's only one form element in the DOM, but otherwise the DOM is as we'd expe—wait, why is the "`D`" text node a child of `body`, and not the `form`? The "`C`" is in the same text node as the "`B`", so the `form` end tag didn't close the `div` and the `form`. What happened?
 
 Let's back up a bit. Up to and including the "`B`", parsing is straightforward.
 
@@ -1587,7 +1587,7 @@ Let's see.
 >
 >   6. Remove node from the stack of open elements.
 
-We clear the form element pointer, step 3 doesn't apply (*node* is the form), and we don’t have any implied end tags to generate. Step 5 applies since the current node is a `div`. The stack of open elements is:
+We clear the form element pointer, step 3 doesn't apply (*node* is the form), and we don't have any implied end tags to generate. Step 5 applies since the current node is a `div`. The stack of open elements is:
 
 * `html`
 
@@ -1653,7 +1653,7 @@ Did you notice that the handling of the `form` end tag had a check for a `templa
 </template>
 ```
 
-The document's DOM, and the `template` element’s *template contents* (more on this in the {% ref "parser", "Templates" %} section), are as follows:
+The document's DOM, and the `template` element's *template contents* (more on this in the {% ref "parser", "Templates" %} section), are as follows:
 
 ```dom-tree
 #document
@@ -1673,7 +1673,7 @@ The document's DOM, and the `template` element’s *template contents* (more on 
     └── body
 ```
 
-There's a nested `form`! And the "`D`" `Text` node is where we’d expect (child of the outer `form`).
+There's a nested `form`! And the "`D`" `Text` node is where we'd expect (child of the outer `form`).
 
 In `template`s, `form`s are parsed more like `div`s, and aren't using the form element pointer.
 
@@ -2073,7 +2073,7 @@ Autonomous custom elements have a custom element name, with these requirements:
 
 * it needs to start with a-z (since otherwise it wouldn't parse as a start tag token by the HTML tokenizer)
 
-* It can only use characters that are legal in XML, minus the colon (since otherwise you can't create it with `document.createElement()`, and can’t use it in XML)
+* It can only use characters that are legal in XML, minus the colon (since otherwise you can't create it with `document.createElement()`, and can't use it in XML)
 
 * It needs to contain at least one dash. The dash is required to prevent clashes with future additions to HTML.
 
