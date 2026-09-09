@@ -564,9 +564,9 @@ A difference from HTML 4.01, and from XML for that matter, is what some of the n
 | 0x8C   | 0x0152     | LATIN CAPITAL LIGATURE OE (Œ)                  |
 | 0x8E   | 0x017D     | LATIN CAPITAL LETTER Z WITH CARON (Ž)          |
 | 0x91   | 0x2018     | LEFT SINGLE QUOTATION MARK (‘)                 |
-| 0x92   | 0x2019     | RIGHT SINGLE QUOTATION MARK (')                |
-| 0x93   | 0x201C     | LEFT DOUBLE QUOTATION MARK (")                 |
-| 0x94   | 0x201D     | RIGHT DOUBLE QUOTATION MARK (")                |
+| 0x92   | 0x2019     | RIGHT SINGLE QUOTATION MARK (’)                |
+| 0x93   | 0x201C     | LEFT DOUBLE QUOTATION MARK (“)                 |
+| 0x94   | 0x201D     | RIGHT DOUBLE QUOTATION MARK (”)                |
 | 0x95   | 0x2022     | BULLET (•)                                     |
 | 0x96   | 0x2013     | EN DASH (–)                                    |
 | 0x97   | 0x2014     | EM DASH (—)                                    |
