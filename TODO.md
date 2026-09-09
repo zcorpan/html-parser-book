@@ -31,7 +31,6 @@ Open issues and PRs as of 2026-09-09.
 
 ## Clarity, from reader confusion
 
-- #7 — "Intentionally moving omissible tags" is unclear. The thread converged on replacing the prose with the two concrete examples (`<p>foo</p>\n<p>bar</p>` vs `<p>foo\n</p><p>bar</p>`) and framing it as an FYI about whitespace placement rather than conformance.
 - #29 — Nested forms confused a reader over which element *node* and "current node" refer to. Owner's own conclusion: spec quotes in the book should carry links and mark up variables so it's clear what's a variable.
 
 ## Implementations chapter

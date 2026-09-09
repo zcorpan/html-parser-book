@@ -112,7 +112,7 @@ Single-page chapters are wrapped in `<section class="book-chapter" headingoffset
 
 ## Fixing an issue
 
-One branch per issue, starting from a fresh `main`: `git switch main && git pull`, branch, research what the issue actually needs, fix it, commit. Don't stack a second issue onto the same branch, and don't branch from whatever happens to be checked out. `TODO.md` lists the open issues grouped by where the work lands.
+One branch per issue, starting from a fresh `main`: `git switch main && git pull`, branch, research what the issue actually needs, fix it, remove the item from `TODO.md`, commit. Don't stack a second issue onto the same branch, and don't branch from whatever happens to be checked out.
 
 ## Commits
 
