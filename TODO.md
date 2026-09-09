@@ -23,7 +23,6 @@ Open issues and PRs as of 2026-09-09.
 ## Parser and spec content
 
 - #84 — Reader wants detail on special tags: what "namespace boundaries" meant in the 2008 whatwg post, why exactly `mi`/`mo`/`mn`/`ms`/`mtext` are MathML text integration points, and the rationale for the element set in "has an element in scope".
-- #66 — WebKit's AAA fix (WebKit/WebKit#3297) landed; update the implementation status in the adoption agency algorithm section. Related: `parser.md:2540` still says "as of October 2018 (TODO)" for the 2013 AAA change.
 - #45 — Document `document.execCommand` with `insertHTML` under "Other parser APIs" in `scripting.md`. The linked Trusted Types issue is also a case study for the security chapter.
 - #44 — Write something about declarative shadow DOM.
 - #37 — Add a section about XML declaration character encoding, near "Bogus comments".
