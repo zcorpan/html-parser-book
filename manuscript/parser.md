@@ -449,7 +449,7 @@ HTML5 added `&apos;`, which already worked in browsers except for IE, plus a few
 
 Then, as part of adding MathML to HTML in 2008, all of the MathML named entities were added to HTML. In total, the number is now 2231.
 
-Two named character references have changed what they expand to since HTML 4.01: `&lang;` and `&rang;`. The following [email](https://lists.w3.org/Archives/Public/public-whatwg-archive/2008Mar/0023.html) from Ian Hickson, from 2 March 2008, summarises what happened:
+Two named character references have changed what they expand to since HTML 4.01: `&lang;` and `&rang;`. The following [email](https://lists.w3.org/Archives/Public/public-whatwg-archive/2008Mar/0023.html) from Ian Hickson, from 2 March 2008, summarizes what happened:
 
 > On Sun, 1 Jul 2007, Øistein E. Andersen wrote:
 >
@@ -2645,7 +2645,7 @@ I replied:
 >
 > `<!-- As of 2005-12, studies showed that around 0.2% of pages used the <image> element. -->`
 >
-> HTML+ had `<image>`, but that spec was largely ignored: https://w3.org/MarkUp/HTMLPlus/htmlplus_21.html
+> HTML+ had `<image>`, but that spec was largely ignored: [https://w3.org/MarkUp/HTMLPlus/htmlplus_21.html](https://w3.org/MarkUp/HTMLPlus/htmlplus_21.html)
 
 So, browsers had been doing this since forever, and when the HTML parser was specified, enough web content relied on it to cement the behavior to this day.
 

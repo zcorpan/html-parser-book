@@ -9,7 +9,7 @@ toc: false
 <svg viewBox="-50 -350 1100 1600" role="presentation" focusable="false" id="book-cover-svg">
   <!--
     font    <https://www.fontsquirrel.com/fonts/archistico>
-    licence <https://www.fontsquirrel.com/license/archistico>
+    license <https://www.fontsquirrel.com/license/archistico>
   -->
   <style>
     @font-face {
