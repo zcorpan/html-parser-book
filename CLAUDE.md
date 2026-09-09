@@ -110,6 +110,12 @@ Single-page chapters are wrapped in `<section class="book-chapter" headingoffset
 - EPUB images must live under `/_assets/` and have a known media type (`.gif .jpg .jpeg .png .svg .webp`); an unknown extension throws, and a missing file degrades to an `[Image: alt]` paragraph.
 - The nav/TOC is built from `h1` ids, i.e. one entry per chapter.
 
+## Commits
+
+Subject line, then at most one short paragraph. No multi-section bodies, no bullet list restating the diff: say what was wrong and why the change is right, and leave the rest to the diff. Roughly half the commits in this repo have no body at all, which is the right call for a typo or a link fix.
+
+A commit that touches `manuscript/` has its subject line posted to [@htmlparserbook](https://x.com/htmlparserbook), so subjects are public and should read on their own. Backticked code in a message is safe (it used to break the workflow, see `post-to-x.yml`).
+
 ## Other
 
 - `.github/workflows/post-to-x.yml` posts the subject line of a commit pushed to `main` to [@htmlparserbook](https://x.com/htmlparserbook), so subject lines are public-facing. It only fires when the pushed commit itself touches `manuscript/`, to keep infra changes and dependabot bumps off the timeline.
