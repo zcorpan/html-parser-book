@@ -200,6 +200,8 @@ When the HTML parser was first specified [in 2006](https://ln.hixie.ch/?start=11
 
 IE6 had an interesting HTML parser. It did not necessarily produce a tree; rather it would produce a graph, to more faithfully preserve author intent. Ill-formed markup, e.g., `<em><p></em></p>`, would result in an ill-formed DOM. This could cause scripts to go into infinite loops by just trying to iterate over the DOM.
 
+The Microsoft Edge team [described those internals in 2017](https://blogs.windows.com/msedgedev/2017/04/19/modernizing-dom-tree-microsoft-edge/), when they replaced them. IE stored the document as a text backing store, where text and tags were a linear progression addressable by a character position, with a doubly-linked list of separate begin and end tag positions layered on top. Those positions were kept distinct from the element objects that scripts could see, "to facilitate overlapping tags".
+
 In early 2006, Firefox was at version 1.5. Its HTML parser had its own interesting effects, but unlike IE it would always produce a strict DOM tree. Safari was similar to Mozilla, but had a different approach to handling misnested blocks in inlines. Opera also had its own approach, which involved styling nodes in ways that could not be explained by looking at the DOM tree alone. To understand what was going on, let's go back and read what Ian Hickson, then the editor of the HTML standard, [found when he was specifying the HTML parser](https://ln.hixie.ch/?start=1138169545&count=1).
 
 > Imagine the following (invalid) markup:
