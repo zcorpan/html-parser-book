@@ -27,7 +27,6 @@ Open issues and PRs as of 2026-09-09.
 - #44 — Write something about declarative shadow DOM.
 - #37 — Add a section about XML declaration character encoding, near "Bogus comments".
 - #42 — Clarify SGML vs WebSGML (ENR+WWW) for `/>`. The book's claim that `<link ... />` and `<link ... >>` are equivalent is disputed; the 1998 WebSGML NETENABL / IMMEDNET features are the relevant part. Verify before rewriting.
-- #43 — Link the msedgedev post on modernizing Edge's DOM tree, for the IE6 DOM discussion.
 
 ## Clarity, from reader confusion
 
